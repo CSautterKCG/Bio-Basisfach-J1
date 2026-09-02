@@ -1,25 +1,33 @@
-# Bio-Lernlabor · Basisfach J1 BW – Version 2
+# Bio-Lernlabor · Basisfach J1 BW · bis Herbstferien
 
-Diese Version folgt dem Unterrichtsplan bis zu den Herbstferien 2026.
+Version 3 enthält alle sieben Module des Unterrichtsplans bis zu den Herbstferien 2026 vollständig.
 
-## Enthalten
+## Module
+1. Biomembran
+2. Passiver Stofftransport
+3. Aktiver Transport & Membranfluss
+4. Proteine I: Vom Aminosäurebaustein zum Polypeptid
+5. Proteine II: Struktur bestimmt Funktion
+6. Enzyme als Biokatalysatoren
+7. Enzymexperiment planen & durchführen
 
-- 7 Module nach dem Unterrichtsplan
-- Modul 1 „Biomembran“ vollständig ausgearbeitet
-- Einlesetexte in kurzen Abschnitten
-- Merke-, Fachbegriffs-, Fehler-, Prüfungs- und Denkboxen
-- 3-Fragen-Kurzcheck mit Sofortfeedback
-- interaktives Membranmodell
+Jedes Modul enthält:
+- Einlesetext mit Merkkästen
+- Lernziele
+- Kurzcheck mit Sofortfeedback
+- interaktives Lernlabor
 - Forscherauftrag
-- AFB-I–III-Aufgaben mit Hinweisen
-- 5-Fragen-Selbsttest mit lokal gespeichertem Bestwert
-- lokaler Lernfortschritt im Browser
-- iPad-optimiertes Layout
+- Aufgaben aus AFB I–III
+- Selbsttest
+- lokalen Lernfortschritt im Browser
 
-## Auf GitHub aktualisieren
+Die Texte sind eigenständig formuliert. Markl und Natura werden nur als ergänzende Lehrbücher genannt; es werden keine Buchtexte oder Abbildungen kopiert.
 
-Im bestehenden Repository den Inhalt des Ordners `docs` durch die Dateien aus diesem `docs`-Ordner ersetzen. GitHub Pages kann weiterhin aus `main /docs` veröffentlichen.
+## GitHub Pages aktualisieren
+Im Repository den Ordner `docs` öffnen und diese vier Dateien ersetzen bzw. hochladen:
+- `index.html`
+- `styles.css`
+- `content.js`
+- `app.js`
 
-## Lehrbücher
-
-Markl und Natura sind als ergänzende Bucharbeit vorgesehen. Es werden keine geschützten Buchtexte oder Buchabbildungen kopiert. Genaue Seitenangaben können nach Nennung der jeweiligen Ausgabe ergänzt werden.
+GitHub Pages bleibt auf `main` → `/docs` eingestellt. Nach dem Commit wird die Seite automatisch neu veröffentlicht.
