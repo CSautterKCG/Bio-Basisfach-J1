@@ -1,15 +1,15 @@
 const app = document.getElementById('app');
 const brand = document.getElementById('brand');
 const completed = new Set(JSON.parse(localStorage.getItem('bio-completed-v2') || '[]'));
-const previewMode =
-  new URLSearchParams(window.location.search).get("preview") === "1";
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 const save = () => localStorage.setItem('bio-completed-v2', JSON.stringify([...completed]));
 const quizKey = id => `bio-quiz-${id}`;
 const summaryKey = id => `bio-summary-${id}`;
 const taskKey = (id, i) => `bio-task-${id}-${i}`;
-//Zeitgesteuerte Freischaltung
+
+// Zeitgesteuerte Freischaltung und Lehrer-Vorschau
+const previewMode = new URLSearchParams(window.location.search).get('preview') === '1';
 
 function todayISO() {
   const now = new Date();
@@ -22,26 +22,40 @@ function todayISO() {
 function isLocked(module) {
   if (previewMode) return false;
   if (!module.unlockDate) return false;
-
   return todayISO() < module.unlockDate;
 }
 
 function formatUnlockDate(date) {
-  function previewBanner() {
-  if (!previewMode) return '';
-
-  return `
-    <section class="preview-banner">
-      🔧 <strong>Lehrer-Vorschau</strong>
-      <span>Alle Lernmodule sind freigeschaltet.</span>
-    </section>
-  `;
-}
   if (!date) return '';
   const [year, month, day] = date.split('-');
   return `${day}.${month}.${year}`;
 }
 
+function previewBanner() {
+  if (!previewMode) return '';
+  return `<section class="preview-banner" role="status">🔧 <strong>Lehrer-Vorschau</strong><span>Alle Lernmodule sind unabhängig vom Freischaltdatum geöffnet.</span></section>`;
+}
+
+function deleteLearningData() {
+  Object.keys(localStorage)
+    .filter(key =>
+      key === 'bio-completed-v2' ||
+      key.startsWith('bio-quiz-') ||
+      key.startsWith('bio-summary-') ||
+      key.startsWith('bio-task-')
+    )
+    .forEach(key => localStorage.removeItem(key));
+  completed.clear();
+}
+
+function shuffledOptions(options) {
+  const result = options.map((text, index) => ({ text, index }));
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
 
 function navigate(id) {
   location.hash = id ? `#/${id}` : '#/';
@@ -54,36 +68,26 @@ window.addEventListener('hashchange', render);
 function home() {
   const done = modules.filter(m => completed.has(m.id)).length;
   const cards = modules.map((m, idx) => {
-  const locked = isLocked(m);
+    const locked = isLocked(m);
+    return `${idx === 7 ? '<div class="holiday-break"><span>HERBSTFERIEN</span><strong>Kurze Pause – danach geht es mit Auswertung und Hemmung weiter.</strong></div>' : ''}
+      <button class="module-card ${locked ? 'locked' : 'ready'}" ${locked ? 'disabled aria-disabled="true"' : `data-open="${m.id}"`}>
+        <div class="module-topline"><span>${m.number}</span><span>${esc(m.date)}</span></div>
+        <div class="module-icon">${locked ? '🔒' : m.icon}</div>
+        <h2>${esc(m.title)}</h2>
+        <p>${esc(m.subtitle)}</p>
+        <div class="module-footer">
+          <span>${locked ? `verfügbar ab ${formatUnlockDate(m.unlockDate)}` : 'vollständig'}</span>
+          <span>${locked ? '🔒 gesperrt' : completed.has(m.id) ? '✓ erledigt' : '→ öffnen'}</span>
+        </div>
+      </button>`;
+  }).join('');
 
-  return `${idx === 7 ? '<div class="holiday-break"><span>HERBSTFERIEN</span><strong>Kurze Pause – danach geht es mit Auswertung und Hemmung weiter.</strong></div>' : ''}
-    <button
-      class="module-card ${locked ? 'locked' : 'ready'}"
-      ${locked ? 'disabled' : `data-open="${m.id}"`}
-    >
-      <div class="module-topline">
-        <span>${m.number}</span>
-        <span>${esc(m.date)}</span>
-      </div>
-
-      <div class="module-icon">${locked ? '🔒' : m.icon}</div>
-
-      <h2>${esc(m.title)}</h2>
-
-      <p>${esc(m.subtitle)}</p>
-
-      <div class="module-footer">
-        <span>${locked ? `verfügbar ab ${formatUnlockDate(m.unlockDate)}` : 'vollständig'}</span>
-        <span>${locked ? '🔒 gesperrt' : completed.has(m.id) ? '✓ erledigt' : '→ öffnen'}</span>
-      </div>
-    </button>`;
-}).join('');
   return `<main>
-  ${previewBanner()}
+    ${previewBanner()}
     <section class="hero">
       <div class="hero-copy">
         <div class="eyebrow">BIOLOGIE · BASISFACH · BADEN-WÜRTTEMBERG</div>
-        <h1>Bio-Lernlabor <span>J1 · Teil I Biomoleküle und molekulare Genetik</span></h1>
+        <h1>Bio-Lernlabor <span>J1 · Kursstart bis Enzymhemmung</span></h1>
         <p>Dein Unterricht als digitaler Lernpfad: Wissen abrufen, einlesen, verstehen, ausprobieren, selbst formulieren und gezielt nacharbeiten.</p>
         <div class="hero-badges"><span>Unterrichtsplan 2026/27</span><span>Basisfach</span><span>iPad-optimiert</span><span>Antworten lokal gespeichert</span></div>
       </div>
@@ -96,10 +100,17 @@ function home() {
     </section>
 
     <section class="notice">
-      <strong>So lernst du hier</strong>
-      <p> Dieses Lernlabor soll dir dabei helfen, biologische Inhalte zu verstehen, auszuprobieren und zu wiederholen. Du kannst einzelne Abschnitte passend zum Unterricht nutzen, Themen selbstständig nacharbeiten oder dich später auf Tests und Klausuren vorbereiten.
+      <strong>So kannst du das Lernlabor nutzen</strong>
+      <p>Dieses Lernlabor soll dir dabei helfen, biologische Inhalte zu verstehen, auszuprobieren und zu wiederholen. Du kannst einzelne Abschnitte passend zum Unterricht nutzen, Themen selbstständig nacharbeiten oder dich später auf Tests und Klausuren vorbereiten.</p>
+      <p>Die Module enthalten kurze Erklärtexte, Verständnisfragen, interaktive Lernlabore, Aufgaben und Selbsttests. Du musst nicht immer alles auf einmal bearbeiten – nutze die Bereiche, die dir gerade helfen. Wenn du unsicher bist, beginne mit dem Einlesetext und arbeite dich Schritt für Schritt weiter.</p>
+    </section>
 
-Die Module enthalten kurze Erklärtexte, Verständnisfragen, interaktive Lernlabore, Aufgaben und Selbsttests. Du musst nicht immer alles auf einmal bearbeiten – nutze die Bereiche, die dir gerade helfen. Wenn du unsicher bist, beginne mit dem Einlesetext und arbeite dich Schritt für Schritt weiter.</p>
+    <section class="data-tools">
+      <div>
+        <strong>Deine Daten auf diesem Gerät</strong>
+        <span>Lernfortschritt, Zusammenfassungen und eigene Antworten werden nur in diesem Browser gespeichert. Beim Wechsel des Geräts oder Löschen der Browserdaten werden sie nicht übertragen.</span>
+      </div>
+      <button id="delete-learning-data" type="button">Lernfortschritt löschen</button>
     </section>
 
     <section class="timeline-head">
@@ -134,7 +145,7 @@ function reviewSection(m) {
     <h2>Was weißt du noch?</h2>
     <p class="section-lead">Versuche die drei Fragen zuerst aus dem Gedächtnis. Das Abrufen älterer Inhalte hilft, neues Wissen besser zu verknüpfen.</p>
     <div class="quick-list">
-      ${m.review.map((q, qi) => `<article class="quick-card" data-review-card="${qi}"><h3>${qi+1}. ${esc(q.q)}</h3><div class="option-list">${q.options.map((o,oi)=>`<button data-rq="${qi}" data-ro="${oi}">${esc(o)}</button>`).join('')}</div><div class="feedback" id="review-feedback-${qi}" hidden></div></article>`).join('')}
+      ${m.review.map((q, qi) => `<article class="quick-card" data-review-card="${qi}"><h3>${qi+1}. ${esc(q.q)}</h3><div class="option-list">${shuffledOptions(q.options).map(o=>`<button data-rq="${qi}" data-ro="${o.index}">${esc(o.text)}</button>`).join('')}</div><div class="feedback" id="review-feedback-${qi}" hidden></div></article>`).join('')}
     </div>
   </section>`;
 }
@@ -198,7 +209,7 @@ function quickCheckSection(m) {
     <div class="quick-list">
       ${m.quickCheck.map((q, qi) => `<article class="quick-card" data-quick="${qi}">
         <h3>${qi + 1}. ${esc(q.q)}</h3>
-        <div class="option-list">${q.options.map((o, oi) => `<button data-q="${qi}" data-o="${oi}">${esc(o)}</button>`).join('')}</div>
+        <div class="option-list">${shuffledOptions(q.options).map(o => `<button data-q="${qi}" data-o="${o.index}">${esc(o.text)}</button>`).join('')}</div>
         <div class="feedback" id="quick-feedback-${qi}" hidden></div>
       </article>`).join('')}
     </div>
@@ -218,7 +229,7 @@ function taskSection(m) {
     <div class="eyebrow">ANWENDEN · DEINE ANTWORTEN WERDEN LOKAL GESPEICHERT</div>
     <h2>Aufgaben nach Anforderungsbereichen</h2>
     <p class="section-lead">Formuliere zuerst selbst. Nutze den Hinweis nur, wenn du festhängst, und vergleiche erst danach mit der Musterlösung.</p>
-    <div class="task-list">${m.tasks.map((t,i)=>`<article class="task"><div class="task-head"><div class="afb afb-${t.afb.toLowerCase()}">AFB ${t.afb}</div><p>${esc(t.prompt)}</p></div><textarea class="task-answer" data-task-answer="${i}" rows="4" placeholder="Meine Antwort …">${esc(localStorage.getItem(taskKey(m.id,i)) || '')}</textarea><div class="task-actions"><button data-hint="${i}">Hinweis</button><button data-solution="${i}">Musterlösung anzeigen</button><span class="autosave">wird lokal gespeichert</span></div><div class="hint" id="hint-${i}" hidden>💡 ${esc(t.hint)}</div><div class="solution" id="solution-${i}" hidden><strong>Musterlösung</strong><p>${esc(t.solution || t.hint)}</p><small>Vergleiche Fachbegriffe und Begründung – deine Formulierung muss nicht wortgleich sein.</small></div></article>`).join('')}</div>
+    <div class="task-list">${m.tasks.map((t,i)=>`<article class="task"><div class="task-head"><div class="afb afb-${t.afb.toLowerCase()}">AFB ${t.afb}</div><p>${esc(t.prompt)}</p></div><textarea class="task-answer" data-task-answer="${i}" rows="4" placeholder="Meine Antwort …">${esc(localStorage.getItem(taskKey(m.id,i)) || '')}</textarea><div class="task-actions"><button data-hint="${i}">Hinweis</button><button data-solution="${i}" ${(localStorage.getItem(taskKey(m.id,i)) || '').trim() ? '' : 'disabled'}>Musterlösung anzeigen</button><span class="autosave">wird lokal gespeichert</span></div><div class="hint" id="hint-${i}" hidden>💡 ${esc(t.hint)}</div><div class="solution" id="solution-${i}" hidden><strong>Musterlösung</strong><p>${esc(t.solution || t.hint)}</p><small>Vergleiche Fachbegriffe und Begründung – deine Formulierung muss nicht wortgleich sein.</small></div></article>`).join('')}</div>
   </section>`;
 }
 
@@ -230,7 +241,7 @@ function quizSection(m) {
     <p class="section-lead">Ziel: mindestens ${Math.max(1, m.quiz.length - 1)} von ${m.quiz.length} richtig. Nach der Auswertung siehst du zu jeder Frage die richtige Antwort, eine Erklärung und den passenden Einleseabschnitt.</p>
     <div class="quiz-best">Bestwert: <strong id="best-score">${best}/${m.quiz.length}</strong></div>
     <form id="quiz-form">
-      ${m.quiz.map((q, qi) => `<fieldset class="quiz-question" data-quiz-question="${qi}"><legend>${qi+1}. ${esc(q.q)}</legend>${q.options.map((o, oi) => `<label><input type="radio" name="q${qi}" value="${oi}"><span>${esc(o)}</span></label>`).join('')}</fieldset>`).join('')}
+      ${m.quiz.map((q, qi) => `<fieldset class="quiz-question" data-quiz-question="${qi}"><legend>${qi+1}. ${esc(q.q)}</legend>${shuffledOptions(q.options).map(o => `<label><input type="radio" name="q${qi}" value="${o.index}"><span>${esc(o.text)}</span></label>`).join('')}</fieldset>`).join('')}
       <button type="submit" class="primary-btn">Selbsttest auswerten</button>
     </form>
     <div id="quiz-result" class="quiz-result" hidden></div>
@@ -239,7 +250,7 @@ function quizSection(m) {
 }
 
 function fullModulePage(m) {
- return `<main class="module-page">
+  return `<main class="module-page">
     ${previewBanner()}
     <button class="back" id="back">← Übersicht</button>
     <header class="module-hero">
@@ -282,8 +293,27 @@ function initSummary(m) {
 }
 
 function initTaskNotes(m) {
-  app.querySelectorAll('[data-task-answer]').forEach(ta=>ta.addEventListener('input',()=>localStorage.setItem(taskKey(m.id,Number(ta.dataset.taskAnswer)),ta.value)));
-  app.querySelectorAll('[data-solution]').forEach(btn=>btn.addEventListener('click',()=>{const box=document.getElementById(`solution-${btn.dataset.solution}`);box.hidden=!box.hidden;btn.textContent=box.hidden?'Musterlösung anzeigen':'Musterlösung schließen';}));
+  app.querySelectorAll('[data-task-answer]').forEach(ta => {
+    const index = Number(ta.dataset.taskAnswer);
+    const solutionButton = app.querySelector(`[data-solution="${index}"]`);
+
+    const updateSolutionButton = () => {
+      if (solutionButton) solutionButton.disabled = !ta.value.trim();
+    };
+
+    updateSolutionButton();
+    ta.addEventListener('input', () => {
+      localStorage.setItem(taskKey(m.id, index), ta.value);
+      updateSolutionButton();
+    });
+  });
+
+  app.querySelectorAll('[data-solution]').forEach(btn => btn.addEventListener('click', () => {
+    if (btn.disabled) return;
+    const box = document.getElementById(`solution-${btn.dataset.solution}`);
+    box.hidden = !box.hidden;
+    btn.textContent = box.hidden ? 'Musterlösung anzeigen' : 'Musterlösung schließen';
+  }));
 }
 
 function initQuickCheck(m) {
@@ -619,25 +649,15 @@ function render() {
   const requestedModule = modules.find(x => x.id === id);
 
   if (requestedModule && isLocked(requestedModule)) {
-    app.innerHTML = `
-      <main>
-        <section class="hero">
-          <div class="hero-copy">
-            <div class="eyebrow">NOCH NICHT FREIGESCHALTET</div>
-            <h1>🔒 ${esc(requestedModule.title)}</h1>
-            <p>
-              Dieses Lernmodul ist ab dem
-              <strong>${formatUnlockDate(requestedModule.unlockDate)}</strong>
-              verfügbar.
-            </p>
-            <button class="path-link" id="locked-back">
-              ← Zurück zum Lernpfad
-            </button>
-          </div>
-        </section>
-      </main>
-    `;
-
+    app.innerHTML = `<main>
+      <section class="locked-page">
+        <div class="eyebrow">NOCH NICHT FREIGESCHALTET</div>
+        <div class="locked-page-icon">🔒</div>
+        <h1>${esc(requestedModule.title)}</h1>
+        <p>Dieses Lernmodul ist ab dem <strong>${formatUnlockDate(requestedModule.unlockDate)}</strong> verfügbar.</p>
+        <button class="primary-btn" id="locked-back" type="button">← Zurück zum Lernpfad</button>
+      </section>
+    </main>`;
     document.getElementById('locked-back').onclick = () => navigate('');
     return;
   }
@@ -645,6 +665,17 @@ function render() {
   const m = requestedModule;
   app.innerHTML = m ? fullModulePage(m) : home();
   app.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => navigate(b.dataset.open)));
+
+  const deleteButton = document.getElementById('delete-learning-data');
+  if (deleteButton) {
+    deleteButton.addEventListener('click', () => {
+      const reallyDelete = confirm('Möchtest du wirklich deinen Lernfortschritt und deine gespeicherten Antworten auf diesem Gerät löschen?');
+      if (!reallyDelete) return;
+      deleteLearningData();
+      render();
+    });
+  }
+
   if (m) {
     document.getElementById('back').onclick = () => navigate('');
     const toggleComplete = () => { completed.has(m.id) ? completed.delete(m.id) : completed.add(m.id); save(); render(); };
@@ -660,4 +691,5 @@ function render() {
     initLab(m.lab);
   }
 }
+
 render();

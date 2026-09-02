@@ -1,30 +1,47 @@
-# Bio-Lernlabor · Basisfach Biologie J1 BW · v4
+# Bio-Lernlabor · Basisfach J1 BW · v5
 
-Unterrichtsbegleiter für den Kursstart 2026/27 bis zur Enzymhemmung am 03.11.2026.
+Diese Version bündelt die bisherigen Änderungen in einer sauberen Fassung.
 
-## Module
-1. Biomembran
-2. Passiver Stofftransport
-3. Aktiver Transport & Membranfluss
-4. Proteine I – Aminosäure zum Polypeptid
-5. Proteine II – Struktur bestimmt Funktion
-6. Enzyme als Biokatalysatoren
-7. Enzymexperiment planen & durchführen
-8. Enzymaktivität auswerten
-9. Enzymhemmung
+## Neu in v5
 
-## Neu in v4
-- Wiederholungsfragen aus früheren Modulen (Retrieval Practice)
-- eigenes Zusammenfassungsfeld pro Modul, lokal im Browser gespeichert
-- Antwortfelder für AFB-Aufgaben, lokal gespeichert
-- Hinweise und Musterlösungen zum Vergleichen nach eigenem Versuch
-- detaillierte Selbsttest-Auswertung pro Frage mit Erklärungen und Lesehinweisen
-- konkrete Versuchsideen für Katalase, Amylase und Urease
-- neues interaktives Lernlabor zu Temperatur-, pH- und Substratabhängigkeit
-- neues interaktives Lernlabor zu reversibler/kompetitiver und irreversibler Enzymhemmung
+- zeitgesteuerte Freischaltung aller 9 Module über `unlockDate`
+- gesperrte Module bleiben sichtbar und zeigen das Freischaltdatum
+- direkte Modul-URLs werden vor dem Freischaltdatum ebenfalls abgefangen
+- Lehrer-Vorschau über `?preview=1`
+- sichtbarer Banner in der Lehrer-Vorschau
+- Musterlösungen werden erst anklickbar, nachdem im Antwortfeld ein eigener Versuch steht
+- Lernfortschritt, Zusammenfassungen und Aufgabenantworten können auf dem Gerät gelöscht werden
+- Antwortmöglichkeiten in Wiederholung, Kurzcheck und Selbsttest werden bei jedem Laden gemischt; die Auswertung bleibt korrekt
+- unverbindlicherer Abschnitt „So kannst du das Lernlabor nutzen“
+- v4-Inhalte bis Enzymhemmung bleiben erhalten
 
-## GitHub Pages
-Den Inhalt des Ordners `docs` in den bestehenden `docs`-Ordner des GitHub-Repositories hochladen und die vier vorhandenen Dateien ersetzen. GitHub Pages bleibt auf `main` → `/docs` eingestellt.
+## Lehrer-Vorschau
 
-## Datenschutz
-Zusammenfassungen und Aufgabenantworten werden ausschließlich per `localStorage` im Browser des verwendeten Geräts gespeichert. Es werden keine Schülerdaten an einen Server gesendet.
+Normale URL:  
+`https://DEINNAME.github.io/DEIN-REPOSITORY/`
+
+Lehrer-Vorschau:  
+`https://DEINNAME.github.io/DEIN-REPOSITORY/?preview=1`
+
+Die Vorschau ist nur eine Komfortfunktion, kein echter Passwortschutz.
+
+## Auf GitHub aktualisieren
+
+1. ZIP entpacken.
+2. Den Ordner `docs` öffnen.
+3. Die vier Dateien `index.html`, `styles.css`, `content.js`, `app.js` in den bestehenden GitHub-Ordner `docs` hochladen und ersetzen.
+4. `Commit changes` bestätigen.
+5. GitHub Pages muss nicht neu eingerichtet werden.
+6. Nach dem Deployment ggf. mit `Strg + F5` neu laden.
+
+## Freischaltdaten
+
+- Biomembran: 15.09.2026
+- Passiver Stofftransport: 21.09.2026
+- Aktiver Transport & Membranfluss: 22.09.2026
+- Proteine I: 29.09.2026
+- Proteine II: 06.10.2026
+- Enzyme als Biokatalysatoren: 13.10.2026
+- Enzymexperiment: 19.10.2026
+- Enzymaktivität auswerten: 02.11.2026
+- Enzymhemmung: 03.11.2026

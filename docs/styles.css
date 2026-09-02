@@ -77,6 +77,19 @@ textarea, select { font:inherit; }
 @media(max-width:620px){.task-head{grid-template-columns:60px 1fr}.task-actions .autosave{width:100%;margin-top:4px}.activity-readout{grid-template-columns:1fr}.holiday-break{align-items:flex-start;flex-direction:column}.quiz-feedback-head{align-items:flex-start}.experiment-grid{grid-template-columns:1fr}}
 .path-row .path-link{color:var(--green);font-weight:750;padding:9px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;cursor:pointer}
 .review-link{border:0;background:transparent;color:var(--green2);font-weight:750;padding:4px 0;cursor:pointer;text-align:left}
+
+
+/* v5: zeitgesteuerte Freischaltung, Vorschau, Lerndaten und selbstständiges Arbeiten */
+.module-card.locked {
+  opacity: .58;
+  cursor: not-allowed;
+  box-shadow: none;
+  border-color: var(--line);
+  filter: saturate(.65);
+}
+.module-card.locked:hover { transform:none; box-shadow:none; }
+.module-card.locked .module-icon { filter:grayscale(1); }
+
 .preview-banner {
   margin: 18px 0;
   padding: 12px 16px;
@@ -89,6 +102,50 @@ textarea, select { font:inherit; }
   align-items: center;
   flex-wrap: wrap;
 }
-.preview-banner span {
-  opacity: .8;
+.preview-banner span { opacity:.82; }
+
+.data-tools {
+  margin: 18px 0 34px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  background:#fff;
+}
+.data-tools div { display:grid; gap:4px; }
+.data-tools span { color:var(--muted); font-size:.86rem; line-height:1.45; }
+.data-tools button {
+  border:1px solid var(--line);
+  background:white;
+  color:var(--ink);
+  border-radius:999px;
+  padding:10px 14px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.data-tools button:hover { border-color:#aabdb2; }
+.task-actions button:disabled {
+  opacity:.4;
+  cursor:not-allowed;
+}
+
+.locked-page {
+  max-width:720px;
+  margin:70px auto;
+  padding:34px;
+  border:1px solid var(--line);
+  border-radius:24px;
+  background:#fff;
+  text-align:center;
+}
+.locked-page-icon { font-size:3rem; margin:12px 0; }
+.locked-page h1 { margin:.3rem 0 .7rem; }
+.locked-page p { color:var(--muted); line-height:1.6; margin:0 0 22px; }
+
+@media(max-width:620px) {
+  .data-tools { align-items:flex-start; flex-direction:column; }
+  .locked-page { margin:30px 0; padding:24px 18px; }
 }
