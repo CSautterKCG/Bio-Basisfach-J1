@@ -27,6 +27,16 @@ function isLocked(module) {
 }
 
 function formatUnlockDate(date) {
+  function previewBanner() {
+  if (!previewMode) return '';
+
+  return `
+    <section class="preview-banner">
+      🔧 <strong>Lehrer-Vorschau</strong>
+      <span>Alle Lernmodule sind freigeschaltet.</span>
+    </section>
+  `;
+}
   if (!date) return '';
   const [year, month, day] = date.split('-');
   return `${day}.${month}.${year}`;
@@ -69,6 +79,7 @@ function home() {
     </button>`;
 }).join('');
   return `<main>
+  ${previewBanner()}
     <section class="hero">
       <div class="hero-copy">
         <div class="eyebrow">BIOLOGIE · BASISFACH · BADEN-WÜRTTEMBERG</div>
@@ -228,7 +239,8 @@ function quizSection(m) {
 }
 
 function fullModulePage(m) {
-  return `<main class="module-page">
+ return `<main class="module-page">
+    ${previewBanner()}
     <button class="back" id="back">← Übersicht</button>
     <header class="module-hero">
       <div><div class="eyebrow">${esc(m.date)} · ${esc(m.bp)}</div><h1><span class="hero-icon">${m.icon}</span>${esc(m.title)}</h1><p>${esc(m.intro)}</p></div>
