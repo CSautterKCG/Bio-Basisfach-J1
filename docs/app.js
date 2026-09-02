@@ -603,7 +603,33 @@ function initLab(type) {
 
 function render() {
   const id = location.hash.replace('#/','');
-  const m = modules.find(x => x.id === id);
+  const requestedModule = modules.find(x => x.id === id);
+
+  if (requestedModule && isLocked(requestedModule)) {
+    app.innerHTML = `
+      <main>
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow">NOCH NICHT FREIGESCHALTET</div>
+            <h1>🔒 ${esc(requestedModule.title)}</h1>
+            <p>
+              Dieses Lernmodul ist ab dem
+              <strong>${formatUnlockDate(requestedModule.unlockDate)}</strong>
+              verfügbar.
+            </p>
+            <button class="path-link" id="locked-back">
+              ← Zurück zum Lernpfad
+            </button>
+          </div>
+        </section>
+      </main>
+    `;
+
+    document.getElementById('locked-back').onclick = () => navigate('');
+    return;
+  }
+
+  const m = requestedModule;
   app.innerHTML = m ? fullModulePage(m) : home();
   app.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => navigate(b.dataset.open)));
   if (m) {
