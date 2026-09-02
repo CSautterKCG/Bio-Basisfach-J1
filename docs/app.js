@@ -1,6 +1,8 @@
 const app = document.getElementById('app');
 const brand = document.getElementById('brand');
 const completed = new Set(JSON.parse(localStorage.getItem('bio-completed-v2') || '[]'));
+const previewMode =
+  new URLSearchParams(window.location.search).get("preview") === "1";
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 const save = () => localStorage.setItem('bio-completed-v2', JSON.stringify([...completed]));
