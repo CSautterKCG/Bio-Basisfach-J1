@@ -73,7 +73,7 @@ function home() {
     <section class="hero">
       <div class="hero-copy">
         <div class="eyebrow">BIOLOGIE · BASISFACH · BADEN-WÜRTTEMBERG</div>
-        <h1>Bio-Lernlabor <span>J1 · Kursstart bis Enzymhemmung</span></h1>
+        <h1>Bio-Lernlabor <span>J1 · Teil I Biomoleküle und molekulare Genetik</span></h1>
         <p>Dein Unterricht als digitaler Lernpfad: Wissen abrufen, einlesen, verstehen, ausprobieren, selbst formulieren und gezielt nacharbeiten.</p>
         <div class="hero-badges"><span>Unterrichtsplan 2026/27</span><span>Basisfach</span><span>iPad-optimiert</span><span>Antworten lokal gespeichert</span></div>
       </div>
