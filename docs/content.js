@@ -227,7 +227,7 @@ const modules = [
     "number": "02",
     "date": "21.09.2026",
     "title": "Passiver Stofftransport",
-    unlockDate: "2026-09-21";
+    unlockDate: "2026-09-21",
     "subtitle": "Diffusion · erleichterte Diffusion · Kanal- & Carrierproteine · Konzentrationsgefälle",
     "icon": "↔️",
     "status": "ready",
