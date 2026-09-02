@@ -42,13 +42,31 @@ window.addEventListener('hashchange', render);
 
 function home() {
   const done = modules.filter(m => completed.has(m.id)).length;
-  const cards = modules.map((m, idx) => `${idx === 7 ? '<div class="holiday-break"><span>HERBSTFERIEN</span><strong>Kurze Pause – danach geht es mit Auswertung und Hemmung weiter.</strong></div>' : ''}<button class="module-card ready" data-open="${m.id}">
-        <div class="module-topline"><span>${m.number}</span><span>${esc(m.date)}</span></div>
-        <div class="module-icon">${m.icon}</div>
-        <h2>${esc(m.title)}</h2>
-        <p>${esc(m.subtitle)}</p>
-        <div class="module-footer"><span>vollständig</span><span>${completed.has(m.id) ? '✓ erledigt' : '→ öffnen'}</span></div>
-      </button>`).join('');
+  const cards = modules.map((m, idx) => {
+  const locked = isLocked(m);
+
+  return `${idx === 7 ? '<div class="holiday-break"><span>HERBSTFERIEN</span><strong>Kurze Pause – danach geht es mit Auswertung und Hemmung weiter.</strong></div>' : ''}
+    <button
+      class="module-card ${locked ? 'locked' : 'ready'}"
+      ${locked ? 'disabled' : `data-open="${m.id}"`}
+    >
+      <div class="module-topline">
+        <span>${m.number}</span>
+        <span>${esc(m.date)}</span>
+      </div>
+
+      <div class="module-icon">${locked ? '🔒' : m.icon}</div>
+
+      <h2>${esc(m.title)}</h2>
+
+      <p>${esc(m.subtitle)}</p>
+
+      <div class="module-footer">
+        <span>${locked ? `verfügbar ab ${formatUnlockDate(m.unlockDate)}` : 'vollständig'}</span>
+        <span>${locked ? '🔒 gesperrt' : completed.has(m.id) ? '✓ erledigt' : '→ öffnen'}</span>
+      </div>
+    </button>`;
+}).join('');
   return `<main>
     <section class="hero">
       <div class="hero-copy">
