@@ -7,6 +7,30 @@ const save = () => localStorage.setItem('bio-completed-v2', JSON.stringify([...c
 const quizKey = id => `bio-quiz-${id}`;
 const summaryKey = id => `bio-summary-${id}`;
 const taskKey = (id, i) => `bio-task-${id}-${i}`;
+//Zeitgesteuerte Freischaltung
+const previewMode = new URLSearchParams(window.location.search).get('preview') === '1';
+
+function todayISO() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function isLocked(module) {
+  if (previewMode) return false;
+  if (!module.unlockDate) return false;
+
+  return todayISO() < module.unlockDate;
+}
+
+function formatUnlockDate(date) {
+  if (!date) return '';
+  const [year, month, day] = date.split('-');
+  return `${day}.${month}.${year}`;
+}
+
 
 function navigate(id) {
   location.hash = id ? `#/${id}` : '#/';
