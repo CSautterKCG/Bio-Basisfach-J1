@@ -32,3 +32,48 @@ main, footer{width:min(1180px, calc(100% - 32px));margin:0 auto}.hero{display:gr
 .planner-grid{display:grid;grid-template-columns:.7fr 1.3fr;gap:24px}.planner-result{min-height:300px}.planner-result p{margin:7px 0}.check-chips{display:flex;flex-wrap:wrap;gap:8px}.check-chips span{font-size:.8rem;padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.82)}
 @media(max-width:900px){.enzyme-binding-grid,.planner-grid{grid-template-columns:1fr}.protein-stage{height:220px}}
 @media(max-width:620px){.structure-tabs,.substrate-buttons,.vesicle-actions{display:grid;grid-template-columns:1fr 1fr}.peptide-bond{font-size:.66rem}.protein-shape.quaternary{width:230px}.enzyme-stage{min-height:300px}}
+
+/* v4: retrieval practice, learner notes, detailed feedback and new enzyme modules */
+textarea, select { font:inherit; }
+.holiday-break{grid-column:1/-1;border:1px dashed #c9d5cf;border-radius:18px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;background:#f8faf7;color:var(--muted)}
+.holiday-break span{font-size:.72rem;letter-spacing:.13em;font-weight:900;color:var(--green2)}
+.holiday-break strong{font-size:.9rem;font-weight:700}
+.review-panel{background:#f2f6fb;border-color:#d8e4ed}
+.summary-panel{background:#f8f4e9;border-color:#e8dfca}
+.learning-note,.task-answer{width:100%;resize:vertical;border:1px solid #cad7cf;border-radius:14px;background:#fff;color:var(--ink);padding:14px 15px;line-height:1.55;outline:none;min-height:120px}
+.learning-note:focus,.task-answer:focus{border-color:#78ac98;box-shadow:0 0 0 3px rgba(22,128,95,.08)}
+.autosave{font-size:.74rem;color:var(--muted);margin-top:7px}
+.task-list{gap:14px}
+.task{display:block;padding:18px}
+.task-head{display:grid;grid-template-columns:74px 1fr;gap:14px;align-items:start;margin-bottom:12px}
+.task-head p{margin:4px 0 0;line-height:1.52}
+.task-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.task-actions button{border:0;background:#edf3ef;color:var(--green2);border-radius:999px;padding:9px 12px;cursor:pointer}
+.task-actions .autosave{margin:0 0 0 auto}
+.hint,.solution{margin-top:10px;background:#f5f8f4;padding:12px 14px;border-radius:12px;color:var(--muted);line-height:1.5}
+.solution{background:#eef6fb;color:#365d73;border:1px solid #d6e5ef}
+.solution strong{display:block;color:#274d64;margin-bottom:5px}
+.solution p{margin:0 0 6px;line-height:1.55}
+.solution small{display:block;opacity:.8}
+.quiz-detail{display:grid;gap:10px;margin-top:14px}
+.quiz-feedback-card{border:1px solid var(--line);border-radius:15px;padding:15px;background:#fbfcfa}
+.quiz-feedback-card.ok{border-left:4px solid #70ad86}
+.quiz-feedback-card.needs-work{border-left:4px solid #d59a7e;background:#fffaf7}
+.quiz-feedback-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px}
+.quiz-feedback-head span{font-size:.76rem;color:var(--muted)}
+.quiz-feedback-card>p{margin:7px 0;line-height:1.45}
+.answer-line{font-size:.9rem;margin:5px 0;line-height:1.45}
+.quiz-feedback-card .why{color:var(--muted);padding-top:5px}
+.quiz-feedback-card a{display:inline-block;color:var(--green2);font-weight:750;text-decoration:none;margin-top:4px}
+.experiment-options{background:#fff8ea;border-color:#eadab4}
+.experiment-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.experiment-grid article{border:1px solid #eadab4;background:#fffdf7;border-radius:16px;padding:17px}
+.experiment-grid h3{margin:0 0 10px}.experiment-grid p{font-size:.9rem;line-height:1.5}.experiment-grid small{display:block;color:#795e3a;line-height:1.45;border-top:1px solid #eee0c2;padding-top:10px}
+.activity-lab-grid,.inhibition-grid{display:grid;grid-template-columns:.68fr 1.32fr;gap:24px;align-items:start}
+.activity-panel{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:18px}
+.activity-panel svg{width:100%;height:auto;display:block;background:rgba(255,255,255,.025);border-radius:14px}
+.axis{stroke:rgba(255,255,255,.55);stroke-width:1.5}.axis-label{fill:rgba(255,255,255,.72);font-size:13px;text-anchor:middle}.axis-label.vertical{transform:rotate(-90deg);transform-origin:15px 145px}.chart-note{fill:rgba(255,255,255,.5);font-size:11px}.curve{fill:none;stroke:#c6ee78;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}.curve-1{stroke:#f1b37f}.chart-point{fill:#fff;stroke:#0b5a45;stroke-width:3}.legend{font-size:12px;fill:#c6ee78}.legend-1{fill:#f1b37f}.activity-readout{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}.activity-readout>div{background:rgba(255,255,255,.06);border-radius:12px;padding:12px;display:grid;gap:3px}.activity-readout span{font-size:.72rem;color:rgba(255,255,255,.62);text-transform:uppercase;letter-spacing:.06em}.activity-readout strong{font-size:1.15rem}.activity-panel>p{color:rgba(255,255,255,.82);line-height:1.55}.data-check p{color:rgba(255,255,255,.78);line-height:1.5;margin:0}
+@media(max-width:900px){.experiment-grid{grid-template-columns:1fr}.activity-lab-grid,.inhibition-grid{grid-template-columns:1fr}.holiday-break{grid-column:1/-1}}
+@media(max-width:620px){.task-head{grid-template-columns:60px 1fr}.task-actions .autosave{width:100%;margin-top:4px}.activity-readout{grid-template-columns:1fr}.holiday-break{align-items:flex-start;flex-direction:column}.quiz-feedback-head{align-items:flex-start}.experiment-grid{grid-template-columns:1fr}}
+.path-row .path-link{color:var(--green);font-weight:750;padding:9px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;cursor:pointer}
+.review-link{border:0;background:transparent;color:var(--green2);font-weight:750;padding:4px 0;cursor:pointer;text-align:left}

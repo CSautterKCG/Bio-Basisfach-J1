@@ -5,6 +5,8 @@ const completed = new Set(JSON.parse(localStorage.getItem('bio-completed-v2') ||
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 const save = () => localStorage.setItem('bio-completed-v2', JSON.stringify([...completed]));
 const quizKey = id => `bio-quiz-${id}`;
+const summaryKey = id => `bio-summary-${id}`;
+const taskKey = (id, i) => `bio-task-${id}-${i}`;
 
 function navigate(id) {
   location.hash = id ? `#/${id}` : '#/';
@@ -16,55 +18,89 @@ window.addEventListener('hashchange', render);
 
 function home() {
   const done = modules.filter(m => completed.has(m.id)).length;
-  return `<main>
-    <section class="hero">
-      <div class="hero-copy">
-        <div class="eyebrow">BIOLOGIE · BASISFACH · BADEN-WÜRTTEMBERG</div>
-        <h1>Bio-Lernlabor <span>J1 · bis Herbstferien</span></h1>
-        <p>Dein Unterricht als digitaler Lernpfad: erst einlesen, dann verstehen, ausprobieren, anwenden und selbst prüfen.</p>
-        <div class="hero-badges"><span>Unterrichtsplan 2026/27</span><span>Basisfach</span><span>iPad-optimiert</span></div>
-      </div>
-      <div class="hero-card">
-        <div class="dna-mark">J1</div>
-        <strong>7 Lernmodule</strong>
-        <span>vom Membranaufbau bis zum Enzymexperiment</span>
-        <div class="progress-pill">${done}/${modules.length} erledigt · ${Math.round(done/modules.length*100)}%</div>
-      </div>
-    </section>
-
-    <section class="notice">
-      <strong>So arbeitest du hier</strong>
-      <p>Alle sieben Module bis zu den Herbstferien sind vollständig: Einlesen → Kurzcheck → Lernlabor → Forscherauftrag → Aufgaben → Selbsttest. Im Selbsttest wird nur Wissen abgefragt, das im Modul vorher erklärt wurde.</p>
-    </section>
-
-    <section class="timeline-head">
-      <div><div class="eyebrow">DEIN LERNPFAD</div><h2>Bis zu den Herbstferien</h2></div>
-      <span>September – Oktober 2026</span>
-    </section>
-    <section class="module-grid schedule-grid">
-      ${modules.map(m => `<button class="module-card ready" data-open="${m.id}">
+  const cards = modules.map((m, idx) => `${idx === 7 ? '<div class="holiday-break"><span>HERBSTFERIEN</span><strong>Kurze Pause – danach geht es mit Auswertung und Hemmung weiter.</strong></div>' : ''}<button class="module-card ready" data-open="${m.id}">
         <div class="module-topline"><span>${m.number}</span><span>${esc(m.date)}</span></div>
         <div class="module-icon">${m.icon}</div>
         <h2>${esc(m.title)}</h2>
         <p>${esc(m.subtitle)}</p>
         <div class="module-footer"><span>vollständig</span><span>${completed.has(m.id) ? '✓ erledigt' : '→ öffnen'}</span></div>
-      </button>`).join('')}
+      </button>`).join('');
+  return `<main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">BIOLOGIE · BASISFACH · BADEN-WÜRTTEMBERG</div>
+        <h1>Bio-Lernlabor <span>J1 · Kursstart bis Enzymhemmung</span></h1>
+        <p>Dein Unterricht als digitaler Lernpfad: Wissen abrufen, einlesen, verstehen, ausprobieren, selbst formulieren und gezielt nacharbeiten.</p>
+        <div class="hero-badges"><span>Unterrichtsplan 2026/27</span><span>Basisfach</span><span>iPad-optimiert</span><span>Antworten lokal gespeichert</span></div>
+      </div>
+      <div class="hero-card">
+        <div class="dna-mark">J1</div>
+        <strong>${modules.length} Lernmodule</strong>
+        <span>vom Membranaufbau bis zur Enzymhemmung</span>
+        <div class="progress-pill">${done}/${modules.length} erledigt · ${Math.round(done/modules.length*100)}%</div>
+      </div>
     </section>
 
-    <section class="method-strip"><div><b>01</b><span>Einlesen</span></div><div><b>02</b><span>Verstehen</span></div><div><b>03</b><span>Ausprobieren</span></div><div><b>04</b><span>Anwenden</span></div><div><b>05</b><span>Selbst prüfen</span></div></section>
+    <section class="notice">
+      <strong>So lernst du hier</strong>
+      <p>Ab Modul 3 startest du mit kurzen Wiederholungsfragen aus älteren Themen. Danach folgen Einlesen → Kurzcheck → eigene Zusammenfassung → Lernlabor → Forscherauftrag → Aufgaben mit Antwortfeld → Musterlösung → Selbsttest mit genauer Fehlerauswertung. Abgefragt wird nur, was vorher im Lernpfad erklärt oder wiederholt wurde.</p>
+    </section>
+
+    <section class="timeline-head">
+      <div><div class="eyebrow">DEIN LERNPFAD</div><h2>September bis Anfang November</h2></div>
+      <span>15.09.–03.11.2026</span>
+    </section>
+    <section class="module-grid schedule-grid">${cards}</section>
+
+    <section class="method-strip"><div><b>01</b><span>Abrufen</span></div><div><b>02</b><span>Einlesen</span></div><div><b>03</b><span>Ausprobieren</span></div><div><b>04</b><span>Selbst erklären</span></div><div><b>05</b><span>Gezielt nacharbeiten</span></div></section>
   </main>`;
 }
 
-function learningPath() {
+function learningPath(m) {
   return `<section class="learning-path panel compact-panel">
     <div class="eyebrow">LERNWEG</div>
     <div class="path-row">
-      <a href="#read">📖 Einlesen</a><span>→</span>
-      <a href="#check">🧠 Kurzcheck</a><span>→</span>
-      <a href="#lab-section">🎛️ Lernlabor</a><span>→</span>
-      <a href="#train">✏️ Anwenden</a><span>→</span>
-      <a href="#selftest">✅ Selbsttest</a>
+      ${m.review?.length ? '<button class="path-link" data-scroll="review">↩️ Wiederholen</button><span>→</span>' : ''}
+      <button class="path-link" data-scroll="read">📖 Einlesen</button><span>→</span>
+      <button class="path-link" data-scroll="check">🧠 Kurzcheck</button><span>→</span>
+      <button class="path-link" data-scroll="summary">✍️ Zusammenfassen</button><span>→</span>
+      <button class="path-link" data-scroll="lab-section">🎛️ Lernlabor</button><span>→</span>
+      <button class="path-link" data-scroll="train">✏️ Anwenden</button><span>→</span>
+      <button class="path-link" data-scroll="selftest">✅ Selbsttest</button>
     </div>
+  </section>`;
+}
+
+function reviewSection(m) {
+  if (!m.review?.length) return '';
+  return `<section class="panel review-panel" id="review">
+    <div class="eyebrow">WIEDERHOLEN · OHNE NACHZUSCHAUEN</div>
+    <h2>Was weißt du noch?</h2>
+    <p class="section-lead">Versuche die drei Fragen zuerst aus dem Gedächtnis. Das Abrufen älterer Inhalte hilft, neues Wissen besser zu verknüpfen.</p>
+    <div class="quick-list">
+      ${m.review.map((q, qi) => `<article class="quick-card" data-review-card="${qi}"><h3>${qi+1}. ${esc(q.q)}</h3><div class="option-list">${q.options.map((o,oi)=>`<button data-rq="${qi}" data-ro="${oi}">${esc(o)}</button>`).join('')}</div><div class="feedback" id="review-feedback-${qi}" hidden></div></article>`).join('')}
+    </div>
+  </section>`;
+}
+
+function summarySection(m) {
+  const saved = localStorage.getItem(summaryKey(m.id)) || '';
+  return `<section class="panel summary-panel" id="summary">
+    <div class="eyebrow">AKTIVES ABRUFEN</div>
+    <h2>Erkläre das Modul in deinen eigenen Worten</h2>
+    <p class="section-lead">Schließe den Einlesetext kurz aus dem Blick und schreibe 3–5 Sätze: Was sind die wichtigsten Zusammenhänge? Deine Eingabe bleibt nur auf diesem Gerät im Browser gespeichert.</p>
+    <textarea class="learning-note" id="module-summary" rows="6" placeholder="Meine Zusammenfassung …">${esc(saved)}</textarea>
+    <div class="autosave" id="summary-save">lokal gespeichert</div>
+  </section>`;
+}
+
+function experimentOptionsSection(m) {
+  if (!m.experimentOptions?.length) return '';
+  return `<section class="panel experiment-options">
+    <div class="eyebrow">FÜR DIE DURCHFÜHRUNG AM 20.10.</div>
+    <h2>Drei mögliche Enzymversuche</h2>
+    <p class="section-lead">Die konkrete Variante legt die Lehrkraft fest. Diese Karten helfen dir, Messgröße und Versuchslogik schon vor der Durchführung zu verstehen.</p>
+    <div class="experiment-grid">${m.experimentOptions.map(x=>`<article><h3>${esc(x.title)}</h3><p><strong>Materialidee:</strong> ${esc(x.material)}</p><p><strong>Mögliche Messgröße:</strong> ${esc(x.measure)}</p><small>⚠ ${esc(x.note)}</small></article>`).join('')}</div>
   </section>`;
 }
 
@@ -123,9 +159,10 @@ function researchSection(m) {
 
 function taskSection(m) {
   return `<section class="panel" id="train">
-    <div class="eyebrow">ANWENDEN</div>
+    <div class="eyebrow">ANWENDEN · DEINE ANTWORTEN WERDEN LOKAL GESPEICHERT</div>
     <h2>Aufgaben nach Anforderungsbereichen</h2>
-    <div class="task-list">${m.tasks.map((t,i)=>`<article class="task"><div class="afb afb-${t.afb.toLowerCase()}">AFB ${t.afb}</div><p>${esc(t.prompt)}</p><button data-hint="${i}">Hinweis</button><div class="hint" id="hint-${i}" hidden>💡 ${esc(t.hint)}</div></article>`).join('')}</div>
+    <p class="section-lead">Formuliere zuerst selbst. Nutze den Hinweis nur, wenn du festhängst, und vergleiche erst danach mit der Musterlösung.</p>
+    <div class="task-list">${m.tasks.map((t,i)=>`<article class="task"><div class="task-head"><div class="afb afb-${t.afb.toLowerCase()}">AFB ${t.afb}</div><p>${esc(t.prompt)}</p></div><textarea class="task-answer" data-task-answer="${i}" rows="4" placeholder="Meine Antwort …">${esc(localStorage.getItem(taskKey(m.id,i)) || '')}</textarea><div class="task-actions"><button data-hint="${i}">Hinweis</button><button data-solution="${i}">Musterlösung anzeigen</button><span class="autosave">wird lokal gespeichert</span></div><div class="hint" id="hint-${i}" hidden>💡 ${esc(t.hint)}</div><div class="solution" id="solution-${i}" hidden><strong>Musterlösung</strong><p>${esc(t.solution || t.hint)}</p><small>Vergleiche Fachbegriffe und Begründung – deine Formulierung muss nicht wortgleich sein.</small></div></article>`).join('')}</div>
   </section>`;
 }
 
@@ -134,13 +171,14 @@ function quizSection(m) {
   return `<section class="panel quiz-panel" id="selftest">
     <div class="eyebrow">SELBSTTEST</div>
     <h2>${m.quiz.length} Fragen zum Abschluss</h2>
-    <p class="section-lead">Ziel: mindestens ${Math.max(1, m.quiz.length - 1)} von ${m.quiz.length} richtig. Es wird nur Wissen abgefragt, das in diesem Modul vorher erklärt wurde.</p>
+    <p class="section-lead">Ziel: mindestens ${Math.max(1, m.quiz.length - 1)} von ${m.quiz.length} richtig. Nach der Auswertung siehst du zu jeder Frage die richtige Antwort, eine Erklärung und den passenden Einleseabschnitt.</p>
     <div class="quiz-best">Bestwert: <strong id="best-score">${best}/${m.quiz.length}</strong></div>
     <form id="quiz-form">
-      ${m.quiz.map((q, qi) => `<fieldset class="quiz-question"><legend>${qi+1}. ${esc(q.q)}</legend>${q.options.map((o, oi) => `<label><input type="radio" name="q${qi}" value="${oi}"><span>${esc(o)}</span></label>`).join('')}</fieldset>`).join('')}
+      ${m.quiz.map((q, qi) => `<fieldset class="quiz-question" data-quiz-question="${qi}"><legend>${qi+1}. ${esc(q.q)}</legend>${q.options.map((o, oi) => `<label><input type="radio" name="q${qi}" value="${oi}"><span>${esc(o)}</span></label>`).join('')}</fieldset>`).join('')}
       <button type="submit" class="primary-btn">Selbsttest auswerten</button>
     </form>
     <div id="quiz-result" class="quiz-result" hidden></div>
+    <div id="quiz-detail" class="quiz-detail" hidden></div>
   </section>`;
 }
 
@@ -152,18 +190,43 @@ function fullModulePage(m) {
       <button class="complete ${completed.has(m.id) ? 'done' : ''}" id="complete">${completed.has(m.id) ? '✓ Modul erledigt' : 'Als erledigt markieren'}</button>
     </header>
     <section class="hook-card"><span>LEITFRAGE</span><strong>${esc(m.hook)}</strong></section>
-    ${learningPath()}
+    ${learningPath(m)}
+    ${reviewSection(m)}
     ${bookBox(m)}
     <section class="panel"><div class="eyebrow">LERNZIELE</div><h2>Das solltest du danach können</h2><div class="goal-grid">${m.goals.map((g,i)=>`<div class="goal"><span>${String(i+1).padStart(2,'0')}</span><p>${esc(g)}</p></div>`).join('')}</div></section>
     ${readingSection(m)}
     ${quickCheckSection(m)}
+    ${summarySection(m)}
     <section class="panel lab-panel" id="lab-section"><div class="eyebrow">INTERAKTIV</div><h2 id="lab-title"></h2><p class="lab-intro">Nutze das Modell nicht nur zum Anschauen: Beschreibe jede Veränderung mit biologischer Fachsprache.</p><div id="lab"></div></section>
     ${researchSection(m)}
+    ${experimentOptionsSection(m)}
     ${taskSection(m)}
     ${quizSection(m)}
     <section class="finish-panel"><div><span>Modul ${esc(m.number)}</span><strong>${esc(m.title)} abgeschlossen?</strong><p>Markiere das Modul erst, wenn du die Grundideen ohne Hilfe erklären kannst.</p></div><button class="complete ${completed.has(m.id) ? 'done' : ''}" id="complete-bottom">${completed.has(m.id) ? '✓ erledigt' : 'Als erledigt markieren'}</button></section>
     <section class="source-note"><strong>Hinweis:</strong> Die Erklärtexte sind eigenständig formuliert und an deinem Unterrichtsplan orientiert. Markl und Natura werden ergänzend genutzt; urheberrechtlich geschützte Buchtexte oder Abbildungen werden hier nicht kopiert.</section>
   </main>`;
+}
+
+function initReview(m) {
+  if (!m.review?.length) return;
+  app.querySelectorAll('[data-rq]').forEach(btn => btn.addEventListener('click', () => {
+    const qi=Number(btn.dataset.rq), oi=Number(btn.dataset.ro), q=m.review[qi];
+    const card=btn.closest('.quick-card'); card.querySelectorAll('[data-ro]').forEach(b=>b.classList.remove('correct-choice','wrong-choice'));
+    const fb=document.getElementById(`review-feedback-${qi}`); fb.hidden=false;
+    if(oi===q.correct){btn.classList.add('correct-choice');fb.className='feedback good';fb.textContent=`✓ ${q.explain}`;}
+    else{btn.classList.add('wrong-choice');card.querySelector(`[data-ro="${q.correct}"]`).classList.add('correct-choice');fb.className='feedback bad';fb.textContent=`Noch nicht. ${q.explain}`;}
+  }));
+}
+
+function initSummary(m) {
+  const ta=document.getElementById('module-summary'); if(!ta) return;
+  const status=document.getElementById('summary-save'); let timer;
+  ta.addEventListener('input',()=>{status.textContent='speichert …';clearTimeout(timer);timer=setTimeout(()=>{localStorage.setItem(summaryKey(m.id),ta.value);status.textContent='lokal gespeichert ✓';},250);});
+}
+
+function initTaskNotes(m) {
+  app.querySelectorAll('[data-task-answer]').forEach(ta=>ta.addEventListener('input',()=>localStorage.setItem(taskKey(m.id,Number(ta.dataset.taskAnswer)),ta.value)));
+  app.querySelectorAll('[data-solution]').forEach(btn=>btn.addEventListener('click',()=>{const box=document.getElementById(`solution-${btn.dataset.solution}`);box.hidden=!box.hidden;btn.textContent=box.hidden?'Musterlösung anzeigen':'Musterlösung schließen';}));
 }
 
 function initQuickCheck(m) {
@@ -192,15 +255,22 @@ function initQuiz(m) {
   form.addEventListener('submit', e => {
     e.preventDefault();
     let score = 0, answered = 0;
+    const details=[];
     m.quiz.forEach((q, qi) => {
       const chosen = form.querySelector(`input[name="q${qi}"]:checked`);
-      if (chosen) { answered++; if (Number(chosen.value) === q.correct) score++; }
+      if (chosen) answered++;
+      const chosenIndex = chosen ? Number(chosen.value) : -1;
+      const ok = chosenIndex === q.correct;
+      if(ok) score++;
+      details.push({q,chosenIndex,ok});
     });
     const result = document.getElementById('quiz-result');
+    const detail = document.getElementById('quiz-detail');
     result.hidden = false;
     if (answered < m.quiz.length) {
       result.className = 'quiz-result warn';
       result.innerHTML = `<strong>Noch nicht vollständig</strong><span>Du hast ${answered} von ${m.quiz.length} Fragen beantwortet.</span>`;
+      detail.hidden=true;
       return;
     }
     const oldBest = Number(localStorage.getItem(quizKey(m.id)) || 0);
@@ -210,8 +280,11 @@ function initQuiz(m) {
     const target = Math.max(1, m.quiz.length - 1);
     result.className = `quiz-result ${score >= target ? 'good' : 'bad'}`;
     result.innerHTML = score >= target
-      ? `<strong>${score}/${m.quiz.length} – Ziel erreicht ✓</strong><span>Du kannst das Modul jetzt guten Gewissens als erledigt markieren.</span>`
-      : `<strong>${score}/${m.quiz.length} – noch einmal nacharbeiten</strong><span>Gehe besonders zu den Einleseabschnitten und Kurzchecks zurück, bevor du erneut testest.</span>`;
+      ? `<strong>${score}/${m.quiz.length} – Ziel erreicht ✓</strong><span>Lies trotzdem die Rückmeldung unten: Sie zeigt dir, ob einzelne Stellen noch unsicher sind.</span>`
+      : `<strong>${score}/${m.quiz.length} – gezielt nacharbeiten</strong><span>Unten siehst du genau, welche Abschnitte du noch einmal lesen solltest.</span>`;
+    detail.hidden=false;
+    detail.innerHTML = details.map((d,i)=>`<article class="quiz-feedback-card ${d.ok?'ok':'needs-work'}"><div class="quiz-feedback-head"><strong>${d.ok?'✓':'↻'} Frage ${i+1}</strong><span>${d.ok?'sicher':'noch einmal ansehen'}</span></div><p>${esc(d.q.q)}</p><div class="answer-line"><b>Deine Antwort:</b> ${d.chosenIndex>=0?esc(d.q.options[d.chosenIndex]):'–'}</div><div class="answer-line"><b>Richtig:</b> ${esc(d.q.options[d.q.correct])}</div><p class="why">${esc(d.q.explain || 'Diese Antwort entspricht der Kernaussage aus dem Einlesetext.')}</p>${d.q.review?`<button class="review-link" data-scroll="read">📖 Noch einmal lesen: ${esc(d.q.review)}</button>`:''}</article>`).join('');
+    detail.querySelectorAll('[data-scroll]').forEach(b=>b.addEventListener('click',()=>document.getElementById(b.dataset.scroll)?.scrollIntoView({behavior:'smooth',block:'start'})));
   });
 }
 
@@ -226,7 +299,9 @@ function initLab(type) {
     peptideBuilder:'Peptid-Baukasten',
     proteinStructure:'Proteinfaltung & Denaturierung',
     enzymeBinding:'Enzym–Substrat-Modell',
-    experimentPlanner:'Experiment-Planer'
+    experimentPlanner:'Experiment-Planer',
+    enzymeActivity:'Enzymaktivität: Kurven lesen',
+    enzymeInhibition:'Enzymhemmung: Kurven vergleichen'
   };
   title.textContent = titles[type] || 'Lernlabor';
 
@@ -459,6 +534,27 @@ function initLab(type) {
     };
     el.querySelector('#build-plan').onclick=build;factor.onchange=build;enzyme.onchange=build;build();
   }
+
+  if (type === 'enzymeActivity') {
+    el.innerHTML = `<div class="activity-lab-grid"><div class="lab-controls"><label>Einflussgröße</label><select id="activity-factor" class="lab-select"><option value="temp">Temperatur</option><option value="ph">pH-Wert</option><option value="substrate">Substratkonzentration</option></select><label id="activity-slider-label">Temperatur <b id="activity-value"></b></label><input id="activity-slider" type="range"><div class="data-check"><strong>Arbeitsauftrag</strong><p id="activity-task">Beschreibe zuerst nur den Kurvenverlauf. Erkläre ihn anschließend biologisch.</p></div></div><div class="activity-panel"><svg id="activity-chart" viewBox="0 0 520 300" role="img" aria-label="Diagramm der relativen Enzymaktivität"></svg><div class="activity-readout"><div><span>aktueller Wert</span><strong id="activity-x"></strong></div><div><span>relative Aktivität</span><strong id="activity-y"></strong></div></div><p id="activity-explain"></p></div></div>`;
+    const factor=el.querySelector('#activity-factor'), slider=el.querySelector('#activity-slider'), chart=el.querySelector('#activity-chart');
+    const configs={
+      temp:{min:5,max:80,step:1,value:37,label:'Temperatur',unit:' °C',calc:x=>{const rise=Math.exp(-Math.pow((x-38)/24,2));const crash=x<=42?1:Math.exp(-(x-42)/11);return Math.min(100,100*rise*crash);},explain:x=>x<30?'Bei niedriger Temperatur sind wirksame Zusammenstöße seltener; die Aktivität ist geringer.':x<=45?'Im mittleren Bereich sind Teilchenbewegung und wirksame Zusammenstöße günstig; hier liegt im Modell das Aktivitätsmaximum.':'Bei hoher Temperatur sinkt die Aktivität im Modell deutlich, weil die räumliche Proteinstruktur und damit das aktive Zentrum gestört werden können.'},
+      ph:{min:2,max:12,step:.1,value:7,label:'pH-Wert',unit:'',calc:x=>100*Math.exp(-Math.pow((x-7)/2.0,2)),explain:x=>Math.abs(x-7)<1?'Dieser Bereich liegt nahe am pH-Optimum des Modell-Enzyms.':'Mit wachsendem Abstand vom pH-Optimum sinkt die Aktivität, weil Ladungen und Wechselwirkungen im Protein verändert werden können.'},
+      substrate:{min:0,max:100,step:1,value:30,label:'Substratkonzentration',unit:' rel.',calc:x=>100*x/(22+x),explain:x=>x<25?'Mehr Substrat erhöht die Häufigkeit von Enzym-Substrat-Kontakten deutlich.':x<65?'Die Aktivität steigt weiter, aber weniger stark, weil aktive Zentren zunehmend häufig besetzt sind.':'Das Modell nähert sich der Sättigung: Zusätzliches Substrat erhöht die Geschwindigkeit nur noch wenig.'}
+    };
+    const draw=()=>{const c=configs[factor.value];slider.min=c.min;slider.max=c.max;slider.step=c.step;if(+slider.value<c.min||+slider.value>c.max||slider.dataset.factor!==factor.value){slider.value=c.value;slider.dataset.factor=factor.value;}const x=+slider.value,y=c.calc(x);el.querySelector('#activity-slider-label').innerHTML=`${c.label} <b id="activity-value">${x}${c.unit}</b>`;el.querySelector('#activity-x').textContent=`${x}${c.unit}`;el.querySelector('#activity-y').textContent=`${Math.round(y)} %`;el.querySelector('#activity-explain').textContent=c.explain(x);const pts=[];for(let i=0;i<=80;i++){const xv=c.min+(c.max-c.min)*i/80;const yy=c.calc(xv);const px=48+420*(xv-c.min)/(c.max-c.min),py=245-190*yy/100;pts.push(`${px.toFixed(1)},${py.toFixed(1)}`);}const cx=48+420*(x-c.min)/(c.max-c.min),cy=245-190*y/100;chart.innerHTML=`<line x1="48" y1="245" x2="480" y2="245" class="axis"/><line x1="48" y1="245" x2="48" y2="38" class="axis"/><text x="260" y="285" class="axis-label">${c.label}</text><text x="15" y="145" class="axis-label vertical">Aktivität</text><polyline points="${pts.join(' ')}" class="curve"/><circle cx="${cx}" cy="${cy}" r="7" class="chart-point"/><text x="52" y="55" class="chart-note">100 %</text><text x="52" y="238" class="chart-note">0 %</text>`;};
+    factor.onchange=draw;slider.oninput=draw;draw();
+  }
+
+  if (type === 'enzymeInhibition') {
+    el.innerHTML = `<div class="inhibition-grid"><div class="lab-controls"><label>Hemmung</label><select id="inh-type" class="lab-select"><option value="none">keine Hemmung</option><option value="competitive">reversibel / kompetitiv</option><option value="irreversible">irreversibel</option></select><label>Substratkonzentration <b id="inh-s-v">25</b></label><input id="inh-s" type="range" min="1" max="100" value="25"><label>Hemmstoffstärke <b id="inh-i-v">45 %</b></label><input id="inh-i" type="range" min="0" max="80" value="45"><div class="mini-note">Vereinfachtes Lernmodell: Es zeigt Grundprinzipien, keine realen Arzneidosierungen.</div></div><div class="activity-panel"><svg id="inh-chart" viewBox="0 0 520 300" role="img" aria-label="Vergleich von Enzymhemmung"></svg><div class="activity-readout"><div><span>relative Aktivität</span><strong id="inh-activity"></strong></div><div><span>Deutung</span><strong id="inh-label"></strong></div></div><p id="inh-explain"></p></div></div>`;
+    const typeSel=el.querySelector('#inh-type'), sld=el.querySelector('#inh-s'), inh=el.querySelector('#inh-i'), chart=el.querySelector('#inh-chart');
+    const calc=(type,S,I)=>{const base=100*S/(20+S);if(type==='none')return base;if(type==='competitive')return 100*S/((20*(1+I/45))+S);return base*(1-I/110);};
+    const draw=()=>{const type=typeSel.value,S=+sld.value,I=+inh.value,A=calc(type,S,I);el.querySelector('#inh-s-v').textContent=S;el.querySelector('#inh-i-v').textContent=`${I} %`;el.querySelector('#inh-activity').textContent=`${Math.round(A)} %`;const labels={none:'ungehemmt',competitive:'Konkurrenz am aktiven Zentrum',irreversible:'weniger funktionsfähige Enzyme'};el.querySelector('#inh-label').textContent=labels[type];el.querySelector('#inh-explain').textContent=type==='none'?'Ohne Hemmstoff steigt die Aktivität mit der Substratkonzentration bis zur Sättigung.':type==='competitive'?'Der reversible kompetitive Hemmstoff konkurriert mit dem Substrat. Mehr Substrat kann die Hemmwirkung im Modell teilweise ausgleichen.':'Ein Anteil der Enzyme bleibt im Modell dauerhaft inaktiv. Mehr Substrat kann diese Enzymmoleküle nicht reaktivieren.';const curves=[['none','ungehemmt'],[type,type==='competitive'?'kompetitiv':'irreversibel']].filter((x,i,a)=>i===0||x[0]!=='none');const paths=curves.map((c,idx)=>{const pts=[];for(let sv=1;sv<=100;sv+=2){const y=calc(c[0],sv,I),px=48+420*(sv-1)/99,py=245-190*y/100;pts.push(`${px.toFixed(1)},${py.toFixed(1)}`);}return `<polyline points="${pts.join(' ')}" class="curve curve-${idx}"/><text x="345" y="${65+idx*22}" class="legend legend-${idx}">${c[1]}</text>`;}).join('');const cx=48+420*(S-1)/99,cy=245-190*A/100;chart.innerHTML=`<line x1="48" y1="245" x2="480" y2="245" class="axis"/><line x1="48" y1="245" x2="48" y2="38" class="axis"/><text x="245" y="285" class="axis-label">Substratkonzentration</text><text x="15" y="145" class="axis-label vertical">Aktivität</text>${paths}<circle cx="${cx}" cy="${cy}" r="7" class="chart-point"/>`;};
+    typeSel.onchange=draw;sld.oninput=draw;inh.oninput=draw;draw();
+  }
+
 }
 
 function render() {
@@ -472,7 +568,11 @@ function render() {
     document.getElementById('complete').onclick = toggleComplete;
     document.getElementById('complete-bottom').onclick = toggleComplete;
     app.querySelectorAll('[data-hint]').forEach(b => b.addEventListener('click', () => { const h=document.getElementById(`hint-${b.dataset.hint}`); h.hidden=!h.hidden; b.textContent=h.hidden?'Hinweis':'Hinweis schließen'; }));
+    app.querySelectorAll('[data-scroll]').forEach(b=>b.addEventListener('click',()=>document.getElementById(b.dataset.scroll)?.scrollIntoView({behavior:'smooth',block:'start'})));
+    initReview(m);
     initQuickCheck(m);
+    initSummary(m);
+    initTaskNotes(m);
     initQuiz(m);
     initLab(m.lab);
   }
