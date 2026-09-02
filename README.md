@@ -1,8 +1,8 @@
-# Bio-Lernlabor · Basisfach J1 BW · v5
+# Bio-Lernlabor · Basisfach J1 BW · v6
 
 Diese Version bündelt die bisherigen Änderungen in einer sauberen Fassung.
 
-## Neu in v5
+## Neu in v6
 
 - zeitgesteuerte Freischaltung aller 9 Module über `unlockDate`
 - gesperrte Module bleiben sichtbar und zeigen das Freischaltdatum
@@ -45,3 +45,9 @@ Die Vorschau ist nur eine Komfortfunktion, kein echter Passwortschutz.
 - Enzymexperiment: 19.10.2026
 - Enzymaktivität auswerten: 02.11.2026
 - Enzymhemmung: 03.11.2026
+
+
+## Änderungen in v6
+- Der Abschnitt „So kannst du das Lernlabor nutzen“ ist auf Desktop und iPad sauber zweispaltig bzw. mobil einspaltig gesetzt.
+- Modul 01 „Biomembran“ ist ab sofort ohne Datumssperre zugänglich.
+- Die zeitgesteuerte Freischaltung der weiteren Module bleibt erhalten.

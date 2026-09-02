@@ -3,7 +3,6 @@ const modules = [
     "id": "biomembran",
     "number": "01",
     "date": "15.09.2026",
-    //"unlockDate": "2026-09-15",
     "title": "Biomembran",
     "subtitle": "Phospholipide · Flüssig-Mosaik-Modell · Membranproteine · Kompartimentierung",
     "icon": "🫧",
