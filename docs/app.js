@@ -100,11 +100,15 @@ function home() {
     </section>
 
     <section class="notice">
-      <strong>So kannst du das Lernlabor nutzen</strong>
-      <p>Dieses Lernlabor soll dir dabei helfen, biologische Inhalte zu verstehen, auszuprobieren und zu wiederholen. Du kannst einzelne Abschnitte passend zum Unterricht nutzen, Themen selbstständig nacharbeiten oder dich später auf Tests und Klausuren vorbereiten.</p>
-      <p>Die Module enthalten kurze Erklärtexte, Verständnisfragen, interaktive Lernlabore, Aufgaben und Selbsttests. Du musst nicht immer alles auf einmal bearbeiten – nutze die Bereiche, die dir gerade helfen. Wenn du unsicher bist, beginne mit dem Einlesetext und arbeite dich Schritt für Schritt weiter.</p>
-    </section>
+    <section class="notice">
+  <strong>So kannst du das Lernlabor nutzen</strong>
 
+  <div class="notice-copy">
+    <p>Dieses Lernlabor soll dir dabei helfen, biologische Inhalte zu verstehen, auszuprobieren und zu wiederholen. Du kannst einzelne Abschnitte passend zum Unterricht nutzen, Themen selbstständig nacharbeiten oder dich später auf Tests und Klausuren vorbereiten.</p>
+
+    <p>Die Module enthalten kurze Erklärtexte, Verständnisfragen, interaktive Lernlabore, Aufgaben und Selbsttests. Du musst nicht immer alles auf einmal bearbeiten – nutze die Bereiche, die dir gerade helfen. Wenn du unsicher bist, beginne mit dem Einlesetext und arbeite dich Schritt für Schritt weiter.</p>
+  </div>
+</section>
     <section class="data-tools">
       <div>
         <strong>Deine Daten auf diesem Gerät</strong>
