@@ -10,7 +10,6 @@ const quizKey = id => `bio-quiz-${id}`;
 const summaryKey = id => `bio-summary-${id}`;
 const taskKey = (id, i) => `bio-task-${id}-${i}`;
 //Zeitgesteuerte Freischaltung
-const previewMode = new URLSearchParams(window.location.search).get('preview') === '1';
 
 function todayISO() {
   const now = new Date();
