@@ -1,213 +1,157 @@
 const modules = [
   {
-    id: 'molekular',
+    id: 'biomembran',
     number: '01',
-    title: 'Biomoleküle & molekulare Genetik',
-    subtitle: 'Membran · Proteine · Enzyme · DNA · Genexpression',
-    icon: '🧬',
-    phase: 'J1-Start sinnvoll',
-    bp: 'BP V2 · 3.4.1',
-    intro: 'Von der Biomembran bis zur Genregulation: Dieses Modul verknüpft Struktur und Funktion auf molekularer Ebene und bildet die Grundlage für viele weitere Themen der Kursstufe.',
+    date: '15.09.2026',
+    title: 'Biomembran',
+    subtitle: 'Phospholipide · Flüssig-Mosaik-Modell · Membranproteine · Kompartimentierung',
+    icon: '🫧',
+    status: 'ready',
+    bp: 'Molekulare Biologie · Grundlagen',
+    hook: 'Wie kann eine nur wenige Nanometer dünne Membran gleichzeitig Grenze, Transportfläche und Kommunikationszentrum einer Zelle sein?',
+    intro: 'In diesem Lernmodul erarbeitest du den Aufbau biologischer Membranen. Im Mittelpunkt stehen Phospholipide, das Flüssig-Mosaik-Modell, Membranproteine und die Bedeutung der Kompartimentierung.',
     goals: [
-      'Bau der Biomembran mithilfe des Flüssig-Mosaik-Modells beschreiben',
-      'passiven und aktiven Transport sowie Membranfluss unterscheiden',
-      'Struktur und Funktion von Proteinen und Enzymen erklären',
-      'DNA-Struktur, Replikation, Transkription und Translation verknüpfen',
-      'Auswirkungen von Genmutationen und Genregulation erläutern',
+      'den amphiphilen Aufbau eines Phospholipids beschreiben',
+      'die Entstehung einer Phospholipid-Doppelschicht in Wasser erklären',
+      'das Flüssig-Mosaik-Modell fachsprachlich erläutern',
+      'wichtige Funktionen von Membranproteinen nennen und zuordnen',
+      'die Bedeutung der Kompartimentierung für Zellen erklären',
     ],
-    keyConcepts: [
-      { title: 'Membran als dynamische Grenze', text: 'Phospholipid-Doppelschicht und Membranproteine ermöglichen Kompartimentierung, selektiven Stofftransport und Kommunikation.' },
-      { title: 'Proteinstruktur bestimmt Funktion', text: 'Aminosäuresequenz und räumliche Faltung beeinflussen Bindung, Stabilität und Funktion eines Proteins.' },
-      { title: 'Enzyme steuern Stoffwechsel', text: 'Enzyme senken die Aktivierungsenergie. Temperatur, pH-Wert, Substratkonzentration und Hemmstoffe verändern ihre Aktivität.' },
-      { title: 'Information wird umgesetzt', text: 'DNA speichert Information. Über Transkription und Translation entsteht ein Genprodukt, dessen Funktion Merkmale beeinflussen kann.' },
+    reading: [
+      {
+        label: '1 · Eine Grenze, die mehr kann',
+        title: 'Warum Zellen Membranen brauchen',
+        paragraphs: [
+          'Jede Zelle muss ihr Inneres von der Umgebung abgrenzen. Diese Grenze darf aber nicht vollständig dicht sein: Nährstoffe müssen aufgenommen, Abfallstoffe abgegeben und Informationen aus der Umgebung erkannt werden. Biomembranen lösen genau dieses Problem.',
+          'Auch innerhalb eukaryotischer Zellen trennen Membranen verschiedene Reaktionsräume voneinander. So können gleichzeitig Prozesse mit unterschiedlichen Bedingungen ablaufen. Diese Aufteilung in abgegrenzte Reaktionsräume nennt man Kompartimentierung.'
+        ],
+        callout: { type: 'merke', title: 'Merke', text: 'Biomembranen grenzen Reaktionsräume ab und ermöglichen zugleich einen kontrollierten Austausch von Stoffen und Informationen.' }
+      },
+      {
+        label: '2 · Der Grundbaustein',
+        title: 'Phospholipide sind amphiphil',
+        paragraphs: [
+          'Ein Phospholipid besitzt zwei funktionell unterschiedliche Bereiche: einen polaren, hydrophilen Kopf und unpolare, hydrophobe Fettsäurereste. „Hydrophil“ bedeutet wasserliebend, „hydrophob“ wassermeidend.',
+          'Weil ein Molekül beide Eigenschaften gleichzeitig besitzt, bezeichnet man Phospholipide als amphiphil. In wässriger Umgebung richten sich die hydrophilen Köpfe zum Wasser aus, während die hydrophoben Bereiche den Kontakt mit Wasser möglichst vermeiden.'
+        ],
+        callout: { type: 'begriff', title: 'Fachbegriff', text: 'amphiphil = ein Molekül besitzt einen hydrophilen und einen hydrophoben Bereich.' }
+      },
+      {
+        label: '3 · Selbstorganisation',
+        title: 'Warum eine Doppelschicht entsteht',
+        paragraphs: [
+          'Befinden sich viele Phospholipide in Wasser, ordnen sie sich so an, dass die hydrophoben Fettsäurereste möglichst wenig Kontakt zum Wasser haben. Eine stabile Möglichkeit ist die Phospholipid-Doppelschicht: Die Köpfe zeigen zu den wässrigen Räumen, die Fettsäurereste liegen einander im Inneren der Membran gegenüber.',
+          'Dadurch entsteht im Zentrum der Membran ein überwiegend hydrophober Bereich. Kleine unpolare Moleküle können diesen Bereich vergleichsweise leicht passieren; Ionen und viele polare Stoffe benötigen dagegen häufig Transportproteine.'
+        ],
+        callout: { type: 'fehler', title: 'Typischer Fehler', text: 'Eine Biomembran ist keine starre „Fettwand“. Ihre Bestandteile sind beweglich und viele Stoffe werden gezielt über Proteine transportiert.' }
+      },
+      {
+        label: '4 · Das Modell',
+        title: 'Das Flüssig-Mosaik-Modell',
+        paragraphs: [
+          'Das Flüssig-Mosaik-Modell beschreibt Biomembranen als dynamische Phospholipid-Doppelschicht, in die unterschiedliche Proteine eingelagert oder an deren Oberfläche gebunden sind. „Flüssig“ verweist darauf, dass sich viele Membranbestandteile seitlich bewegen können.',
+          '„Mosaik“ beschreibt die Vielfalt der eingelagerten Bestandteile. Membranproteine können beispielsweise Stoffe transportieren, Signale empfangen, enzymatisch wirken oder Zellen miteinander verbinden. Die genaue Zusammensetzung einer Membran hängt deshalb von ihrer Funktion ab.'
+        ],
+        callout: { type: 'abi', title: 'Prüfungswissen', text: 'Beim Erklären des Flüssig-Mosaik-Modells immer Struktur UND Dynamik nennen: Phospholipid-Doppelschicht + bewegliche, unterschiedlich funktionierende Membranproteine.' }
+      },
+      {
+        label: '5 · Struktur ermöglicht Funktion',
+        title: 'Membranproteine und Kompartimentierung',
+        paragraphs: [
+          'Integrale Membranproteine liegen in der Membran und können sie teilweise oder vollständig durchspannen. Periphere Proteine sind lockerer an einer Membranoberfläche gebunden. Entscheidend ist weniger die Bezeichnung als die Verbindung von Struktur und Funktion.',
+          'Durch Kompartimentierung können in einer Zelle verschiedene Stoffkonzentrationen und Reaktionsbedingungen gleichzeitig aufrechterhalten werden. Membranen ermöglichen damit Spezialisierung: Ein Zellorganell kann andere Aufgaben übernehmen als ein benachbarter Zellbereich.'
+        ],
+        callout: { type: 'denk', title: 'Denkfrage', text: 'Warum wäre eine Zelle ohne innere Membranen bei der Organisation vieler verschiedener Stoffwechselreaktionen im Nachteil?' }
+      }
     ],
-    experiment: {
-      title: 'Enzymaktivität von Katalase untersuchen',
-      material: 'Kartoffel- oder Hefesuspension, Wasserstoffperoxid, Reagenzgläser, Wasserbäder, Stoppuhr.',
-      procedure: 'Verändere nur einen Faktor, zum Beispiel die Temperatur. Halte Enzym- und Substratmenge konstant. Erfasse die Reaktionsstärke quantitativ oder semiquantitativ.',
-      evaluation: 'Stelle die Messwerte grafisch dar, beschreibe den Verlauf und erkläre ihn auf Teilchen- bzw. Proteinstrukturebene.',
+    quickCheck: [
+      {
+        q: 'Was bedeutet „amphiphil“ bei einem Phospholipid?',
+        options: ['Es ist vollständig wasserlöslich.', 'Es besitzt einen hydrophilen und einen hydrophoben Bereich.', 'Es besteht ausschließlich aus Proteinen.'],
+        correct: 1,
+        explain: 'Richtig: Phospholipide besitzen einen hydrophilen Kopf und hydrophobe Fettsäurereste.'
+      },
+      {
+        q: 'Warum liegen die Fettsäurereste in einer Doppelschicht nach innen?',
+        options: ['Sie meiden den Kontakt mit Wasser.', 'Sie sind elektrisch positiv geladen.', 'Sie binden ausschließlich an Membranproteine.'],
+        correct: 0,
+        explain: 'Richtig: Die hydrophoben Fettsäurereste werden im Inneren der Doppelschicht vom Wasser abgeschirmt.'
+      },
+      {
+        q: 'Was betont der Begriff „flüssig“ im Flüssig-Mosaik-Modell?',
+        options: ['Die Membran besteht aus Wasser.', 'Membranbestandteile können sich innerhalb der Membran bewegen.', 'Die Membran löst sich ständig auf.'],
+        correct: 1,
+        explain: 'Richtig: Viele Lipide und Proteine besitzen seitliche Beweglichkeit; die Membran ist dynamisch.'
+      }
+    ],
+    research: {
+      title: 'Forscherauftrag: Lies das Modell wie eine Biologin / ein Biologe',
+      steps: [
+        'Aktiviere im Membranmodell zuerst die Markierungen für hydrophil und hydrophob. Beschreibe die räumliche Anordnung der Phospholipide.',
+        'Blende Membranproteine ein. Formuliere zwei Funktionen, die solche Proteine übernehmen könnten.',
+        'Erkläre, warum ein geladenes Ion nicht einfach durch den hydrophoben Membrankern diffundieren kann.',
+        'Übertrage das Modell auf Kompartimentierung: Welche Vorteile entstehen, wenn unterschiedliche Zellbereiche durch Membranen getrennt sind?'
+      ]
     },
     tasks: [
-      { afb: 'I', prompt: 'Beschreibe zwei Unterschiede zwischen passivem und aktivem Membrantransport.', hint: 'Energiebedarf und Richtung zum Konzentrationsgefälle.' },
-      { afb: 'II', prompt: 'Erkläre, warum eine starke Temperaturerhöhung die Aktivität vieler Enzyme zunächst steigert und später stark senkt.', hint: 'Teilchenbewegung versus Proteinstruktur.' },
-      { afb: 'III', prompt: 'Beurteile die Aussage: „Ein Gen bestimmt immer genau ein sichtbares Merkmal.“', hint: 'Genprodukte, Regulation, Umwelt und komplexe Merkmale einbeziehen.' },
+      { afb: 'I', prompt: 'Beschreibe den Aufbau eines Phospholipids und verwende die Begriffe hydrophil, hydrophob und amphiphil.', hint: 'Beginne mit Kopf und Fettsäureresten und erkläre anschließend den Begriff amphiphil.' },
+      { afb: 'II', prompt: 'Erkläre mithilfe der Moleküleigenschaften, warum sich Phospholipide in Wasser zu einer Doppelschicht anordnen.', hint: 'Verknüpfe die räumliche Anordnung mit der Wechselwirkung der beiden Molekülbereiche mit Wasser.' },
+      { afb: 'II', prompt: 'Erkläre, warum das Flüssig-Mosaik-Modell besser zu einer Biomembran passt als die Vorstellung einer starren Zellwand.', hint: 'Gehe auf Beweglichkeit, verschiedene Bestandteile und unterschiedliche Funktionen ein.' },
+      { afb: 'III', prompt: 'Beurteile die Aussage: „Die Zellmembran dient ausschließlich dazu, das Zellinnere von außen abzutrennen.“', hint: 'Nutze mindestens drei weitere Membranfunktionen als Gegenargumente.' }
     ],
-    lab: 'membrane',
+    quiz: [
+      { q: 'Welche Aussage zu Phospholipiden ist korrekt?', options: ['Beide Molekülbereiche sind hydrophob.', 'Der Kopf ist hydrophil, die Fettsäurereste sind hydrophob.', 'Der Kopf ist hydrophob, die Fettsäurereste sind hydrophil.', 'Phospholipide besitzen keine unterschiedlichen Bereiche.'], correct: 1 },
+      { q: 'Was befindet sich überwiegend im Inneren einer Phospholipid-Doppelschicht?', options: ['Hydrophile Köpfe', 'Wasser', 'Hydrophobe Fettsäurereste', 'DNA'], correct: 2 },
+      { q: 'Welche Aussage gehört zum Flüssig-Mosaik-Modell?', options: ['Alle Membranbestandteile sind starr fixiert.', 'Membranen bestehen nur aus Proteinen.', 'Lipide und viele Proteine können sich seitlich bewegen.', 'Membranen sind für alle Stoffe frei durchlässig.'], correct: 2 },
+      { q: 'Was bedeutet Kompartimentierung?', options: ['Zerlegung von Proteinen', 'Aufteilung der Zelle in abgegrenzte Reaktionsräume', 'Verdopplung der DNA', 'Transport ausschließlich gegen ein Konzentrationsgefälle'], correct: 1 },
+      { q: 'Warum sind Membranproteine funktionell wichtig?', options: ['Sie können unter anderem Transport und Signalaufnahme ermöglichen.', 'Sie ersetzen alle Phospholipide.', 'Sie verhindern jede Bewegung in der Membran.', 'Sie kommen nur in Pflanzenzellen vor.'], correct: 0 }
+    ],
+    lab: 'membraneStructure'
   },
   {
-    id: 'stoffwechsel',
-    number: '02',
-    title: 'Stoff- & Energieumwandlung',
-    subtitle: 'ATP · Zellatmung · Fotosynthese · Regulation',
-    icon: '⚡',
-    phase: 'J1-Start sinnvoll',
-    bp: 'BP V2 · 3.4.2',
-    intro: 'Lebewesen sind offene Systeme. Dieses Modul verbindet Stoffwechsel, Energieumwandlung, Kompartimentierung und enzymatische Regulation, ohne sich in unnötigen biochemischen Details zu verlieren.',
-    goals: [
-      'Fotosynthese und Zellatmung als Gesamtreaktionen darstellen',
-      'ATP/ADP-System als Prinzip energetischer Kopplung erklären',
-      'auf- und abbauenden Stoffwechsel vergleichen',
-      'Bedeutung von Redoxprozessen und Kompartimentierung erläutern',
-      'Stoffwechselregulation auf Enzymebene erklären',
-    ],
-    keyConcepts: [
-      { title: 'ATP koppelt Prozesse', text: 'Energie liefernde und energieverbrauchende Vorgänge werden über ATP und ADP miteinander verbunden.' },
-      { title: 'Zellatmung setzt Energie frei', text: 'Energie aus energiereichen Stoffen wird schrittweise übertragen und für die ATP-Bildung nutzbar gemacht.' },
-      { title: 'Fotosynthese speichert Energie', text: 'Lichtenergie wird in chemische Energie überführt und für den Aufbau energiereicher organischer Stoffe genutzt.' },
-      { title: 'Kompartimentierung schafft Reaktionsräume', text: 'Membranen trennen Reaktionsräume und ermöglichen unterschiedliche Bedingungen sowie gekoppelte Stoffwechselwege.' },
-    ],
-    experiment: {
-      title: 'Fotosyntheserate in Abhängigkeit von Licht',
-      material: 'Wasserpest oder alternatives Wasserpflanzenmaterial, Lichtquelle, Abstandsskala, Stoppuhr, ggf. Sauerstoffsensor.',
-      procedure: 'Verändere die Lichtintensität über den Abstand. Erfasse eine geeignete Messgröße für die Fotosyntheserate und halte weitere Faktoren möglichst konstant.',
-      evaluation: 'Unterscheide Beobachtung, Messwert und Deutung. Diskutiere mindestens einen limitierenden Faktor.',
-    },
-    tasks: [
-      { afb: 'I', prompt: 'Nenne die Summenformeln der Gesamtreaktionen von Fotosynthese und Zellatmung.', hint: 'Edukte und Produkte spiegeln sich weitgehend.' },
-      { afb: 'II', prompt: 'Erkläre, warum Zellatmung und Fotosynthese nicht einfach als „Umkehrreaktionen“ bezeichnet werden sollten.', hint: 'Mehrstufige Prozesse, unterschiedliche Reaktionsräume und Energieträger.' },
-      { afb: 'III', prompt: 'Bewerte die Aussage: „Mehr Licht bedeutet immer mehr Fotosynthese.“', hint: 'Sättigung und weitere limitierende Faktoren berücksichtigen.' },
-    ],
-    lab: 'enzyme',
+    id: 'passiver-transport', number: '02', date: '21.09.2026', title: 'Passiver Stofftransport', icon: '↔️', status: 'planned',
+    subtitle: 'Diffusion · erleichterte Diffusion · Kanal- & Carrierproteine · Konzentrationsgefälle',
+    bp: 'Molekulare Biologie · Membrantransport',
+    intro: 'Hier untersuchst du, wie Teilchen ohne direkten Energieaufwand entlang eines Konzentrationsgefälles transportiert werden.',
+    goals: ['einfache und erleichterte Diffusion unterscheiden', 'Kanal- und Carrierproteine vergleichen', 'Konzentrationsgefälle als Triebkraft erklären'],
+    lab: 'transport'
   },
   {
-    id: 'evolution',
-    number: '03',
-    title: 'Evolution',
-    subtitle: 'Selektion · Gendrift · Artbildung · Stammbäume',
-    icon: '🦋',
-    phase: 'Reihenfolge schulabhängig',
-    bp: 'BP V2 · 3.4.3',
-    intro: 'Evolution wird auf Populationsebene erklärt: Variation, unterschiedliche reproduktive Fitness und weitere Evolutionsfaktoren verändern Allelhäufigkeiten über Generationen.',
-    goals: [
-      'Änderungen von Allelhäufigkeiten mit reproduktiver Fitness begründen',
-      'Mutation, Rekombination, Selektion, Isolation und Gendrift einordnen',
-      'allopatrische und sympatrische Artbildung erklären',
-      'Homologie und Konvergenz unterscheiden',
-      'Stammbaumhypothesen anhand von Merkmalen prüfen',
-    ],
-    keyConcepts: [
-      { title: 'Population statt Individuum', text: 'Individuen werden selektiert; Populationen verändern sich über Generationen.' },
-      { title: 'Variation ist Voraussetzung', text: 'Mutation und Rekombination erzeugen Unterschiede, auf die Selektion wirken kann.' },
-      { title: 'Fitness ist relativ', text: 'Reproduktive Fitness beschreibt den relativen Beitrag von Merkmalsträgern zur nächsten Generation.' },
-      { title: 'Verwandtschaft ist prüfbar', text: 'Homologe Merkmale und DNA-Sequenzen liefern Hinweise auf gemeinsame Abstammung.' },
-    ],
-    experiment: {
-      title: 'Modellversuch zur Selektion',
-      material: 'Verschiedenfarbige Papierpunkte oder Perlen, zwei kontrastierende Untergründe, Sammelgefäße.',
-      procedure: 'Simuliere Prädation: „Beutetiere“, die schlecht zu erkennen sind, überleben häufiger und „vermehren“ sich stärker.',
-      evaluation: 'Vergleiche Allel-/Merkmalshäufigkeiten über mehrere Generationen und diskutiere Grenzen des Modells.',
-    },
-    tasks: [
-      { afb: 'I', prompt: 'Definiere reproduktive Fitness.', hint: 'Beitrag zur nächsten Generation.' },
-      { afb: 'II', prompt: 'Erkläre, wie Isolation aus einer Population langfristig zwei Arten entstehen lassen kann.', hint: 'Genfluss, unterschiedliche Selektionsbedingungen, reproduktive Isolation.' },
-      { afb: 'III', prompt: 'Beurteile, ob Gendrift als Anpassungsprozess bezeichnet werden kann.', hint: 'Zufall versus gerichtete Wirkung unterschiedlicher Fitness.' },
-    ],
-    lab: 'selection',
+    id: 'aktiver-transport', number: '03', date: '22.09.2026', title: 'Aktiver Transport & Membranfluss', icon: '⚡', status: 'planned',
+    subtitle: 'Energieaufwand · Transport gegen Gradienten · Endocytose · Exocytose',
+    bp: 'Molekulare Biologie · Membrantransport',
+    intro: 'Dieses Modul vergleicht energieabhängige Transportmechanismen mit passiven Prozessen und führt Endo- und Exocytose ein.',
+    goals: ['aktiven und passiven Transport vergleichen', 'Transport gegen ein Konzentrationsgefälle erklären', 'Endocytose und Exocytose beschreiben'],
+    lab: 'transport'
   },
   {
-    id: 'oekologie',
-    number: '04',
-    title: 'Ökologie',
-    subtitle: 'Toleranz · Nische · Wechselwirkungen · Energiefluss',
-    icon: '🌿',
-    phase: 'Reihenfolge schulabhängig',
-    bp: 'BP V2 · 3.4.4',
-    intro: 'Ökosysteme sind vernetzte, dynamische Viel-Faktoren-Systeme. Im Zentrum stehen Umweltfaktoren, ökologische Nischen, Beziehungen zwischen Arten sowie Stoff- und Energieflüsse.',
-    goals: [
-      'Biotop, Biozönose und Umweltfaktoren an einem Ökosystem beschreiben',
-      'Toleranzkurven und ökologische Potenz auswerten',
-      'Fundamental- und Realnische unterscheiden',
-      'Konkurrenz, Parasitismus, Symbiose und Räuber-Beute-Beziehungen vergleichen',
-      'Nahrungsnetze, Biomassepyramiden und Energiefluss erklären',
-    ],
-    keyConcepts: [
-      { title: 'Toleranz ist artspezifisch', text: 'Arten besitzen unterschiedliche Präferenz-, Pessimum- und Toleranzbereiche gegenüber Umweltfaktoren.' },
-      { title: 'Nische ist kein Ort', text: 'Die ökologische Nische beschreibt die Gesamtheit relevanter Ansprüche und Wechselwirkungen einer Art.' },
-      { title: 'Ökosysteme sind Netzwerke', text: 'Eine Veränderung kann über direkte und indirekte Wechselwirkungen viele weitere Komponenten beeinflussen.' },
-      { title: 'Energie wird entwertet', text: 'Mit jeder trophischen Ebene steht nur ein Teil der aufgenommenen Energie für die nächste Ebene zur Verfügung.' },
-    ],
-    experiment: {
-      title: 'Freilanduntersuchung eines Standortfaktors',
-      material: 'Thermometer/Lichtsensor, Maßband, Bestimmungshilfe, Tabellenblatt oder Forms-Erfassung.',
-      procedure: 'Vergleiche zwei Standorte. Erfasse einen abiotischen Faktor und das Vorkommen ausgewählter Arten systematisch.',
-      evaluation: 'Prüfe, ob die Daten die formulierte Hypothese stützen. Korrelation und Kausalität klar trennen.',
-    },
-    tasks: [
-      { afb: 'I', prompt: 'Erläutere die Begriffe Optimum, Präferendum und Pessimum einer Toleranzkurve.', hint: 'Leistungsfähigkeit entlang eines Umweltgradienten.' },
-      { afb: 'II', prompt: 'Erkläre, warum die Realnische einer Art meist kleiner als ihre Fundamentalnische ist.', hint: 'Biotische Faktoren und Konkurrenz.' },
-      { afb: 'III', prompt: 'Bewerte eine Maßnahme zum Schutz eines lokalen Ökosystems anhand mindestens dreier Kriterien.', hint: 'Ökologische Wirksamkeit, Umsetzbarkeit, Nutzungskonflikte.' },
-    ],
-    lab: 'tolerance',
+    id: 'proteine-1', number: '04', date: '29.09.2026', title: 'Proteine I: Vom Aminosäurebaustein zum Polypeptid', icon: '🧩', status: 'planned',
+    subtitle: 'Aminosäuren · Peptidbindung · Polypeptide · Proteinfunktionen',
+    bp: 'Molekulare Biologie · Proteine',
+    intro: 'Du lernst den Grundbau einer Aminosäure kennen und verfolgst, wie durch Peptidbindungen Polypeptidketten entstehen.',
+    goals: ['Grundbau einer Aminosäure darstellen', 'Peptidbindung erklären', 'wichtige Proteinfunktionen an Beispielen zuordnen']
   },
   {
-    id: 'neuro',
-    number: '05',
-    title: 'Neurobiologie',
-    subtitle: 'Neuron · Potenziale · Erregungsleitung · Synapse',
-    icon: '🧠',
-    phase: 'Reihenfolge schulabhängig',
-    bp: 'BP V2 · 3.4.5',
-    intro: 'Das Nervensystem verarbeitet Informationen schnell. Strukturen und Prozesse auf Zell- und Molekülebene erklären, wie Reize aufgenommen, codiert, weitergeleitet und an Synapsen übertragen werden.',
-    goals: [
-      'Struktur und Funktion eines Motoneurons verknüpfen',
-      'Ruhe- und Aktionspotenzial erklären',
-      'kontinuierliche und saltatorische Erregungsleitung vergleichen',
-      'Signalübertragung an Synapsen erläutern',
-      'Wirkung ausgewählter Stoffe an Synapsen erklären',
-      'Reizaufnahme und Transduktion an einer Sinneszelle erläutern',
-    ],
-    keyConcepts: [
-      { title: 'Membranpotenziale entstehen durch Ionengradienten', text: 'Selektive Permeabilität und Konzentrationsunterschiede erzeugen elektrische Spannungen an der Zellmembran.' },
-      { title: 'Aktionspotenziale folgen dem Alles-oder-nichts-Prinzip', text: 'Wird die Schwelle erreicht, läuft ein typischer Spannungsverlauf ab; Reizstärke wird vor allem über Frequenz codiert.' },
-      { title: 'Myelin beschleunigt', text: 'Bei myelinisierten Axonen wird die Erregung funktionell von Ranvier-Schnürring zu Schnürring weitergegeben.' },
-      { title: 'Synapsen übersetzen Signale', text: 'An chemischen Synapsen führt ein elektrisches Signal zur Transmitterausschüttung und löst postsynaptische Veränderungen aus.' },
-    ],
-    experiment: {
-      title: 'Reaktionszeit untersuchen',
-      material: 'Lineal oder Reaktionszeit-App, Tabelle, mehrere Versuchspersonen.',
-      procedure: 'Erfasse Reaktionszeiten unter zwei Bedingungen, zum Beispiel mit und ohne Ablenkung. Wiederhole mehrfach und bilde geeignete Kennwerte.',
-      evaluation: 'Diskutiere Streuung, Lern-/Ermüdungseffekte und warum der Versuch kein direktes Maß der Leitungsgeschwindigkeit einzelner Nervenzellen ist.',
-    },
-    tasks: [
-      { afb: 'I', prompt: 'Beschreibe den typischen Verlauf eines Aktionspotenzials.', hint: 'Ruhe, Depolarisation, Repolarisation, Nachpotenzial.' },
-      { afb: 'II', prompt: 'Vergleiche kontinuierliche und saltatorische Erregungsleitung.', hint: 'Myelinisierung, Geschwindigkeit, beteiligte Membranbereiche.' },
-      { afb: 'III', prompt: 'Erkläre anhand eines selbst gewählten Beispiels, wie ein Stoff die Signalübertragung an einer Synapse verändern kann.', hint: 'Angriffspunkt klar benennen und Wirkungskette darstellen.' },
-    ],
-    lab: 'neuron',
+    id: 'proteine-2', number: '05', date: '06.10.2026', title: 'Proteine II: Struktur bestimmt Funktion', icon: '🧶', status: 'planned',
+    subtitle: 'Primär- · Sekundär- · Tertiär- · Quartärstruktur · Denaturierung',
+    bp: 'Molekulare Biologie · Proteine',
+    intro: 'Hier verknüpfst du die räumliche Struktur von Proteinen mit ihrer biologischen Funktion und untersuchst Denaturierung.',
+    goals: ['vier Strukturebenen unterscheiden', 'Denaturierung erklären', 'Struktur-Funktions-Beziehungen begründen']
   },
   {
-    id: 'angewandt',
-    number: '06',
-    title: 'Angewandte Biologie',
-    subtitle: 'PCR · Gelelektrophorese · Gentechnik · Gentherapie',
-    icon: '🧪',
-    phase: 'Reihenfolge schulabhängig',
-    bp: 'BP V2 · 3.4.6',
-    intro: 'Methoden der Molekularbiologie machen DNA analysierbar und veränderbar. Neben dem Funktionsprinzip stehen Chancen, Risiken und begründete Bewertungen biologischer Anwendungen im Mittelpunkt.',
-    goals: [
-      'Restriktionsenzyme, Plasmide, PCR und Gelelektrophorese erklären',
-      'ein Verfahren zur Herstellung transgener Organismen darstellen',
-      'Chancen und Risiken gentechnisch veränderter Organismen bewerten',
-      'Genanalysen und Familienstammbäume im Kontext genetischer Beratung erläutern',
-      'Möglichkeiten und Grenzen somatischer Gentherapie erklären',
-    ],
-    keyConcepts: [
-      { title: 'PCR vervielfältigt gezielt DNA', text: 'Durch wiederholte Zyklen aus Denaturierung, Primeranlagerung und Verlängerung wird ein DNA-Abschnitt stark angereichert.' },
-      { title: 'Gele trennen DNA-Fragmente', text: 'DNA-Fragmente wandern im elektrischen Feld; kleinere Fragmente bewegen sich im Gel meist schneller.' },
-      { title: 'Plasmide dienen als Vektoren', text: 'Bakterielle Plasmide können genutzt werden, um DNA-Abschnitte zu übertragen und zu vervielfältigen.' },
-      { title: 'Bewerten braucht Kriterien', text: 'Biologische Machbarkeit, Nutzen, Risiken, ethische Gesichtspunkte und betroffene Perspektiven müssen getrennt und transparent gewichtet werden.' },
-    ],
-    experiment: {
-      title: 'Modell einer Gelelektrophorese',
-      material: 'Papiermodell, digitale Simulation oder ungefährliche schulische DNA-Elektrophorese nach vorhandener Ausstattung.',
-      procedure: 'Vergleiche Wanderungsstrecken verschiedener Fragmentgrößen und leite daraus eine Größenordnung unbekannter Fragmente ab.',
-      evaluation: 'Erkläre die Trennung mit Ladung, Gelmatrix und Fragmentgröße und nenne Grenzen der Modellübertragung.',
-    },
-    tasks: [
-      { afb: 'I', prompt: 'Nenne die drei wiederkehrenden Phasen eines PCR-Zyklus.', hint: 'Stränge trennen, Primer binden, DNA verlängern.' },
-      { afb: 'II', prompt: 'Erkläre, warum ein DNA-Längenstandard bei einer Gelelektrophorese hilfreich ist.', hint: 'Vergleich bekannter und unbekannter Fragmentgrößen.' },
-      { afb: 'III', prompt: 'Bewerte den Einsatz eines gentechnisch veränderten Organismus anhand eines selbst erstellten Kriterienrasters.', hint: 'Fachliche und ethische Kriterien trennen, Interessen verschiedener Gruppen berücksichtigen.' },
-    ],
-    lab: 'pcr',
+    id: 'enzyme', number: '06', date: '13.10.2026', title: 'Enzyme als Biokatalysatoren', icon: '🧪', status: 'planned',
+    subtitle: 'Aktives Zentrum · Spezifität · Enzym-Substrat-Komplex · Modelle',
+    bp: 'Molekulare Biologie · Enzyme',
+    intro: 'Du untersuchst, wie Enzyme Reaktionen ermöglichen und warum Substrate nur zu bestimmten aktiven Zentren passen.',
+    goals: ['Wirkungsweise von Enzymen erklären', 'Substrat- und Wirkungsspezifität unterscheiden', 'Modelle zum Enzym-Substrat-Komplex nutzen'],
+    lab: 'enzyme'
   },
-]
+  {
+    id: 'enzymexperiment', number: '07', date: '19.–20.10.2026', title: 'Enzymexperiment planen & durchführen', icon: '🔬', status: 'planned',
+    subtitle: 'Hypothese · Variablen · Kontrollansatz · Messwerte · Auswertung',
+    bp: 'Erkenntnisgewinnung · Experimentieren',
+    intro: 'Zum Abschluss planst und untersuchst du einen Einflussfaktor auf eine Enzymreaktion, erhebst Daten und wertest sie fachgerecht aus.',
+    goals: ['eine prüfbare Hypothese formulieren', 'unabhängige, abhängige und kontrollierte Variablen festlegen', 'einen Kontrollansatz begründen', 'Messwerte angemessen darstellen und auswerten'],
+    lab: 'enzyme'
+  }
+];

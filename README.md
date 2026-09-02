@@ -1,43 +1,25 @@
-# Bio-Lernlabor · Basisfach Biologie BW
+# Bio-Lernlabor · Basisfach J1 BW – Version 2
 
-Fertiger, statischer Prototyp für **Biologie Basisfach Kursstufe (J1/J2) am allgemeinbildenden Gymnasium in Baden-Württemberg**. Er funktioniert ohne Build-System direkt im Browser und ist für iPads optimiert.
+Diese Version folgt dem Unterrichtsplan bis zu den Herbstferien 2026.
 
-## Was ist enthalten?
+## Enthalten
 
-- sechs Inhaltsfelder des Bildungsplans V2 (2022)
-- Lernziele und Kernideen
-- sechs interaktive Modelle: Membrantransport, Enzymaktivität, Selektion, Toleranzkurve, Aktionspotenzial und PCR
-- Experimentideen
-- Aufgaben in AFB I–III mit Hinweisen
+- 7 Module nach dem Unterrichtsplan
+- Modul 1 „Biomembran“ vollständig ausgearbeitet
+- Einlesetexte in kurzen Abschnitten
+- Merke-, Fachbegriffs-, Fehler-, Prüfungs- und Denkboxen
+- 3-Fragen-Kurzcheck mit Sofortfeedback
+- interaktives Membranmodell
+- Forscherauftrag
+- AFB-I–III-Aufgaben mit Hinweisen
+- 5-Fragen-Selbsttest mit lokal gespeichertem Bestwert
 - lokaler Lernfortschritt im Browser
+- iPad-optimiertes Layout
 
-## Wichtig zur J1-Zuordnung
+## Auf GitHub aktualisieren
 
-Der Bildungsplan legt die Kompetenzen für **Klassen 11/12 gemeinsam** fest. Die schulinterne Reihenfolge kann deshalb variieren. In diesem Prototyp stehen `Biomoleküle & molekulare Genetik` und `Stoff- & Energieumwandlung` bewusst am Anfang; die übrigen Module lassen sich leicht umsortieren.
+Im bestehenden Repository den Inhalt des Ordners `docs` durch die Dateien aus diesem `docs`-Ordner ersetzen. GitHub Pages kann weiterhin aus `main /docs` veröffentlichen.
 
-Für die heutige Kursstufe 2026/27 gilt weiterhin die Fassung V2 vom 08.03.2022. Die Fassung V3.0 von 2026 wird laut Inkrafttretensregel zunächst für jüngere Jahrgänge wirksam.
+## Lehrbücher
 
-Offizielle Grundlage:
-- https://www.bildungsplaene-bw.de/BP2016BW_ALLG_GYM_BIO.V2
-- Bereich 3.4 Klassen 11/12 (Basisfach)
-
-## Direkt testen
-
-Öffne `docs/index.html` in einem Browser. Für einige Browser ist ein kleiner lokaler Webserver komfortabler, z. B. in VS Code mit „Live Server“.
-
-## Auf GitHub Pages veröffentlichen
-
-1. Neues GitHub-Repository anlegen, z. B. `Bio_Basisfach_J1`.
-2. Den gesamten Ordner hochladen.
-3. GitHub → `Settings` → `Pages`.
-4. `Deploy from a branch` auswählen.
-5. Branch `main`, Ordner `/docs` auswählen.
-6. Speichern.
-
-## Inhalte ändern
-
-- `docs/content.js`: Kapitel, Lernziele, Aufgaben, Experimente
-- `docs/app.js`: Interaktionen und Simulationen
-- `docs/styles.css`: Gestaltung
-
-Die Inhalte und der Code wurden eigenständig erstellt; die Lernwebsite einer Kollegin wurde nicht kopiert.
+Markl und Natura sind als ergänzende Bucharbeit vorgesehen. Es werden keine geschützten Buchtexte oder Buchabbildungen kopiert. Genaue Seitenangaben können nach Nennung der jeweiligen Ausgabe ergänzt werden.
