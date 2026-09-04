@@ -179,11 +179,15 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 .quiz-question > p:first-child { margin-top:0; }
 .quiz-question button { width:100%; text-align:left; margin:.35rem 0; padding:.65rem .75rem; border:1px solid #cbd8d1; border-radius:10px; background:#fff; color:var(--text); cursor:pointer; }
 .quiz-question button:hover { border-color:#9ebcaf; }
+.quiz-question button.selected { background:#dbeafe; border-color:#3b82f6; }
 .quiz-question button.correct { background:#e3f5ea; border-color:#58a777; }
 .quiz-question button.wrong { background:#fff0ee; border-color:#d78276; }
 .quiz-question button:disabled { cursor:default; opacity:.88; }
+.quiz-question .check-answer { margin-top:1rem; font-weight:600; cursor:pointer; }
+.quiz-question .check-answer:disabled { opacity:.6; cursor:default; }
 .feedback { min-height:1.4rem; margin:.6rem 0 0; font-weight:650; }
 .quiz-summary { padding:.9rem 1rem; background:var(--surface-soft); border-radius:12px; font-weight:800; }
+
 
 .exam-section { display:grid; gap:1rem; }
 .exam-section > .section-kicker, .exam-section > h2 { grid-column:1 / -1; }

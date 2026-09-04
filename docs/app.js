@@ -117,36 +117,187 @@
   }
 
   // Quiz engine
-  document.querySelectorAll('.quiz').forEach(quiz => {
-    const questions = [...quiz.querySelectorAll('.quiz-question')];
-    const summary = quiz.querySelector('.quiz-summary');
-    const answered = new Map();
+document.querySelectorAll('.quiz').forEach(quiz => {
+  const questions = [...quiz.querySelectorAll('.quiz-question')];
+  const summary = quiz.querySelector('.quiz-summary');
+  const answered = new Map();
 
-    questions.forEach((q, index) => {
-      const correct = q.dataset.correct;
-      const feedback = q.querySelector('.feedback');
-      q.querySelectorAll('button[data-answer]').forEach(btn => {
-        btn.addEventListener('click', () => {
+  questions.forEach((q, index) => {
+    const multiple = q.dataset.multiple === 'true';
+
+    const correctAnswers = q.dataset.correct
+      .split(',')
+      .map(answer => answer.trim());
+
+    const feedback = q.querySelector('.feedback');
+    const buttons = [...q.querySelectorAll('button[data-answer]')];
+
+    // Ausgewählte Antworten bei Mehrfachauswahl
+    const selected = new Set();
+
+    // ==========================================
+    // MEHRFACHAUSWAHL
+    // ==========================================
+    if (multiple) {
+
+      // Prüfen-Button erzeugen
+      const checkButton = document.createElement('button');
+      checkButton.type = 'button';
+      checkButton.className = 'check-answer';
+      checkButton.textContent = 'Antwort prüfen';
+
+      q.appendChild(checkButton);
+
+      // Antwort auswählen / abwählen
+      buttons.forEach(btn => {
+        btn.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          // Nach Auswertung nichts mehr ändern
           if (answered.has(index)) return;
-          answered.set(index, btn.dataset.answer === correct);
-          q.querySelectorAll('button[data-answer]').forEach(b => {
-            b.disabled = true;
-            if (b.dataset.answer === correct) b.classList.add('correct');
-          });
-          if (btn.dataset.answer === correct) {
-            feedback.textContent = 'Richtig. Die Aussage trifft den zentralen Zusammenhang.';
+
+          const answer = btn.dataset.answer;
+
+          if (selected.has(answer)) {
+            // Antwort abwählen
+            selected.delete(answer);
+            btn.classList.remove('selected');
           } else {
-            btn.classList.add('wrong');
-            feedback.textContent = 'Noch nicht. Vergleiche deine Wahl mit der grün markierten Lösung und gehe den entsprechenden Infoblock noch einmal durch.';
+            // Antwort auswählen
+            selected.add(answer);
+            btn.classList.add('selected');
           }
-          const totalCorrect = [...answered.values()].filter(Boolean).length;
-          summary.textContent = `${answered.size} von ${questions.length} beantwortet · ${totalCorrect} richtig`;
-          if (answered.size === questions.length) {
-            summary.textContent += totalCorrect >= 4 ? ' · Sehr solide Grundlage.' : ' · Wiederhole die markierten Stellen und versuche die AFB-Aufgaben anschließend erneut.';
-          }
+
+          // WICHTIG:
+          // Hier findet KEINE Auswertung statt!
+          feedback.textContent =
+            selected.size > 0
+              ? `${selected.size} Antwort${selected.size === 1 ? '' : 'en'} ausgewählt.`
+              : '';
+
         });
       });
-    });
-    summary.textContent = `0 von ${questions.length} beantwortet`;
+
+      // ==========================================
+      // ERST HIER WIRD DIE ANTWORT AUSGEWERTET
+      // ==========================================
+      checkButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Bereits beantwortet
+        if (answered.has(index)) return;
+
+        // Keine Antwort ausgewählt
+        if (selected.size === 0) {
+          feedback.textContent =
+            'Bitte wähle mindestens eine Antwort aus.';
+          return;
+        }
+
+        // Prüfen, ob exakt die richtigen Antworten gewählt wurden
+        const isCorrect =
+          selected.size === correctAnswers.length &&
+          correctAnswers.every(answer => selected.has(answer));
+
+        answered.set(index, isCorrect);
+
+        // Alle Antwortbuttons auswerten
+        buttons.forEach(btn => {
+          btn.disabled = true;
+
+          const answer = btn.dataset.answer;
+
+          // Richtige Antworten grün markieren
+          if (correctAnswers.includes(answer)) {
+            btn.classList.add('correct');
+          }
+
+          // Falsch ausgewählte Antworten rot markieren
+          if (
+            selected.has(answer) &&
+            !correctAnswers.includes(answer)
+          ) {
+            btn.classList.add('wrong');
+          }
+        });
+
+        // Feedback
+        if (isCorrect) {
+          feedback.textContent =
+            'Richtig. Du hast alle richtigen Aussagen ausgewählt.';
+        } else {
+          feedback.textContent =
+            'Noch nicht. Vergleiche deine Auswahl mit den grün markierten Lösungen.';
+        }
+
+        // Prüfen-Button deaktivieren
+        checkButton.disabled = true;
+
+        updateSummary();
+      });
+
+      // Wichtig:
+      // Danach nicht noch den Einfachauswahl-Code ausführen.
+      return;
+    }
+
+    // ==========================================
+    // EINFACHAUSWAHL
+    // ==========================================
+    buttons.forEach(btn => {
+      btn.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (answered.has(index)) return;
+
+        const answer = btn.dataset.answer;
+        const isCorrect = correctAnswers.includes(answer);
+
+        answered.set(index, isCorrect);
+
+        buttons.forEach(b => {
+          b.disabled = true;
+
+          if (correctAnswers.includes(b.dataset.answer)) {
+            b.classList.add('correct');
+          }
+        });
+
+        if (isCorrect) {
+          feedback.textContent =
+            'Richtig. Die Aussage trifft den zentralen Zusammenhang.';
+        } else {
+          btn.classList.add('wrong');
+          feedback.textContent =
+            'Noch nicht. Vergleiche deine Wahl mit der grün markierten Lösung und gehe den entsprechenden Infoblock noch einmal durch.';
+        }
+
+        updateSummary();
+      });
+    }
   });
-})();
+
+  // ==========================================
+  // QUIZ-ZUSAMMENFASSUNG
+  // ==========================================
+  function updateSummary() {
+    const totalCorrect =
+      [...answered.values()].filter(Boolean).length;
+
+    summary.textContent =
+      `${answered.size} von ${questions.length} beantwortet · ${totalCorrect} richtig`;
+
+    if (answered.size === questions.length) {
+      summary.textContent +=
+        totalCorrect >= 4
+          ? ' · Sehr solide Grundlage.'
+          : ' · Wiederhole die markierten Stellen und versuche die AFB-Aufgaben anschließend erneut.';
+    }
+  }
+
+  summary.textContent =
+    `0 von ${questions.length} beantwortet`;
+});
