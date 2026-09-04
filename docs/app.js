@@ -1,515 +1,155 @@
-const schedule = [
-  {
-    "date": "15.09.2026",
-    "title": "Start in die Kursstufe & Einstieg Biomembran",
-    "detail": "Organisation; Notentransparenz; GFS; Sicherheitsbelehrung; Themenüberblick; Aktivierung von Vorwissen; Zelle als Grundbaustein des Lebens; Kompartimentierung; Biomembran als Abgrenzung von Reaktionsräumen",
-    "category": "Zellbiologie & Enzyme"
-  },
-  {
-    "date": "21.09.2026",
-    "title": "Aufbau und Modell der Biomembran",
-    "detail": "Phospholipide; hydrophil/hydrophob; Lipiddoppelschicht; Membranproteine; Flüssig-Mosaik-Modell; Struktur-Funktions-Bezug und Grenzen von Modellen",
-    "category": "Zellbiologie & Enzyme"
-  },
-  {
-    "date": "28.09.2026",
-    "title": "Passiver Stofftransport",
-    "detail": "einfache und erleichterte Diffusion; Kanal- und Carrierproteine; Konzentrationsgefälle; Osmose als Wiederholung und Anwendung",
-    "category": "Zellbiologie & Enzyme"
-  },
-  {
-    "date": "29.09.2026",
-    "title": "Aktiver Transport und Membranfluss",
-    "detail": "aktiver Transport unter Energieaufwand; Endo- und Exocytose; Transportmechanismen vergleichen und auf Beispiele anwenden",
-    "category": "Zellbiologie & Enzyme"
-  },
-  {
-    "date": "12.10.2026",
-    "title": "Proteine – Struktur und Funktion",
-    "detail": "Aminosäure-Grundbau; Peptidbindung; Polypeptid; Primär-, Sekundär-, Tertiär- und Quartärstruktur; Denaturierung; Struktur-Funktions-Bezug",
-    "category": "Zellbiologie & Enzyme"
-  },
-  {
-    "date": "13.10.2026",
-    "title": "Enzyme als Biokatalysatoren",
-    "detail": "aktives Zentrum; Enzym-Substrat-Komplex; Substrat- und Wirkungsspezifität; Modellvorstellungen; Einfluss von Enzymen auf Reaktionsabläufe",
-    "category": "Zellbiologie & Enzyme"
-  },
-  {
-    "date": "19.10.2026",
-    "title": "Enzymaktivität untersuchen – Planung",
-    "detail": "Temperatur, pH-Wert und Substratkonzentration; Hypothesen formulieren; unabhängige/abhängige Variable; Kontrollansatz; Versuchsplanung",
-    "category": "Zellbiologie & Enzyme"
-  },
-  {
-    "date": "02.11.2026",
-    "title": "Enzymexperiment durchführen",
-    "detail": "z. B. Katalase, Amylase oder Urease; Messwerte systematisch erheben und dokumentieren; Versuchsbedingungen kontrollieren",
-    "category": "Zellbiologie & Enzyme"
-  },
-  {
-    "date": "09.11.2026",
-    "title": "Enzymexperiment auswerten & Enzymhemmung",
-    "detail": "Messwerte grafisch darstellen und interpretieren; Optimum und Sättigung; Fehlerbetrachtung; reversible und irreversible Hemmung an konkreten Beispielen",
-    "category": "Zellbiologie & Enzyme"
-  },
-  {
-    "date": "10.11.2026",
-    "title": "Warum braucht Leben ständig Energie?",
-    "detail": "Lebewesen als offene Systeme; auf- und abbauender Stoffwechsel; ATP/ADP als energetische Kopplung; Redoxprinzip; Gesamtgleichung der Zellatmung",
-    "category": "Stoffwechsel"
-  },
-  {
-    "date": "16.11.2026",
-    "title": "Mitochondrium, Zellatmung und Glykolyse – Überblick",
-    "detail": "Bau des Mitochondriums und Kompartimentierung; Teilprozesse räumlich zuordnen; Glykolyse mit Ausgangs-/Endprodukten, ATP und Reduktionsäquivalenten",
-    "category": "Stoffwechsel"
-  },
-  {
-    "date": "23.11.2026",
-    "title": "Oxidative Decarboxylierung und Citratzyklus",
-    "detail": "Verbindung von Glykolyse und Citratzyklus; C-Körper-Prinzip; CO₂-Abgabe; NADH/FADH₂; Stoff- und Energiebilanz ohne unnötige Zwischenprodukte",
-    "category": "Stoffwechsel"
-  },
-  {
-    "date": "24.11.2026",
-    "title": "Atmungskette und Protonengradient",
-    "detail": "Elektronentransport an der inneren Mitochondrienmembran; Protonentransport; Sauerstoff als Elektronenakzeptor; Aufbau des Gradienten",
-    "category": "Stoffwechsel"
-  },
-  {
-    "date": "30.11.2026",
-    "title": "Chemiosmose und ATP-Bildung",
-    "detail": "Protonengradient; ATP-Synthase; chemiosmotisches Prinzip; Zusammenhang zwischen Atmungskette und oxidativer Phosphorylierung",
-    "category": "Stoffwechsel"
-  },
-  {
-    "date": "07.12.2026",
-    "title": "Zellatmung – Bilanz, Vernetzung und Transfer",
-    "detail": "Teilprozesse zu einem Gesamtmodell verknüpfen; Stoff- und Energiebilanzen vergleichen; ATP, Redoxreaktionen und Kompartimentierung anwenden",
-    "category": "Stoffwechsel"
-  },
-  {
-    "date": "08.12.2026",
-    "title": "Fotosynthese – vom Blatt zum Chloroplasten",
-    "detail": "Gesamtgleichung; Blattbau; Chloroplast und Thylakoidsystem; Angepasstheiten an die Fotosynthese auf verschiedenen Systemebenen",
-    "category": "Stoffwechsel"
-  },
-  {
-    "date": "14.12.2026",
-    "title": "Licht und Blattpigmente",
-    "detail": "Chlorophyll und weitere Pigmente; Absorptionsspektrum und Wirkungsspektrum; Zusammenhang von Lichtabsorption und Fotosyntheseleistung; ggf. Chromatografie",
-    "category": "Stoffwechsel"
-  },
-  {
-    "date": "21.12.2026",
-    "title": "Primärreaktionen I – Lichtaufnahme und Elektronentransport",
-    "detail": "Lichtabsorption; Elektronenanregung; Elektronentransport; Bildung von Reduktionsäquivalenten; Funktion der Thylakoidmembran",
-    "category": "Stoffwechsel"
-  },
-  {
-    "date": "22.12.2026",
-    "title": "Primärreaktionen II – Chemiosmose",
-    "detail": "Protonengradient im Chloroplasten; ATP-Synthase; ATP-Bildung; Vergleich des chemiosmotischen Prinzips mit dem Mitochondrium",
-    "category": "Stoffwechsel"
-  },
-  {
-    "date": "11.01.2027",
-    "title": "Klausur 1:",
-    "detail": "",
-    "category": "Klausur"
-  },
-  {
-    "date": "18.01.2027",
-    "title": "Calvin-Zyklus",
-    "detail": "CO₂-Fixierung; Reduktion und Regeneration im C-Körper-Schema; Verwendung von ATP und Reduktionsäquivalenten; keine unnötige Detailtiefe",
-    "category": "Stoffwechsel"
-  },
-  {
-    "date": "25.01.2027",
-    "title": "Abhängigkeit der Fotosyntheserate",
-    "detail": "Lichtintensität, CO₂-Konzentration und Temperatur; limitierende Faktoren; experimentelle Daten/Diagramme planen, auswerten und interpretieren",
-    "category": "Stoffwechsel"
-  },
-  {
-    "date": "26.01.2027",
-    "title": "Fotosynthese und Zellatmung vernetzen",
-    "detail": "Chloroplast ↔ Mitochondrium; Stoff- und Energiefluss; Aufbau-Funktions-Bezüge; chemiosmotische ATP-Bildung vergleichen; Transferaufgaben",
-    "category": "Stoffwechsel"
-  },
-  {
-    "date": "01.02.2027",
-    "title": "Puffer",
-    "detail": "",
-    "category": "Puffer"
-  },
-  {
-    "date": "02.02.2027",
-    "title": "DNA und RNA – Nukleinsäuren als Informationsträger",
-    "detail": "Nukleotide; Zucker, Phosphat und Base; DNA-Doppelstrang; Komplementarität und Antiparallelität; DNA und RNA funktionell vergleichen; Modellarbeit",
-    "category": "Molekulare Genetik"
-  },
-  {
-    "date": "15.02.2027",
-    "title": "DNA-Replikation",
-    "detail": "semikonservative Replikation; komplementäre Basenpaarung; Bedeutung vor der Zellteilung; kurze Wiederholung Zellzyklus/Mitose",
-    "category": "Molekulare Genetik"
-  },
-  {
-    "date": "16.02.2027",
-    "title": "Was ist ein Gen? – Gen, Allel und Merkmal",
-    "detail": "moderner Genbegriff; Gen → Genprodukt → Merkmal; Genprodukte als RNA oder Protein; Genotyp/Phänotyp und Allele als Rückgriff auf Mendel",
-    "category": "Molekulare Genetik"
-  },
-  {
-    "date": "22.02.2027",
-    "title": "Proteinbiosynthese I – Transkription",
-    "detail": "DNA → mRNA; Matrizenstrang; komplementäre RNA-Basen; Ort und Grundprinzip der Transkription",
-    "category": "Molekulare Genetik"
-  },
-  {
-    "date": "01.03.2027",
-    "title": "Der genetische Code",
-    "detail": "Triplettcode; Codon; Codesonne/-tabelle; DNA-/mRNA-Sequenzen in Aminosäuresequenzen übersetzen",
-    "category": "Molekulare Genetik"
-  },
-  {
-    "date": "02.03.2027",
-    "title": "Proteinbiosynthese II – Translation",
-    "detail": "Ribosom; mRNA; tRNA; Anticodon; Aminosäuren; Aufbau einer Polypeptidkette; Verbindung zu Proteinstruktur und -funktion",
-    "category": "Molekulare Genetik"
-  },
-  {
-    "date": "08.03.2027",
-    "title": "Vom Gen zum Merkmal",
-    "detail": "Gesamtweg DNA → RNA → Protein → Funktion → Merkmal; Material- und Transferaufgaben; Genbegriff mit Proteinbiosynthese vernetzen",
-    "category": "Molekulare Genetik"
-  },
-  {
-    "date": "15.03.2027",
-    "title": "Genmutationen und ihre Folgen",
-    "detail": "Veränderungen der DNA; mögliche Folgen für Codons und Aminosäuresequenz; stumme bzw. folgenlose Veränderungen mitdenken; Beispiel z. B. Sichelzellanämie",
-    "category": "Molekulare Genetik"
-  },
-  {
-    "date": "16.03.2027",
-    "title": "Differenzielle Genaktivität und Transkriptionsfaktoren",
-    "detail": "identisches Genom – unterschiedliche Zelltypen; Genaktivität; Aktivierung/Hemmung der Transkription durch Transkriptionsfaktoren",
-    "category": "Molekulare Genetik"
-  },
-  {
-    "date": "05.04.2027",
-    "title": "DNA-Methylierung und Epigenetik",
-    "detail": "DNA-Methylierung als Mechanismus veränderter Genaktivität; Zusammenhang mit Zelldifferenzierung und stabilen Genexpressionsmustern",
-    "category": "Molekulare Genetik"
-  },
-  {
-    "date": "12.04.2027",
-    "title": "Genregulation, Mutation und Krankheit",
-    "detail": "Mutationen und gestörte Genregulation vernetzen; Krebs als mögliches Anwendungsbeispiel; Ursache-Wirkungs-Ketten analysieren",
-    "category": "Molekulare Genetik"
-  },
-  {
-    "date": "13.04.2027",
-    "title": "Molekulare Genetik – Vernetzung und Kompetenzsicherung",
-    "detail": "Replikation → Genexpression → Protein → Merkmal → Mutation/Regulation; anspruchsvollere Material-, Modell- und Transferaufgaben",
-    "category": "Molekulare Genetik"
-  },
-  {
-    "date": "19.04.2027",
-    "title": "PCR – DNA gezielt vervielfältigen",
-    "detail": "Grundprinzip; Denaturierung, Primeranlagerung und DNA-Synthese; zyklischer Ablauf; typische Anwendungen",
-    "category": "Angewandte Genetik"
-  },
-  {
-    "date": "26.04.2027",
-    "title": "Gelelektrophorese",
-    "detail": "Trennung von DNA-Fragmenten; Bandenmuster lesen und interpretieren; Verbindung zur PCR und zu diagnostischen Anwendungen",
-    "category": "Angewandte Genetik"
-  },
-  {
-    "date": "27.04.2027",
-    "title": "Restriktionsenzyme, Plasmide und Methoden vernetzen",
-    "detail": "spezifisches Schneiden von DNA; Plasmide als Vektoren; PCR, Gelelektrophorese und Restriktionsanalyse in kombinierten Aufgaben anwenden",
-    "category": "Angewandte Genetik"
-  },
-  {
-    "date": "03.05.2027",
-    "title": "Herstellung transgener Organismen",
-    "detail": "Gen isolieren; übertragen und exprimieren; geeignete Organismen selektieren; Verfahren als Ablaufmodell darstellen",
-    "category": "Angewandte Genetik"
-  },
-  {
-    "date": "10.05.2027",
-    "title": "CRISPR-Cas als Genomeditierung",
-    "detail": "Grundprinzip zielgerichteter DNA-Veränderung; Vergleich mit klassischer Herstellung transgener Organismen; Möglichkeiten und Grenzen",
-    "category": "Angewandte Genetik"
-  },
-  {
-    "date": "11.05.2027",
-    "title": "Gentechnisch veränderte Organismen bewerten",
-    "detail": "Chancen, Nutzen und Risiken in Landwirtschaft, Medizin oder Industrie; Kriterien für sachlich begründete Bewertungen entwickeln",
-    "category": "Angewandte Genetik"
-  },
-  {
-    "date": "31.05.2027",
-    "title": "Familienstammbäume, Gentests und genetische Beratung",
-    "detail": "Erbgänge analysieren; Ergebnisse von Gentests mit Stammbäumen verknüpfen; Wahrscheinlichkeiten sowie Möglichkeiten und Grenzen genetischer Aussagen",
-    "category": "Angewandte Genetik"
-  },
-  {
-    "date": "07.06.2027",
-    "title": "Somatische Gentherapie und ethische Bewertung",
-    "detail": "Grundprinzip somatischer Gentherapie; Chancen und Grenzen; Abgrenzung zur Keimbahnveränderung als ethische Vertiefung; Sach- und Werteebene unterscheiden",
-    "category": "Angewandte Genetik"
-  },
-  {
-    "date": "08.06.2027",
-    "title": "Was ist ein Ökosystem?",
-    "detail": "Ökosystem, Biotop und Biozönose; biotische und abiotische Umweltfaktoren; an einem konkreten lokalen Ökosystem vernetzen",
-    "category": "Ökologie"
-  },
-  {
-    "date": "14.06.2027",
-    "title": "Toleranz gegenüber Umweltfaktoren",
-    "detail": "Toleranzkurve; Minimum, Maximum, Optimum und Präferendum; ökologische Potenz; Zeigerarten; Daten und Diagramme auswerten",
-    "category": "Ökologie"
-  },
-  {
-    "date": "21.06.2027",
-    "title": "Freilandpraktikum planen",
-    "detail": "Fragestellung zu einem abiotischen Faktor; Hypothese; Messgröße; Artenverteilung; Stichprobe und Dokumentation planen",
-    "category": "Ökologie"
-  },
-  {
-    "date": "22.06.2027",
-    "title": "Ökologisches Freilandpraktikum",
-    "detail": "z. B. Licht, Temperatur, Bodenfeuchte oder pH messen und mit der Artenverteilung in Beziehung setzen; Daten sauber erfassen",
-    "category": "Ökologie"
-  },
-  {
-    "date": "28.06.2027",
-    "title": "Freilanddaten auswerten und beurteilen",
-    "detail": "Messdaten grafisch darstellen; Zusammenhänge zwischen Umweltfaktor und Artenvorkommen untersuchen; Zeigerarten einordnen; Aussagekraft und Fehlerquellen beurteilen",
-    "category": "Ökologie"
-  },
-  {
-    "date": "05.07.2027",
-    "title": "Die ökologische Nische",
-    "detail": "Nische als Gesamtheit der Ansprüche und Beziehungen; Fundamental- und Realnische; Abgrenzung vom Lebensraum",
-    "category": "Ökologie"
-  },
-  {
-    "date": "06.07.2027",
-    "title": "Konkurrenz und Einnischung",
-    "detail": "inter- und intraspezifische Konkurrenz; Konkurrenzausschluss; Konkurrenzvermeidung; Einnischung; Real- und Fundamentalnische anwenden",
-    "category": "Ökologie"
-  },
-  {
-    "date": "12.07.2027",
-    "title": "Wechselwirkungen zwischen Organismen",
-    "detail": "Konkurrenz, Parasitismus und Symbiose anhand konkreter Beispiele vergleichen; Auswirkungen auf beteiligte Arten begründen",
-    "category": "Ökologie"
-  }
-];
+const $=(s,r=document)=>r.querySelector(s); const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const catStyle={"Zellbiologie & Enzyme":["#32795a","#e4f2e9","#245d47"],"Stoffwechsel":["#b7791f","#fff0d8","#79500f"],"Molekulare Genetik":["#625ca6","#ecebfb","#4d478d"],"Angewandte Genetik":["#9a4d78","#f7e7f0","#79375c"],"Ökologie":["#527d31","#eaf3e1","#365822"],"Klausur":["#a23b3b","#fde9e9","#812d2d"],"Puffer":["#727b75","#eef0ef","#59615c"]};
+const order=["Zellbiologie & Enzyme","Stoffwechsel","Molekulare Genetik","Angewandte Genetik","Ökologie","Klausur","Puffer"];
+function parseDE(d){const [dd,mm,yy]=d.split('.').map(Number);return new Date(yy,mm-1,dd,12)}
+function esc(s=''){return String(s).replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function badge(cat){const c=catStyle[cat]||catStyle.Puffer;return `<span class="badge" style="--badgeBg:${c[1]};--badgeInk:${c[2]}">${esc(cat)}</span>`}
+function catColor(cat){return (catStyle[cat]||catStyle.Puffer)[0]}
+function currentModule(){const today=new Date();today.setHours(0,0,0,0);return COURSE.modules.find(m=>parseDE(m.date)>=today)||COURSE.modules.at(-1)}
+function moduleURL(m){return `#/modul/${m.id}`}
+function progress(){return JSON.parse(localStorage.getItem('bio-j1-done')||'{}')}
+function setDone(id,v){const p=progress();p[id]=v;localStorage.setItem('bio-j1-done',JSON.stringify(p))}
+function moduleCard(m){const done=!!progress()[m.id];return `<article class="moduleCard" style="--cat:${catColor(m.category)}"><div class="moduleMeta"><span>Modul ${m.number} · ${m.date}</span>${done?'<span>✓ erledigt</span>':''}</div><h3>${esc(m.title)}</h3><p>${esc(m.core)}</p><div class="actions"><a class="btn ghost" href="${moduleURL(m)}">Modul öffnen</a>${badge(m.category)}</div></article>`}
 
-const categoryStyles = {
-  "Zellbiologie & Enzyme": ["#377f62", "#e4f2e9", "#235d45"],
-  "Stoffwechsel": ["#b47a22", "#fff0d8", "#7a4d0c"],
-  "Molekulare Genetik": ["#5f5ca8", "#ecebfb", "#49468b"],
-  "Angewandte Genetik": ["#9a4d78", "#f7e7f0", "#7c365f"],
-  "Ökologie": ["#4d7d2d", "#e9f3df", "#365b1e"],
-  "Klausur": ["#a23c3c", "#fde8e8", "#842b2b"],
-  "Puffer": ["#6d766f", "#eef0ef", "#59615b"]
+const QUIZZES={
+ membrane:[
+  ['Welche Aussage beschreibt passiven Membrantransport korrekt?',['Er kann ohne direkte ATP-Zufuhr entlang eines Gradienten ablaufen.','Er transportiert Stoffe grundsätzlich gegen ihren Gradienten.','Er ist nur durch Vesikel möglich.','Er findet ausschließlich bei Wasser statt.'],0,'Passiver Transport nutzt vorhandene Gradienten; erleichterte Diffusion kann dabei Kanal- oder Carrierproteine verwenden.'],
+  ['Welche Anordnung ist für eine Phospholipid-Doppelschicht typisch?',['Hydrophile Köpfe zum wässrigen Milieu, hydrophobe Schwänze nach innen.','Hydrophobe Köpfe zum Wasser, hydrophile Schwänze nach innen.','Nur Proteine bilden das Membrangerüst.','Phospholipide liegen als starre Einzelschicht vor.'],0,'Die amphiphilen Phospholipide ordnen sich so an, dass hydrophobe Bereiche vom Wasser abgeschirmt werden.']],
+ protein:[
+  ['Was bezeichnet die Primärstruktur eines Proteins?',['Die Reihenfolge der Aminosäuren.','Die räumliche Gesamtfaltung aller Untereinheiten.','Nur die α-Helices eines Proteins.','Die Bindung eines Substrats am aktiven Zentrum.'],0,'Die Primärstruktur ist die Aminosäuresequenz.'],
+  ['Was kann Denaturierung bewirken?',['Höhere Strukturebenen und damit die Funktion können verloren gehen.','Die Aminosäuresequenz wird immer vollständig hydrolysiert.','Jedes Protein wird dadurch dauerhaft aktiver.','Die Peptidbindungen werden grundsätzlich neu angeordnet.'],0,'Denaturierung betrifft typischerweise Sekundär-, Tertiär- oder Quartärstruktur; die Primärstruktur muss dabei nicht zerstört werden.']],
+ enzyme:[
+  ['Welche Wirkung haben Enzyme auf eine Reaktion?',['Sie senken die Aktivierungsenergie.','Sie erhöhen die freie Energie der Produkte.','Sie werden stöchiometrisch verbraucht.','Sie verändern das Reaktionsgleichgewicht dauerhaft zugunsten der Produkte.'],0,'Enzyme beschleunigen Hin- und Rückreaktion über einen energetisch günstigeren Reaktionsweg, ohne das Gleichgewicht selbst zu verschieben.'],
+  ['Was bedeutet Substratspezifität?',['Ein Enzym bindet bevorzugt bestimmte Substrate aufgrund passender Wechselwirkungen am aktiven Zentrum.','Ein Enzym funktioniert nur bei exakt 37 °C.','Jedes Enzym kann jedes Substrat umsetzen.','Das Enzym bildet immer nur ein einziges Protein als Produkt.'],0,'Struktur und chemische Eigenschaften des aktiven Zentrums begrenzen, welche Substrate passend binden.']],
+ experiment:[
+  ['Welche Variable wird in einem Experiment gezielt verändert?',['Die unabhängige Variable.','Die abhängige Variable.','Die Kontrollvariable.','Die Messunsicherheit.'],0,'Die unabhängige Variable wird gezielt variiert; die abhängige Variable wird gemessen.'],
+  ['Wozu dient ein Kontrollansatz?',['Er hilft zu prüfen, ob ein beobachteter Effekt tatsächlich mit der untersuchten Bedingung zusammenhängt.','Er macht Wiederholungen überflüssig.','Er garantiert ein gewünschtes Ergebnis.','Er ersetzt die Dokumentation der Messwerte.'],0,'Kontrollen schaffen eine Vergleichsbasis und helfen alternative Erklärungen auszuschließen.']],
+ energy:[
+  ['Welche Rolle spielt ATP im Stoffwechsel?',['Es koppelt energieabgebende und energieverbrauchende Prozesse als kurzfristiger Energieträger.','Es speichert die gesamte genetische Information.','Es ist der terminale Elektronenakzeptor der Zellatmung.','Es ist ein Membranlipid.'],0,'ATP kann durch Phosphatübertragung bzw. Hydrolyse Energie für zelluläre Prozesse verfügbar machen.'],
+  ['Was kennzeichnet eine Oxidation im Redoxprinzip?',['Abgabe von Elektronen.','Aufnahme von Elektronen.','Aufnahme von Protonen ohne Elektronen in jedem Fall.','Spaltung von ATP als Definition.'],0,'Oxidation bedeutet Elektronenabgabe, Reduktion Elektronenaufnahme.']],
+ respiration:[
+  ['Wo läuft die Glykolyse bei eukaryotischen Zellen ab?',['Im Cytosol.','Im Zellkern.','Im Thylakoidlumen.','Im Golgi-Apparat.'],0,'Die Glykolyse findet im Cytosol statt.'],
+  ['Welche Funktion hat Sauerstoff in der aeroben Atmungskette?',['Er dient als terminaler Elektronenakzeptor.','Er liefert die Kohlenstoffatome des Citratzyklus.','Er pumpt selbst Protonen durch die Membran.','Er ersetzt die ATP-Synthase.'],0,'Am Ende der Elektronentransportkette nimmt Sauerstoff Elektronen auf und wird zusammen mit Protonen zu Wasser reduziert.']],
+ photosynthesis:[
+  ['Wo finden die lichtabhängigen Primärreaktionen der Fotosynthese statt?',['An der Thylakoidmembran.','Im Cytosol.','An der Kernmembran.','Im Mitochondrienmatrixraum.'],0,'Fotosysteme, Elektronentransportkette und ATP-Synthase sitzen in bzw. an der Thylakoidmembran.'],
+  ['Wofür werden ATP und Reduktionsäquivalente aus den Primärreaktionen benötigt?',['Für die CO₂-Fixierung und Reduktion im Calvin-Zyklus.','Für die direkte Spaltung von CO₂ in Kohlenstoff und Sauerstoff.','Für die DNA-Replikation im Chloroplasten als Hauptzweck.','Ausschließlich für den Transport von Wasser ins Blatt.'],0,'Der Calvin-Zyklus nutzt ATP und Reduktionskraft, um Kohlenstoff aus CO₂ in organische Verbindungen einzubauen.']],
+ dna:[
+  ['Welche Basenpaarung gilt in doppelsträngiger DNA?',['A–T und G–C.','A–U und G–C.','A–G und T–C.','A–C und G–T.'],0,'Adenin paart mit Thymin, Guanin mit Cytosin.'],
+  ['Was bedeutet antiparallel bei DNA?',['Die beiden Stränge verlaufen in entgegengesetzter 5′→3′-Orientierung.','Beide Stränge haben dieselbe Basensequenz.','DNA enthält zwei verschiedene Zuckerarten.','Die Basen liegen außerhalb der Doppelhelix.'],0,'Die Zucker-Phosphat-Rückgrate verlaufen entgegengesetzt orientiert.']],
+ replication:[
+  ['Was bedeutet semikonservative DNA-Replikation?',['Jede Tochter-DNA enthält einen alten und einen neu synthetisierten Strang.','Nur ein einzelner DNA-Strang wird kopiert.','Beide alten Stränge bleiben zusammen und bilden eine Tochter-DNA.','Die DNA wird vollständig in RNA umgeschrieben.'],0,'Jeder Elternstrang dient als Vorlage für einen neuen komplementären Strang.'],
+  ['Warum muss DNA vor einer Zellteilung repliziert werden?',['Damit beide Tochterzellen eine vollständige genetische Information erhalten können.','Damit Ribosomen entstehen.','Damit ATP direkt synthetisiert wird.','Damit alle Gene gleichzeitig aktiviert werden.'],0,'Die Verdopplung schafft die Voraussetzung für die Verteilung eines vollständigen Genoms auf Tochterzellen.']],
+ gene:[
+  ['Welche Aussage entspricht einem modernen Genbegriff am besten?',['Ein Gen ist ein DNA-Bereich, dessen Information zu einem funktionellen RNA- oder Proteinprodukt beitragen kann.','Ein Gen ist immer genau ein sichtbares Merkmal.','Ein Gen besteht ausschließlich aus drei Basen.','Ein Gen ist identisch mit einem Chromosom.'],0,'Gene werden über ihre funktionelle Information definiert; Genprodukte können RNA oder Proteine sein.'],
+  ['Was ist ein Allel?',['Eine Variante eines Gens.','Ein vollständiges Genom.','Eine Aminosäure.','Ein Membranprotein.'],0,'Allele sind unterschiedliche Varianten desselben Gens bzw. Genorts.']],
+ transcription:[
+  ['Was entsteht bei der Transkription?',['Eine RNA, die komplementär zum DNA-Matrizenstrang synthetisiert wird.','Direkt ein Protein aus DNA.','Eine zweite Zellmembran.','ATP aus einem Protonengradienten.'],0,'RNA-Polymerase nutzt DNA als Vorlage zur RNA-Synthese.'],
+  ['Welche Base wird in RNA statt Thymin verwendet?',['Uracil.','Cytosin.','Guanin.','Adenin.'],0,'RNA enthält Uracil anstelle von Thymin.']],
+ translation:[
+  ['Was ist ein Codon?',['Ein Basentriplett der mRNA.','Ein Proteinabschnitt aus drei Aminosäuren.','Ein DNA-Reparaturenzym.','Ein Vesikel in der Zelle.'],0,'Codons sind Dreiergruppen von Basen auf der mRNA und werden bei der Translation gelesen.'],
+  ['Welche Struktur führt die Translation durch?',['Das Ribosom.','Das Zentriol.','Die ATP-Synthase.','Das Lysosom.'],0,'Ribosomen koordinieren mRNA und tRNAs und katalysieren die Bildung der Polypeptidkette.']],
+ mutation:[
+  ['Welche Folge kann eine Basenänderung in einem codierenden Bereich haben?',['Sie kann folgenlos bleiben oder die Aminosäuresequenz verändern – abhängig vom betroffenen Codon.','Sie verändert immer das gesamte Chromosom.','Sie führt immer zu einer tödlichen Erkrankung.','Sie erzeugt automatisch ein zusätzliches Gen.'],0,'Durch die Redundanz des genetischen Codes können manche Basenänderungen stumm sein; andere verändern ein Codon funktionell.'],
+  ['Wovon hängt die Wirkung einer Genmutation besonders ab?',['Von Art und Position der Veränderung sowie der Funktion des betroffenen Genprodukts.','Nur von der Länge des gesamten Genoms.','Ausschließlich vom Alter des Organismus.','Nur davon, ob die Mutation sichtbar ist.'],0,'Mutationseffekte sind kontextabhängig und reichen von ohne erkennbare Wirkung bis stark funktionell.']],
+ regulation:[
+  ['Warum können verschiedene Zelltypen trotz gleichem Genom unterschiedlich sein?',['Weil unterschiedliche Gene aktiv sind und unterschiedlich stark exprimiert werden.','Weil jeder Zelltyp grundsätzlich eine andere DNA-Sequenz besitzt.','Weil nur Nervenzellen Proteine herstellen.','Weil DNA nur in manchen Zellen vorkommt.'],0,'Differenzielle Genaktivität ermöglicht unterschiedliche Genexpressionsmuster bei grundsätzlich gleichem Genom.'],
+  ['Welche Aussage zu DNA-Methylierung ist sachgerecht?',['Sie kann Genaktivität beeinflussen, ohne die Basensequenz zu verändern.','Sie tauscht grundsätzlich alle Cytosine gegen Thymin aus.','Sie ist identisch mit DNA-Replikation.','Sie führt immer zur Aktivierung jedes Gens.'],0,'Methylgruppen sind epigenetische Markierungen; ihre Wirkung hängt vom genomischen Kontext ab.']],
+ pcr:[
+  ['Welche Reihenfolge beschreibt einen PCR-Zyklus korrekt?',['Denaturierung → Primeranlagerung → DNA-Synthese.','Translation → Transkription → Replikation.','Ligase → Gel → Mikroskopie.','CO₂-Fixierung → Reduktion → Regeneration.'],0,'Ein PCR-Zyklus trennt Stränge, lässt Primer binden und verlängert sie durch eine DNA-Polymerase.'],
+  ['Welche Funktion haben Primer bei der PCR?',['Sie legen die Startpunkte und damit den zu vervielfältigenden Bereich fest.','Sie färben die DNA im Gel blau.','Sie schneiden DNA an Restriktionsstellen.','Sie ersetzen die DNA-Polymerase.'],0,'Primer hybridisieren komplementär an Zielsequenzen und liefern das freie 3′-Ende für die Polymerase.']],
+ gel:[
+  ['Wie verhalten sich DNA-Fragmente in einer üblichen Agarose-Gelelektrophorese?',['Kleinere Fragmente wandern typischerweise weiter durch das Gel als größere.','Größere Fragmente wandern immer weiter als kleinere.','Alle Fragmente bleiben an derselben Stelle.','DNA wandert unabhängig von einem elektrischen Feld.'],0,'Das Gel wirkt als Molekularsieb; kleinere Fragmente werden weniger stark behindert.'],
+  ['Wozu kann ein Größenstandard im Gel dienen?',['Zum Abschätzen der Fragmentlängen unbekannter Banden.','Zum Verdoppeln der DNA-Menge.','Zum Schneiden von Plasmiden.','Zum Erzeugen von Mutationen.'],0,'Ein DNA-Längenstandard enthält Fragmente bekannter Größe als Vergleich.']],
+ biotech:[
+  ['Welche Funktion haben Plasmide in vielen gentechnischen Verfahren?',['Sie können als Vektoren zum Übertragen von DNA dienen.','Sie sind die ATP-Synthasen von Bakterien.','Sie ersetzen Ribosomen.','Sie sind immer Bestandteile tierischer Zellkerne.'],0,'Plasmide sind kleine DNA-Moleküle und werden häufig als Vektoren genutzt.'],
+  ['Was kennzeichnet Restriktionsenzyme?',['Sie schneiden DNA an spezifischen Erkennungssequenzen.','Sie übersetzen mRNA in Protein.','Sie erzeugen ATP aus ADP.','Sie transportieren DNA durch Membrankanäle.'],0,'Restriktionsendonukleasen erkennen bestimmte DNA-Sequenzen und spalten dort die DNA.']],
+ crispr:[
+  ['Welche Aufgabe hat die guide RNA bei CRISPR-Cas?',['Sie trägt zur Erkennung der Zielsequenz bei und führt den Cas-Komplex dorthin.','Sie ist das fertige reparierte Protein.','Sie bildet den Protonengradienten.','Sie ist ein Plasmidmarker für Antibiotikaresistenz in jedem CRISPR-System.'],0,'Die Leit-RNA enthält einen Bereich, der komplementär zur Ziel-DNA ist.'],
+  ['Warum ist nach dem DNA-Schnitt die zelluläre Reparatur wichtig?',['Sie bestimmt wesentlich, welche genetische Veränderung aus dem Schnitt resultiert.','Ohne Reparatur würde automatisch immer dasselbe neue Gen eingebaut.','Sie übersetzt die guide RNA in ein Protein.','Sie erzeugt den genetischen Code neu.'],0,'Genome Editing nutzt den Schnitt und anschließende DNA-Reparaturwege, um Änderungen zu erzeugen.']],
+ evaluation:[
+  ['Was gehört zu einer fachlich sauberen Bewertung gentechnischer Anwendungen?',['Sachinformationen, Kriterien, Betroffene, Nutzen, Risiken und Unsicherheiten transparent gegeneinander abwägen.','Nur die eigene spontane Meinung nennen.','Nur mögliche Vorteile betrachten.','Werturteile als naturwissenschaftliche Messwerte darstellen.'],0,'Bewertung verbindet belastbare Sachinformationen mit transparenten Wertmaßstäben.'],
+  ['Warum sollte man Sach- und Werteebene unterscheiden?',['Weil Daten beschreiben, was der Fall ist, während Bewertungen zusätzlich Kriterien und Wertentscheidungen enthalten.','Weil Werte immer naturwissenschaftlich messbar sind.','Weil biologische Fakten bei Bewertungen keine Rolle spielen.','Weil jede Bewertung genau eine objektiv richtige Antwort hat.'],0,'Die Trennung macht Begründungen nachvollziehbar und ermöglicht faire Diskussionen.']],
+ pedigree:[
+  ['Was kann ein Familienstammbaum leisten?',['Er kann Hinweise auf mögliche Erbgänge und Wahrscheinlichkeiten liefern.','Er beweist ohne Zusatzinformationen immer eindeutig den Genotyp jeder Person.','Er ersetzt jede molekulargenetische Untersuchung.','Er zeigt nur Umweltfaktoren.'],0,'Stammbäume erlauben Musteranalysen, aber nicht in jedem Fall eine eindeutige Genotypzuordnung.'],
+  ['Welche Aussage zu Gentests ist sinnvoll?',['Ergebnisse müssen zusammen mit Testgrenzen, Wahrscheinlichkeit und Kontext interpretiert werden.','Ein positiver Test sagt immer sicher den zukünftigen Krankheitsverlauf voraus.','Gentests benötigen keine Beratung.','Ein Gentest erfasst automatisch alle genetischen Varianten.'],0,'Aussagekraft hängt von Test, Merkmal und Kontext ab; Beratung hilft bei Interpretation und Konsequenzen.']],
+ ecology:[
+  ['Was umfasst ein Ökosystem?',['Biotop und Biozönose einschließlich ihrer Wechselwirkungen.','Nur alle Tiere eines Gebietes.','Nur abiotische Umweltfaktoren.','Nur die Nahrungskette eines Lebensraums.'],0,'Ökosysteme verbinden Lebensgemeinschaft und abiotischen Lebensraum.'],
+  ['Welche Beziehung beschreibt Symbiose im hier verwendeten Schulkontext am besten?',['Beide Partner profitieren.','Ein Partner profitiert, der andere wird geschädigt.','Beide Arten konkurrieren um exakt dieselbe Ressource.','Keiner der Partner wird beeinflusst.'],0,'Symbiose wird im Schulkontext als wechselseitig vorteilhafte Beziehung behandelt.']],
+ tolerance:[
+  ['Was bezeichnet das Optimum einer Toleranzkurve?',['Den Bereich bzw. Punkt mit besonders hoher Leistungsfähigkeit.','Die untere letale Grenze.','Die gesamte Fundamentalnische.','Den Ort mit maximaler Konkurrenz.'],0,'Im Optimum ist die betrachtete Leistungsfähigkeit unter dem untersuchten Faktor am höchsten.'],
+  ['Was liegen außerhalb von Minimum und Maximum einer Toleranzkurve?',['Bedingungen, unter denen der Organismus bezüglich dieses Faktors nicht dauerhaft lebensfähig ist.','Immer die besten Fortpflanzungsbedingungen.','Nur biotische Faktoren.','Der Präferenzbereich.'],0,'Minimum und Maximum markieren die Grenzen des tolerierten Bereichs für den betrachteten Faktor.']],
+ field:[
+  ['Was erhöht die Aussagekraft einer Freilanduntersuchung?',['Standardisierte Messungen, sinnvolle Wiederholungen und nachvollziehbare Stichproben.','Nur eine einzelne Messung an der auffälligsten Stelle.','Das nachträgliche Ändern der Hypothese passend zum Ergebnis.','Das Weglassen unerwarteter Messwerte ohne Begründung.'],0,'Reproduzierbare Methoden und Stichproben helfen, natürliche Streuung von systematischen Mustern zu unterscheiden.'],
+  ['Warum beweist eine Korrelation im Freiland nicht automatisch Kausalität?',['Weil weitere Einflussfaktoren gleichzeitig mitwirken können.','Weil ökologische Daten nie ausgewertet werden dürfen.','Weil Diagramme grundsätzlich keine Zusammenhänge zeigen.','Weil Messwerte im Freiland keine Einheiten haben.'],0,'Beobachtungsdaten können Zusammenhänge zeigen, aber alternative Ursachen müssen geprüft werden.']],
+ niche:[
+  ['Was ist eine ökologische Nische?',['Die Gesamtheit der Ansprüche und Beziehungen einer Art, nicht einfach ihr Aufenthaltsort.','Nur der geografische Ort, an dem eine Art gefunden wird.','Nur die Nahrung einer Art.','Ein einzelner abiotischer Faktor.'],0,'Die Nische ist mehrdimensional und umfasst Ressourcen, Bedingungen und biotische Beziehungen.'],
+  ['Was kann starke Nischenüberlappung bewirken?',['Verstärkte Konkurrenz, wenn dieselben begrenzten Ressourcen genutzt werden.','Automatisch Symbiose.','Vollständige Aufhebung aller Umweltfaktoren.','Immer identische Fundamental- und Realnischen.'],0,'Je ähnlicher die Ressourcennutzung bei begrenzten Ressourcen, desto stärker kann Konkurrenz werden.']],
+ review:[
+  ['Welche Arbeitsweise ist für Transferaufgaben besonders wichtig?',['Ein bekanntes biologisches Prinzip auf neues Material begründet anwenden.','Nur Definitionen wortwörtlich wiedergeben.','Materialdaten ignorieren und ausschließlich Vorwissen nennen.','Fachbegriffe ohne Zusammenhang auflisten.'],0,'Transfer bedeutet, bekannte Modelle und Prinzipien fachlich begründet auf neue Situationen zu übertragen.'],
+  ['Was gehört zu einer guten Diagrammauswertung?',['Achsen und Einheiten beachten, Muster beschreiben und erst anschließend biologisch deuten.','Zuerst eine Ursache behaupten und Werte ignorieren.','Nur den höchsten Wert nennen.','Die Achsenbeschriftung nicht berücksichtigen.'],0,'Saubere Auswertung trennt zunächst Beobachtung/Beschreibung von Interpretation.']]
 };
 
-const topicOrder = ["Zellbiologie & Enzyme", "Stoffwechsel", "Molekulare Genetik", "Angewandte Genetik", "Ökologie"];
-const topicText = {
-  "Zellbiologie & Enzyme": "Biomembran, Stofftransport, Proteine und Enzyme – mit experimenteller Planung und Auswertung.",
-  "Stoffwechsel": "Zellatmung und Fotosynthese als gekoppelte Stoff- und Energieumwandlungen.",
-  "Molekulare Genetik": "DNA/RNA, Replikation, Proteinbiosynthese, Mutation, Genregulation und Epigenetik.",
-  "Angewandte Genetik": "PCR, Gelelektrophorese, Gentechnik, CRISPR, Gentests und Gentherapie.",
-  "Ökologie": "Ökosysteme, Toleranz, Freilandarbeit, ökologische Nische und Wechselwirkungen."
-};
-
-function parseDE(d) {
-  const [day, month, year] = d.split('.').map(Number);
-  return new Date(year, month - 1, day, 12, 0, 0);
-}
-function fmtLong(d) {
-  return parseDE(d).toLocaleDateString('de-DE', {weekday:'long', day:'2-digit', month:'2-digit', year:'numeric'});
-}
-function nextLesson() {
-  const today = new Date(); today.setHours(0,0,0,0);
-  return schedule.find(x => parseDE(x.date) >= today && x.category !== 'Puffer') || schedule[schedule.length-1];
-}
-function tag(cat) {
-  const s = categoryStyles[cat] || categoryStyles["Puffer"];
-  return `<span class="tag" style="--tag-bg:${s[1]};--tag-color:${s[2]}">${cat}</span>`;
-}
-function lessonCard(item) {
-  const cls = item.category === 'Klausur' ? ' klausur' : item.category === 'Puffer' ? ' puffer' : '';
-  return `<article class="lesson${cls}" data-category="${item.category}">
-    <div class="lesson-date">${fmtLong(item.date)}</div>
-    <div>
-      <div class="lesson-title-row"><h3>${item.title}</h3>${tag(item.category)}</div>
-      ${item.detail ? `<p>${item.detail}</p>` : ''}
-    </div>
-  </article>`;
-}
-
-function home() {
-  const next = nextLesson();
-  const counts = Object.fromEntries(topicOrder.map(c => [c, schedule.filter(x => x.category === c).length]));
-  return `<div class="page">
-    <section class="hero">
-      <div class="hero-main">
-        <div class="eyebrow">Kursstufe · Schuljahr 2026/27</div>
-        <h1>Biologie<br>Basisfach J1</h1>
-        <p>Alles Wichtige für unseren Kurs: Themen, Termine, Arbeitsweise, Leistungsnachweise und das Lehrwerk MARKL.</p>
-        <div class="hero-actions">
-          <a class="button primary" href="#/themenplan">Zum Themenplan</a>
-          <a class="button secondary" href="#/organisation">So arbeiten wir</a>
-        </div>
-      </div>
-      <div class="hero-side">
-        <div class="stat-card next-card">
-          <span class="stat-label">Nächster geplanter Termin</span>
-          <div class="stat-value">${next.title}</div>
-          <div class="stat-meta">${fmtLong(next.date)}</div>
-        </div>
-        <div class="stat-card">
-          <span class="stat-label">Lehrwerk</span>
-          <div class="stat-value">MARKL Biologie Oberstufe</div>
-          <div class="stat-meta">Gesamtband · Bundesausgabe ab 2022</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head"><div><div class="kicker">J1 im Überblick</div><h2>Fünf große Lernstrecken</h2><p>Die Reihenfolge folgt dem aktuellen Themenverteilungsplan 2026/27.</p></div></div>
-      <div class="grid-3">
-        ${topicOrder.map((c,i) => { const s=categoryStyles[c]; return `<article class="card topic-card" style="--tag:${s[0]}"><span class="topic-no">0${i+1}</span><h3>${c}</h3><p>${topicText[c]}</p><span class="topic-count">${counts[c]} geplante Termine</span></article>`; }).join('')}
-      </div>
-    </section>
-
-    <section class="section grid-2">
-      <div class="card">
-        <div class="kicker">Klausur</div>
-        <h3>1. Klausur: 11.01.2027</h3>
-        <p>Weitere Leistungsnachweise und Termine werden im Kurs rechtzeitig bekanntgegeben.</p>
-      </div>
-      <div class="card">
-        <div class="kicker">J2-Ausblick</div>
-        <h3>Was danach kommt</h3>
-        <p>Rest Ökologie, Stammesgeschichte/Verwandtschaft, Neurobiologie sowie weitere angewandte Biologie.</p>
-      </div>
-    </section>
-  </div>`;
-}
-
-function themenplan() {
-  const cats = ['Alle', ...topicOrder, 'Klausur', 'Puffer'];
-  return `<div class="page">
-    <header class="page-header"><div class="kicker">Aktueller Themenverteilungsplan</div><h1>J1 · Termine & Inhalte</h1><p>Geplant von September 2026 bis Juli 2027. Änderungen im laufenden Schuljahr sind möglich und werden im Unterricht angekündigt.</p></header>
-    <div class="notice"><strong>Hinweis</strong>Ferien- und unterrichtsfreie Termine ohne Inhalt werden nicht angezeigt. Der ausdrücklich eingeplante Puffer am 01.02.2027 bleibt sichtbar.</div>
-    <div class="filters" id="filters">${cats.map((c,i)=>`<button class="filter ${i===0?'active':''}" data-filter="${c}">${c}</button>`).join('')}</div>
-    <div class="search-wrap"><input class="search" id="scheduleSearch" type="search" placeholder="Thema oder Begriff suchen …" aria-label="Themenplan durchsuchen"></div>
-    <div class="timeline" id="timeline">${schedule.map(lessonCard).join('')}</div>
-  </div>`;
-}
-
-function organisation() {
-  const rules = [
-    ["Eigenverantwortung", "Fehlende Inhalte, Materialien und Termine werden selbstständig nachgeholt. Bei Unklarheiten fragst du frühzeitig nach."],
-    ["Pünktlich & arbeitsbereit", "Zu Stundenbeginn liegen die benötigten Materialien bereit. Arbeitsphasen starten ohne unnötige Verzögerung."],
-    ["Materialien organisiert halten", "Heft/Ordner bzw. Tablet, Schreibzeug und benötigte Unterlagen gehören in jede Stunde. Materialien werden sinnvoll abgelegt."],
-    ["Mitarbeit ist mehr als Melden", "Dazu gehören fachliche Beiträge, Nachfragen, konzentrierte Arbeitsphasen, Gruppenarbeit, Versuchsdurchführung und Auswertung."],
-    ["Digitale Geräte sinnvoll nutzen", "Handy, Tablet und Laptop werden dann eingesetzt, wenn sie dem Unterricht dienen – nicht für private Chats oder Social Media."],
-    ["KI & Quellen transparent", "KI darf nur im vereinbarten Rahmen genutzt werden. Übernommene Inhalte, Quellen und verwendete Hilfsmittel werden transparent gemacht."],
-    ["Sicherheit im Praktikum", "Sicherheitsanweisungen, Schutzmaßnahmen und Entsorgungsregeln werden unmittelbar befolgt. Essen und Trinken sind beim Experimentieren tabu."],
-    ["Respektvoll diskutieren", "Biologische und bioethische Fragen dürfen kontrovers sein. Beiträge bleiben sachlich; persönliche oder abwertende Kommentare haben keinen Platz."]
-  ];
-  return `<div class="page"><header class="page-header"><div class="kicker">Arbeitsweise</div><h1>So arbeiten wir in J1</h1><p>Wenige klare Regeln – mit mehr Eigenverantwortung als in der Mittelstufe.</p></header><div class="rule-list">${rules.map(r=>`<article class="rule"><h3>${r[0]}</h3><p>${r[1]}</p></article>`).join('')}</div></div>`;
-}
-
-function leistung() {
-  return `<div class="page"><header class="page-header"><div class="kicker">Transparenz</div><h1>Leistung & GFS</h1><p>Hier stehen die Grundsätze, die für die Planung im Kurs wichtig sind. Schulinterne Details haben Vorrang.</p></header>
-    <div class="grid-2">
-      <article class="card"><h3>Klausuren</h3><p>Im Basisfach gibt es schriftliche Leistungsnachweise. Die erste Klausur ist im aktuellen Plan für <strong>11.01.2027</strong> vorgesehen. Weitere Termine werden rechtzeitig bekanntgegeben.</p></article>
-      <article class="card"><h3>Mündlich & praktisch</h3><p>Bewertet werden nicht nur Wortmeldungen, sondern auch fachliche Qualität, Kontinuität, Arbeitsphasen, Experimentieren, Auswertungen und die verständliche Darstellung biologischer Zusammenhänge.</p></article>
-      <article class="card"><h3>GFS</h3><p>Thema, Form, Termin und Erwartungshorizont werden individuell bzw. nach den schulischen Vorgaben vereinbart. Absprachen sind verbindlich und sollten frühzeitig erfolgen.</p></article>
-      <article class="card"><h3>Gewichtung</h3><p>Die konkrete Gewichtung der schriftlichen, mündlichen und praktischen Leistungen wird zu Kursbeginn transparent bekanntgegeben. Maßgeblich sind die schulischen und landesrechtlichen Vorgaben.</p></article>
-    </div>
-    <section class="section"><div class="card"><h3>Was in Bio besonders zählt</h3><p>Fachbegriffe korrekt verwenden · Materialien und Diagramme auswerten · Experimente planen und beurteilen · Modelle nutzen und ihre Grenzen erkennen · Ursache-Wirkungs-Zusammenhänge erklären · bei Bewertungsaufgaben Sach- und Werteebene unterscheiden.</p></div></section>
-  </div>`;
-}
-
-function material() {
-  return `<div class="page"><header class="page-header"><div class="kicker">Lehrwerk & Ausstattung</div><h1>Material für den Kurs</h1><p>Im Kurs arbeiten wir mit dem Gesamtband MARKL Biologie Oberstufe.</p></header>
-    <section class="card book-card">
-      <div class="book-visual"><small>Klett</small><strong>MARKL<br>Biologie<br>Oberstufe</strong><small>Gesamtband · ab 2022</small></div>
-      <div><h2>MARKL Biologie Oberstufe</h2><p class="muted">Gesamtband · Bundesausgabe ab 2022 · Ernst Klett Verlag</p>
-      <table class="info-table"><tr><th>ISBN</th><td>978-3-12-150070-3</td></tr><tr><th>Im Unterricht</th><td>als zentrales Lehrwerk und Nachschlagewerk</td></tr><tr><th>Seitenangaben</th><td>werden bei Bedarf im Unterricht ergänzt; auf der Website sind bewusst keine ungeprüften Seitenzahlen hinterlegt</td></tr></table>
-      <p style="margin-top:16px"><a class="button primary" style="background:var(--accent);color:white" href="https://www.klett.de/produkt/isbn/978-3-12-150070-3" target="_blank" rel="noopener">Zum Verlag</a></p></div>
-    </section>
-    <section class="section"><div class="grid-3">
-      <article class="card"><h3>Immer dabei</h3><p>Ordner/Heft oder Tablet, Schreibzeug und die für die Stunde angekündigten Materialien.</p></article>
-      <article class="card"><h3>Für Auswertungen</h3><p>Lineal und ggf. Taschenrechner; Diagramme werden sauber beschriftet und mit Einheiten versehen.</p></article>
-      <article class="card"><h3>Für Praktika</h3><p>Die benötigte Schutzausrüstung und weitere Materialien werden je nach Versuch angekündigt.</p></article>
-    </div></section>
-  </div>`;
-}
-
-const routes = {
-  '/': home,
-  '/themenplan': themenplan,
-  '/organisation': organisation,
-  '/leistung': leistung,
-  '/material': material
-};
-
-function currentPath() {
-  const raw = location.hash.replace(/^#/, '') || '/';
-  return routes[raw] ? raw : '/';
-}
-function render() {
-  const path = currentPath();
-  document.getElementById('main').innerHTML = routes[path]();
-  document.querySelectorAll('.nav-links a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + path));
-  document.getElementById('navLinks').classList.remove('open');
-  document.getElementById('menuButton').setAttribute('aria-expanded','false');
-  window.scrollTo(0,0);
-  if (path === '/themenplan') bindPlan();
-}
-function bindPlan() {
-  let active = 'Alle';
-  const search = document.getElementById('scheduleSearch');
-  const apply = () => {
-    const q = search.value.trim().toLowerCase();
-    document.querySelectorAll('.lesson').forEach(el => {
-      const cat = el.dataset.category;
-      const okCat = active === 'Alle' || cat === active;
-      const okText = !q || el.textContent.toLowerCase().includes(q);
-      el.hidden = !(okCat && okText);
-    });
-    const visible = [...document.querySelectorAll('.lesson')].some(x=>!x.hidden);
-    let empty = document.getElementById('emptyState');
-    if (!visible && !empty) { empty=document.createElement('div'); empty.id='emptyState'; empty.className='empty'; empty.textContent='Keine passenden Termine gefunden.'; document.getElementById('timeline').appendChild(empty); }
-    if (visible && empty) empty.remove();
-  };
-  document.querySelectorAll('.filter').forEach(btn => btn.addEventListener('click', () => {
-    active = btn.dataset.filter;
-    document.querySelectorAll('.filter').forEach(b=>b.classList.toggle('active', b===btn));
-    apply();
-  }));
-  search.addEventListener('input', apply);
-}
-
-document.getElementById('menuButton').addEventListener('click', () => {
-  const nav=document.getElementById('navLinks'); const open=nav.classList.toggle('open');
-  document.getElementById('menuButton').setAttribute('aria-expanded', String(open));
-});
-document.getElementById('printButton').addEventListener('click', () => window.print());
-window.addEventListener('hashchange', render);
-render();
+function quizFor(m){return QUIZZES[m.quizType]||QUIZZES.review}
+function home(){const n=currentModule(),done=Object.values(progress()).filter(Boolean).length;return `<div class="page"><section class="hero"><div class="heroMain"><div class="eyebrow">Biologie · Basisfach J1</div><h1>Jede Stunde als eigenes Lernmodul.</h1><p>Themenplan, Kurzinfos, MARKL-Bezug, interaktive Modelle, ausgewählte Simulationen und ein Selbstcheck – passend zum Unterricht 2026/27.</p><div class="actions"><a class="btn primary" href="${moduleURL(n)}">Nächstes Modul öffnen</a><a class="btn heroGhost" href="#/module">Alle Module</a></div></div><div class="heroSide"><div class="stat"><label>Nächstes Modul</label><strong>${esc(n.date)}<br>${esc(n.title)}</strong><small>${esc(n.category)}</small></div><div class="stat"><label>Module</label><strong>${COURSE.modules.length} Unterrichtstermine</strong><small>${done} lokal als erledigt markiert</small></div><div class="stat"><label>Lehrwerk</label><strong>MARKL Biologie Oberstufe</strong><small>Hinweise nach Themen, ohne erfundene Seitenzahlen</small></div></div></section><section class="section"><div class="sectionHead"><div><div class="kicker">Direkt weiterlernen</div><h2>Aktuelle Module</h2><p>Jede geplante Stunde hat eine eigene Seite mit Lernzielen, Informationen, Interaktion und Quiz.</p></div><a class="btn ghost" href="#/module">Alle ${COURSE.modules.length}</a></div><div class="grid3">${COURSE.modules.slice(Math.max(0,n.number-2),Math.min(COURSE.modules.length,n.number+1)).map(moduleCard).join('')}</div></section><section class="section"><div class="grid3"><div class="card"><h3>① Informieren</h3><p>Kernidee, Lernziele und zentrale Fachbegriffe pro Stunde.</p></div><div class="card"><h3>② Erkunden</h3><p>Interaktive Mini-Modelle und – wo passend – externe Simulationen.</p></div><div class="card"><h3>③ Prüfen</h3><p>Kurzer Selbstcheck mit unmittelbarem Feedback und lokalem Fortschritt.</p></div></div></section></div>`}
+function modulesPage(){return `<div class="page"><div class="pageHead"><div class="kicker">Unterrichtsmodule</div><h1>Alle Stunden 2026/27</h1><p>Klicke eine Stunde an. Suche und Filter wirken nur auf diese Übersicht.</p></div><input id="moduleSearch" class="search" placeholder="Module durchsuchen …"><div class="filters"><button class="filter active" data-cat="Alle">Alle</button>${order.map(c=>`<button class="filter" data-cat="${esc(c)}">${esc(c)}</button>`).join('')}</div><div id="moduleGrid" class="grid3">${COURSE.modules.map(moduleCard).join('')}</div></div>`}
+function topicsPage(){return `<div class="page"><div class="pageHead"><div class="kicker">Themenverteilungsplan</div><h1>J1 im Jahresverlauf</h1><p>Die Reihenfolge folgt dem aktuellen Plan. Jeder Unterrichtstermin führt direkt zu seinem Modul.</p></div><div class="lessonList">${COURSE.modules.map(m=>`<a class="lessonRow" href="${moduleURL(m)}"><div class="date">${m.date}<br><small>Modul ${m.number}</small></div><div><h3>${esc(m.title)}</h3><p>${esc(m.detail||m.core)}</p></div>${badge(m.category)}</a>`).join('')}</div><div class="notice" style="margin-top:18px"><b>J2-Ausblick:</b> ${esc(COURSE.j2)}</div></div>`}
+function organisation(){const rules=[['Pünktlich & arbeitsbereit','Material liegt zu Stundenbeginn bereit. Versäumtes wird eigenverantwortlich nachgeholt.'],['Fehlzeiten','Wer fehlt, informiert sich selbst über Inhalte, Aufgaben und Materialien und beachtet die schulischen Entschuldigungsregeln.'],['Mitarbeit','Qualität zählt: fachliche Beiträge, Fragen, Materialauswertung, Experimentieren und konstruktive Gruppenarbeit.'],['Digitale Geräte','Tablet/Notebook/Handy nur für den Unterricht. Private Chats, Spiele und Social Media gehören nicht in die Arbeitszeit.'],['KI & Quellen','KI darf nur im vereinbarten Rahmen genutzt werden. Übernommene Gedanken, Texte, Bilder oder Daten werden transparent gekennzeichnet; Quellen werden angegeben.'],['Experimente','Sicherheitsanweisungen gelten unmittelbar. Schutzmaßnahmen, sorgfältiger Umgang mit Geräten und ein sauberer Arbeitsplatz sind verbindlich.'],['Termine','Abgaben, GFS-Absprachen und vereinbarte Termine werden eigenverantwortlich eingehalten. Bei Problemen frühzeitig melden.'],['Respekt','Wir diskutieren fachlich und respektvoll – besonders bei persönlichen, medizinischen oder bioethischen Themen.']];return `<div class="page"><div class="pageHead"><div class="kicker">Organisation</div><h1>So arbeiten wir im Kurs</h1><p>Wenige klare Regeln für eine Kursstufe, in der Eigenverantwortung und fachliches Arbeiten zusammengehören.</p></div><div class="ruleGrid">${rules.map(r=>`<div class="rule"><h3>${r[0]}</h3><p>${r[1]}</p></div>`).join('')}</div></div>`}
+function leistung(){return `<div class="page"><div class="pageHead"><div class="kicker">Leistung & GFS</div><h1>Transparent bewertet</h1><p>Die konkreten Gewichtungen und schulischen Absprachen können hier von dir jederzeit angepasst werden.</p></div><div class="grid2"><div class="card"><h3>Leistungsbereiche</h3><p>Schriftliche, mündliche und praktische Leistungen fließen in die Gesamtbewertung ein. Entscheidend sind Fachlichkeit, Selbstständigkeit, Anwendung und Qualität der Begründung.</p></div><div class="card"><h3>GFS</h3><p>Frühzeitig Thema und Termin absprechen. Biologie eignet sich neben Präsentationen auch für experimentelle, datenbasierte oder modellorientierte Formate.</p></div><div class="card"><h3>Klausuren</h3><p>Schwerpunkt sind nicht nur Fachbegriffe, sondern Materialauswertung, Diagramme, Modelle, Experimente und Transfer. Der Themenplan weist Klausurtermine aus.</p></div><div class="card"><h3>Rückmeldung</h3><p>Fragen zum eigenen Leistungsstand bitte rechtzeitig stellen – nicht erst unmittelbar vor Zeugnis- oder Halbjahresende.</p></div></div></div>`}
+function material(){return `<div class="page"><div class="pageHead"><div class="kicker">Material</div><h1>MARKL statt Natura</h1><p>Die Module nennen passende Themenbereiche. Seitenzahlen sind absichtlich nicht fest eingetragen, damit keine falschen Angaben für eine andere Ausgabe entstehen.</p></div><div class="grid2"><div class="card"><h3>Lehrwerk</h3><p><b>${esc(COURSE.book)}</b><br>Im jeweiligen Modul findest du eine thematische Leseempfehlung.</p></div><div class="card"><h3>Digitale Ressourcen</h3><p>Externe Links werden nur dort ergänzt, wo sie fachlich zum Modul passen. Zusätzlich enthält die Website eigene kleine interaktive Modelle, die ohne Login funktionieren.</p></div></div></div>`}
+function modulePage(id){const m=COURSE.modules.find(x=>x.id===id);if(!m)return notFound();const idx=COURSE.modules.indexOf(m),prev=COURSE.modules[idx-1],next=COURSE.modules[idx+1],done=!!progress()[m.id];return `<div class="page"><div class="breadcrumbs"><a href="#/module">Module</a> / Modul ${m.number}</div><div class="moduleHero"><div><div class="kicker">${m.date} · ${esc(m.category)}</div><h1>${esc(m.title)}</h1><p class="lead">${esc(m.core)}</p></div><div class="moduleNav">${prev?`<a class="btn ghost" href="${moduleURL(prev)}">← vorher</a>`:''}${next?`<a class="btn green" href="${moduleURL(next)}">weiter →</a>`:''}</div></div><div class="moduleGrid"><div><section class="panel"><h2>Informationen & Lernziele</h2><h3>Für diese Stunde</h3><p>${esc(m.detail||m.core)}</p><h3>Das solltest du danach können</h3><ul class="goals">${m.goals.map(g=>`<li>${esc(g)}</li>`).join('')}</ul><h3>Zentrale Begriffe</h3><div class="termChips">${m.terms.length?m.terms.map(t=>`<span class="termChip">${esc(t)}</span>`).join(''):'<span class="termChip">Vernetzung · Transfer · Fachsprache</span>'}</div></section><section class="panel sim"><h2>Interaktiv / Simulation</h2>${renderSim(m)}</section><section class="panel quiz"><h2>Mini-Quiz</h2><p class="lead">Kurzer Selbstcheck zum Themenbereich. Die Antworten werden nur in deinem Browser ausgewertet.</p><div id="quizBox">${renderQuiz(m)}</div></section></div><aside><section class="panel"><div class="bookBox"><strong>📘 MARKL</strong><p style="margin:6px 0 0">Passender Themenbereich:<br><b>${esc(m.markl)}</b></p><small>Bitte die Seitenzahl in eurer konkreten Ausgabe nachschlagen.</small></div><h3>Unterrichtsmodul</h3><p class="lead" style="font-size:.95rem">Modul ${m.number} von ${COURSE.modules.length}</p><div class="doneRow"><input id="doneCheck" type="checkbox" ${done?'checked':''}><label for="doneCheck"><b>Als erledigt markieren</b><br><small>Speicherung nur lokal auf diesem Gerät.</small></label></div></section><section class="panel" style="margin-top:15px"><h2>Simulationen & Ressourcen</h2>${m.resources.length?`<div class="resourceList">${m.resources.map(r=>`<a class="resource" target="_blank" rel="noopener" href="${esc(r.url)}"><b>${esc(r.label)} ↗</b><small>${esc(r.note)}</small></a>`).join('')}</div>`:'<p class="lead" style="font-size:.93rem">Für dieses Modul ist die eingebaute Interaktion vorgesehen. Externe Links sind nur ergänzt, wenn sie einen klaren Mehrwert bieten.</p>'}</section></aside></div></div>`}
+function renderQuiz(m){return quizFor(m).map((q,i)=>{const opts=q[1].map((o,j)=>({o,j})),shift=(m.number+i)%4,shown=opts.slice(shift).concat(opts.slice(0,shift));return `<div class="quizQ" data-q="${i}"><h3>${i+1}. ${esc(q[0])}</h3><div class="options">${shown.map(x=>`<button class="option" data-answer="${x.j}">${esc(x.o)}</button>`).join('')}</div><div class="feedback" aria-live="polite"></div></div>`}).join('')+`<div id="score" class="score">Noch keine Antwort ausgewertet.</div>`}
+function simTitle(t){return {membrane:'Membrantransport-Modell',protein:'Struktur–Funktion-Modell',enzyme:'Enzymaktivität-Modell',experiment:'Versuchsplaner',atp:'ATP-Kopplung',respiration:'Zellatmungs-Navigator',gradient:'Protonengradient & ATP-Synthase',spectrum:'Pigment-Spektrum',photosynthesis:'Fotosyntheserate-Modell',dna:'DNA-Komplementärstrang',replication:'Semikonservative Replikation',gene:'Gen → Produkt → Merkmal',transcription:'Transkriptions-Werkzeug',translation:'Codon-Übersetzer',mutation:'Mutations-Tester',regulation:'Genaktivitäts-Regler',pcr:'PCR-Zyklusrechner',gel:'Virtuelles Gel',process:'Ablauf-Modell',crispr:'CRISPR-Zielerkennung',evaluate:'Bewertungsraster',pedigree:'Stammbaum-Denkhilfe',classify:'Begriffe klassifizieren',tolerance:'Toleranzkurve',field:'Freiland-Datencheck',niche:'Nischenüberlappung',exam:'Klausur-Check',review:'Wiederholungs-Mixer'}[t]||'Interaktives Modell'}
+function renderSim(m){const t=m.simType,head=`<h3>${simTitle(t)}</h3>`;
+ if(t==='membrane')return head+`<div class="simShell"><div class="controls"><div class="control"><label>Teilchen außen <span id="outV">80</span></label><input id="out" type="range" min="0" max="100" value="80"></div><div class="control"><label>Teilchen innen <span id="inV">20</span></label><input id="inn" type="range" min="0" max="100" value="20"></div><div class="control"><label>Transport</label><select id="transport" class="seqInput"><option value="passiv">passiv</option><option value="aktiv">aktiv gegen Gradienten</option></select></div></div><div id="memResult" class="resultBox"></div><p class="simNote">Schematisches Modell: Es zeigt Richtung und Energiebedarf, nicht reale Transportgeschwindigkeiten.</p></div>`;
+ if(t==='enzyme')return head+`<div class="simShell"><div class="controls"><div class="control"><label>Temperatur <span id="tempV">37 °C</span></label><input id="temp" type="range" min="0" max="80" value="37"></div><div class="control"><label>pH <span id="phV">7</span></label><input id="ph" type="range" min="1" max="13" step="0.1" value="7"></div><div class="control"><label>Substrat <span id="subV">50</span></label><input id="sub" type="range" min="0" max="100" value="50"></div></div><div id="enzResult" class="resultBox"></div><p class="simNote">Schematisches Beispiel-Enzym mit angenommenem Optimum bei 37 °C und pH 7. Reale Enzyme besitzen unterschiedliche Optima.</p></div>`;
+ if(t==='photosynthesis')return head+`<div class="simShell"><div class="controls"><div class="control"><label>Licht <span id="lightV">60</span></label><input id="light" type="range" min="0" max="100" value="60"></div><div class="control"><label>CO₂-Angebot <span id="co2V">60</span></label><input id="co2" type="range" min="0" max="100" value="60"></div><div class="control"><label>Temperatur <span id="ptV">25 °C</span></label><input id="pt" type="range" min="0" max="50" value="25"></div></div><div id="photoResult" class="resultBox"></div><p class="simNote">Schematisches Modell für limitierende Faktoren; keine Messkurve einer bestimmten Pflanzenart.</p></div>`;
+ if(t==='tolerance')return head+`<div class="simShell"><div class="controls"><div class="control"><label>Umweltwert <span id="envV">50</span></label><input id="env" type="range" min="0" max="100" value="50"></div><div class="control"><label>Optimum <span id="optV">55</span></label><input id="opt" type="range" min="10" max="90" value="55"></div><div class="control"><label>Toleranzbreite <span id="wideV">25</span></label><input id="wide" type="range" min="8" max="40" value="25"></div></div><svg id="tolSvg" class="miniSvg" viewBox="0 0 600 180" aria-label="Schematische Toleranzkurve"></svg><div id="tolResult" class="resultBox"></div><p class="simNote">Schematische Kurve, um Minimum/Maximum/Optimum und Toleranzbreite zu untersuchen.</p></div>`;
+ if(t==='pcr')return head+`<div class="simShell"><div class="control"><label>PCR-Zyklen <span id="cycleV">25</span></label><input id="cycles" type="range" min="1" max="35" value="25"></div><div id="pcrResult" class="resultBox"></div><p class="simNote">Idealisiertes Modell mit 100 % Verdopplung pro Zyklus: reale PCR erreicht diese Effizienz nicht dauerhaft.</p></div>`;
+ if(t==='dna')return head+seqTool('DNA 5′→3′','ATGCCGTA','dnaTool','Komplementärer DNA-Strang wird antiparallel angegeben.');
+ if(t==='transcription')return head+seqTool('DNA-Matrizenstrang 3′→5′','TACGGCAAT','rnaTool','Das Werkzeug erzeugt die komplementäre mRNA in 5′→3′-Richtung.');
+ if(t==='translation')return head+seqTool('mRNA 5′→3′','AUGGCUUUCUAA','translateTool','Gib eine mRNA in Tripletts ein; Stopcodons beenden die Übersetzung.');
+ if(t==='mutation')return head+`<div class="simShell"><label><b>mRNA 5′→3′</b></label><input id="mutSeq" class="seqInput" value="AUGGAAUCUUAA"><div class="controls"><div class="control"><label>Position</label><input id="mutPos" class="seqInput" type="number" min="1" value="5"></div><div class="control"><label>Neue Base</label><select id="mutBase" class="seqInput"><option>A</option><option>U</option><option>G</option><option>C</option></select></div></div><button id="mutBtn" class="btn green">Mutation anwenden</button><div id="mutOut" class="seqOutput"></div><p class="simNote">Vereinfachtes Modell: Es betrachtet nur Änderungen in einer bereits vorliegenden mRNA-Sequenz und die direkte Codonfolge.</p></div>`;
+ if(t==='regulation')return head+`<div class="simShell"><div class="controls"><div class="control"><label>Aktivierender TF <span id="actV">70</span></label><input id="act" type="range" min="0" max="100" value="70"></div><div class="control"><label>Methylierung <span id="methV">20</span></label><input id="meth" type="range" min="0" max="100" value="20"></div></div><div id="regResult" class="resultBox"></div><p class="simNote">Schematisches Denkmodell. Reale Genregulation ist kontextabhängig und umfasst wesentlich mehr Faktoren.</p></div>`;
+ if(t==='gel')return head+`<div class="simShell"><label><b>Fragmentgrößen in bp, kommagetrennt</b></label><input id="gelSizes" class="seqInput" value="300,600,1000,1800,3000"><button id="gelBtn" class="btn green" style="margin-top:10px">Gel laufen lassen</button><svg id="gelSvg" class="miniSvg" viewBox="0 0 600 220" style="margin-top:12px" aria-label="Schematisches Elektrophoresegel"></svg><p class="simNote">Schematische Größenauftrennung: Positionen sind nicht kalibriert und ersetzen keinen Größenstandard.</p></div>`;
+ if(t==='niche')return head+`<div class="simShell"><div class="controls"><div class="control"><label>Art A – Ressourcenoptimum <span id="aV">40</span></label><input id="a" type="range" min="10" max="90" value="40"></div><div class="control"><label>Art B – Ressourcenoptimum <span id="bV">62</span></label><input id="b" type="range" min="10" max="90" value="62"></div><div class="control"><label>Nischenbreite <span id="nwV">24</span></label><input id="nw" type="range" min="8" max="40" value="24"></div></div><svg id="nicheSvg" class="miniSvg" viewBox="0 0 600 180"></svg><div id="nicheResult" class="resultBox"></div><p class="simNote">Ein-dimensionales Modell. Reale ökologische Nischen besitzen viele Dimensionen.</p></div>`;
+ if(t==='field')return head+`<div class="simShell"><p>Trage fünf Messpaare ein: Umweltfaktor x und Artenzahl/Abundanz y.</p><div id="fieldInputs" class="controls">${[1,2,3,4,5].map(i=>`<div class="control"><label>Messung ${i}</label><div style="display:flex;gap:6px"><input class="seqInput fx" value="${i*10}"><input class="seqInput fy" value="${[3,5,8,7,4][i-1]}"></div></div>`).join('')}</div><button id="fieldBtn" class="btn green">Daten darstellen</button><svg id="fieldSvg" class="miniSvg" viewBox="0 0 600 220" style="margin-top:12px"></svg><p class="simNote">Hilft beim Darstellen von Messpaaren. Eine sichtbare Beziehung ist noch kein Kausalitätsnachweis.</p></div>`;
+ if(t==='spectrum')return head+`<div class="simShell"><div class="control"><label>Wellenlänge <span id="waveV">450 nm</span></label><input id="wave" type="range" min="400" max="700" value="450"></div><svg id="specSvg" class="miniSvg" viewBox="0 0 600 180"></svg><div id="specResult" class="resultBox"></div><p class="simNote">Vereinfachte Modellkurve zur Veranschaulichung typischer Absorptionsbereiche; kein Messdatensatz.</p></div>`;
+ if(t==='gradient')return head+`<div class="simShell"><div class="control"><label>Protonengradient <span id="gradV">70</span></label><input id="grad" type="range" min="0" max="100" value="70"></div><div id="gradResult" class="resultBox"></div><p class="simNote">Schematisch: Ein größerer nutzbarer elektrochemischer Gradient kann die ATP-Synthese antreiben; reale Raten hängen von vielen weiteren Faktoren ab.</p></div>`;
+ if(t==='crispr')return head+`<div class="simShell"><label><b>Ziel-DNA</b></label><input id="targetDNA" class="seqInput" value="ACGTTGCAACCTGACT"><label style="display:block;margin-top:10px"><b>guide-Sequenz</b></label><input id="guideRNA" class="seqInput" value="ACGTTGCAACCTGACT"><button id="crisprBtn" class="btn green" style="margin-top:10px">Übereinstimmung prüfen</button><div id="crisprOut" class="resultBox"></div><p class="simNote">Stark vereinfachtes Matching-Modell; PAM-Anforderungen, DNA-Doppelstrang, Off-Targets und Reparaturwege werden hier nicht vollständig abgebildet.</p></div>`;
+ if(t==='exam')return head+`<div class="simShell"><p><b>Selbstcheck:</b> Hake nur ab, was du ohne Unterlagen erklären kannst.</p>${['Biomembran & Transport','Proteine & Enzyme','Zellatmung & Chemiosmose','Fotosynthese bis Primärreaktionen','Diagramme & Experimente auswerten'].map(x=>`<label style="display:block;margin:8px 0"><input type="checkbox"> ${x}</label>`).join('')}<p class="simNote">Nutze offene Punkte als persönliche Wiederholungsliste.</p></div>`;
+ if(t==='review')return head+`<div class="simShell"><button id="reviewBtn" class="btn green">Zufälligen Begriff ziehen</button><div id="reviewOut" class="resultBox"><span>Ziehe einen Begriff und erkläre ihn 30 Sekunden lang ohne Unterlagen.</span></div></div>`;
+ if(t==='evaluate')return head+`<div class="simShell"><p>Ordne für eine konkrete Anwendung je einen Punkt ein:</p><div class="controls"><textarea id="benefit" class="seqInput" placeholder="möglicher Nutzen"></textarea><textarea id="risk" class="seqInput" placeholder="mögliches Risiko"></textarea><textarea id="value" class="seqInput" placeholder="betroffener Wert / Kriterium"></textarea><textarea id="uncertainty" class="seqInput" placeholder="Unsicherheit / offene Frage"></textarea></div><div class="resultBox">Eine begründete Bewertung nennt Sachlage <b>und</b> Kriterien – nicht nur Pro/Contra.</div></div>`;
+ if(t==='experiment')return head+`<div class="simShell"><div class="controls"><div><label><b>Unabhängige Variable</b></label><input class="seqInput" placeholder="z. B. Temperatur"></div><div><label><b>Abhängige Variable</b></label><input class="seqInput" placeholder="z. B. Reaktionsgeschwindigkeit"></div><div><label><b>Kontrollierte Variable</b></label><input class="seqInput" placeholder="z. B. Enzymmenge"></div><div><label><b>Kontrollansatz</b></label><input class="seqInput" placeholder="Vergleichsbedingung"></div></div><div class="resultBox">Prüffrage: Ändert dein Plan möglichst nur <b>eine</b> erklärende Variable?</div></div>`;
+ return head+`<div class="simShell"><p><b>Prozesskarten:</b> Bringe die Begriffe in eine sinnvolle Erklärung. Klicke auf eine Karte, um sie hervorzuheben.</p><div class="termChips">${(m.terms.length?m.terms:['Struktur','Funktion','Modell','Transfer']).map(t=>`<button class="termChip concept" type="button">${esc(t)}</button>`).join('')}</div><div class="resultBox" id="conceptOut">Formuliere aus 2–3 Karten einen fachlich korrekten Zusammenhang.</div></div>`}
+function seqTool(label,value,id,note){return `<div class="simShell"><label><b>${label}</b></label><input id="${id}" class="seqInput" value="${value}"><div class="seqOutput" id="${id}Out"></div><p class="simNote">${note}</p></div>`}
+function initModule(m){const done=$('#doneCheck');if(done)done.addEventListener('change',e=>setDone(m.id,e.target.checked));initQuiz(m);initSim(m)}
+function initQuiz(m){const box=$('#quizBox');if(!box)return;let answered=0,correct=0;$$('.quizQ',box).forEach((qEl,i)=>{const q=quizFor(m)[i];$$('.option',qEl).forEach(btn=>btn.addEventListener('click',()=>{if(qEl.dataset.done)return;qEl.dataset.done='1';answered++;const a=+btn.dataset.answer;$$('.option',qEl).forEach(b=>{b.disabled=true;if(+b.dataset.answer===q[2])b.classList.add('correct')});if(a===q[2])correct++;else btn.classList.add('wrong');$('.feedback',qEl).textContent=q[3];$('#score').textContent=answered===quizFor(m).length?`Ergebnis: ${correct} von ${answered} richtig.`:`Zwischenstand: ${correct} von ${answered} richtig.`}))})}
+function initSim(m){const t=m.simType;if(t==='membrane'){const f=()=>{const o=+$('#out').value,i=+$('#inn').value,kind=$('#transport').value;$('#outV').textContent=o;$('#inV').textContent=i;let dir=o===i?'kein Nettotransport':o>i?'außen → innen':'innen → außen';$('#memResult').innerHTML=kind==='passiv'?`<div><div class="bigResult">${dir}</div>passiv entlang des Gradienten · direkte ATP-Zufuhr: nein</div>`:`<div><div class="bigResult">gegen ${dir.replace(' → ',' ← ')}</div>aktiver Transport · Energiezufuhr erforderlich</div>`};['out','inn','transport'].forEach(id=>$('#'+id).addEventListener('input',f));f()}
+ if(t==='enzyme'){const f=()=>{const T=+$('#temp').value,p=+$('#ph').value,S=+$('#sub').value;$('#tempV').textContent=T+' °C';$('#phV').textContent=p.toFixed(1);$('#subV').textContent=S;const tf=Math.exp(-Math.pow((T-37)/18,2)),pf=Math.exp(-Math.pow((p-7)/2.2,2)),sf=S/(22+S);const r=Math.round(100*tf*pf*sf);$('#enzResult').innerHTML=`<div><div class="bigResult">${r} %</div>relative Modellaktivität</div>`};['temp','ph','sub'].forEach(id=>$('#'+id).addEventListener('input',f));f()}
+ if(t==='photosynthesis'){const f=()=>{const L=+$('#light').value,C=+$('#co2').value,T=+$('#pt').value;$('#lightV').textContent=L;$('#co2V').textContent=C;$('#ptV').textContent=T+' °C';const temp=Math.exp(-Math.pow((T-25)/13,2));const r=Math.round(100*Math.min(L/100,C/100)*temp);const lim=L<C?'Licht':C<L?'CO₂':'Licht/CO₂ ähnlich';$('#photoResult').innerHTML=`<div><div class="bigResult">${r} %</div>relative Modellrate · potenziell limitierend: ${lim}</div>`};['light','co2','pt'].forEach(id=>$('#'+id).addEventListener('input',f));f()}
+ if(t==='pcr'){const f=()=>{const n=+$('#cycles').value;$('#cycleV').textContent=n;const copies=Math.pow(2,n);$('#pcrResult').innerHTML=`<div><div class="bigResult">${copies.toLocaleString('de-DE')}</div>theoretische Kopien aus 1 Startmolekül bei idealer Verdopplung</div>`};$('#cycles').addEventListener('input',f);f()}
+ if(t==='dna'){const el=$('#dnaTool'),out=$('#dnaToolOut');const f=()=>{const s=el.value.toUpperCase().replace(/[^ATGC]/g,''),comp=s.split('').map(b=>({A:'T',T:'A',G:'C',C:'G'}[b])).join('');out.textContent=`5′ ${s} 3′\n3′ ${comp} 5′`};el.addEventListener('input',f);f()}
+ if(t==='transcription'){const el=$('#rnaTool'),out=$('#rnaToolOut');const f=()=>{const s=el.value.toUpperCase().replace(/[^ATGC]/g,''),rna=s.split('').map(b=>({A:'U',T:'A',G:'C',C:'G'}[b])).join('');out.textContent=`DNA-Matrize: 3′ ${s} 5′\nmRNA:        5′ ${rna} 3′`};el.addEventListener('input',f);f()}
+ if(t==='translation'){const el=$('#translateTool'),out=$('#translateToolOut');const f=()=>out.textContent=translate(el.value);el.addEventListener('input',f);f()}
+ if(t==='mutation'){const draw=()=>{const s=$('#mutSeq').value.toUpperCase().replace(/[^AUGC]/g,'');$('#mutOut').textContent=`Ausgang: ${s}\nProtein: ${translate(s)}`};$('#mutBtn').addEventListener('click',()=>{let s=$('#mutSeq').value.toUpperCase().replace(/[^AUGC]/g,'').split(''),p=Math.max(1,+$('#mutPos').value)-1;if(p<s.length)s[p]=$('#mutBase').value;const n=s.join('');$('#mutSeq').value=n;$('#mutOut').textContent=`Mutiert: ${n}\nProtein: ${translate(n)}`});draw()}
+ if(t==='regulation'){const f=()=>{const a=+$('#act').value,meth=+$('#meth').value;$('#actV').textContent=a;$('#methV').textContent=meth;const e=Math.round(a*(1-meth/100));$('#regResult').innerHTML=`<div><div class="bigResult">${e} %</div>schematische Genexpression</div>`};['act','meth'].forEach(id=>$('#'+id).addEventListener('input',f));f()}
+ if(t==='gel'){const f=()=>drawGel($('#gelSizes').value);$('#gelBtn').addEventListener('click',f);f()}
+ if(t==='tolerance'){const f=()=>drawTolerance();['env','opt','wide'].forEach(id=>$('#'+id).addEventListener('input',f));f()}
+ if(t==='niche'){const f=()=>drawNiche();['a','b','nw'].forEach(id=>$('#'+id).addEventListener('input',f));f()}
+ if(t==='field'){const f=()=>drawField();$('#fieldBtn').addEventListener('click',f);f()}
+ if(t==='spectrum'){const f=()=>drawSpectrum();$('#wave').addEventListener('input',f);f()}
+ if(t==='gradient'){const f=()=>{const g=+$('#grad').value;$('#gradV').textContent=g;$('#gradResult').innerHTML=`<div><div class="bigResult">${g<20?'gering':g<60?'mittel':'hoch'}</div>nutzbare Triebkraft für ATP-Synthase (schematisch)</div>`};$('#grad').addEventListener('input',f);f()}
+ if(t==='crispr')$('#crisprBtn').addEventListener('click',()=>{const a=$('#targetDNA').value.toUpperCase().replace(/[^ATGC]/g,''),b=$('#guideRNA').value.toUpperCase().replace(/[^ATGCU]/g,'').replace(/U/g,'T'),n=Math.max(a.length,b.length),same=[...Array(Math.min(a.length,b.length))].filter((_,i)=>a[i]===b[i]).length,p=n?Math.round(100*same/n):0;$('#crisprOut').innerHTML=`<div><div class="bigResult">${p} %</div>direkte Zeichenübereinstimmung in diesem vereinfachten Modell</div>`})
+ if(t==='review'){const terms=[...new Set(COURSE.modules.flatMap(x=>x.terms))].filter(Boolean);$('#reviewBtn')?.addEventListener('click',()=>{$('#reviewOut').innerHTML=`<div><div class="bigResult">${esc(terms[Math.floor(Math.random()*terms.length)]||'Transfer')}</div>Definiere den Begriff und verknüpfe ihn mit einem zweiten Konzept.</div>`})}
+ $$('.concept').forEach(b=>b.addEventListener('click',()=>{b.style.background='#dcecdf';$('#conceptOut').textContent='Gewählt: '+$$('.concept').filter(x=>x.style.background).map(x=>x.textContent).join(' ↔ ')}))}
+const CODON={UUU:'Phe',UUC:'Phe',UUA:'Leu',UUG:'Leu',UCU:'Ser',UCC:'Ser',UCA:'Ser',UCG:'Ser',UAU:'Tyr',UAC:'Tyr',UAA:'Stop',UAG:'Stop',UGU:'Cys',UGC:'Cys',UGA:'Stop',UGG:'Trp',CUU:'Leu',CUC:'Leu',CUA:'Leu',CUG:'Leu',CCU:'Pro',CCC:'Pro',CCA:'Pro',CCG:'Pro',CAU:'His',CAC:'His',CAA:'Gln',CAG:'Gln',CGU:'Arg',CGC:'Arg',CGA:'Arg',CGG:'Arg',AUU:'Ile',AUC:'Ile',AUA:'Ile',AUG:'Met',ACU:'Thr',ACC:'Thr',ACA:'Thr',ACG:'Thr',AAU:'Asn',AAC:'Asn',AAA:'Lys',AAG:'Lys',AGU:'Ser',AGC:'Ser',AGA:'Arg',AGG:'Arg',GUU:'Val',GUC:'Val',GUA:'Val',GUG:'Val',GCU:'Ala',GCC:'Ala',GCA:'Ala',GCG:'Ala',GAU:'Asp',GAC:'Asp',GAA:'Glu',GAG:'Glu',GGU:'Gly',GGC:'Gly',GGA:'Gly',GGG:'Gly'};
+function translate(raw){const s=raw.toUpperCase().replace(/[^AUGC]/g,''),out=[];for(let i=0;i+2<s.length;i+=3){const c=s.slice(i,i+3),aa=CODON[c]||'?';out.push(`${c}→${aa}`);if(aa==='Stop')break}return out.join(' · ')||'Bitte gültige RNA-Basen eingeben.'}
+function drawGel(raw){const sizes=raw.split(',').map(x=>+x.trim()).filter(x=>x>0),svg=$('#gelSvg');if(!sizes.length){svg.innerHTML='';return}const max=Math.max(...sizes),min=Math.min(...sizes);svg.innerHTML=`<rect x="80" y="10" width="440" height="190" rx="10" fill="#eef1ee"/>`+sizes.map((s,i)=>{const t=(Math.log(s)-Math.log(min))/(Math.log(max)-Math.log(min)||1),y=35+(1-t)*140;return `<line x1="150" x2="450" y1="${y}" y2="${y}" stroke="#2a4f3a" stroke-width="5"/><text x="465" y="${y+5}" font-size="13">${s} bp</text>`}).join('')}
+function drawTolerance(){const env=+$('#env').value,opt=+$('#opt').value,w=+$('#wide').value;$('#envV').textContent=env;$('#optV').textContent=opt;$('#wideV').textContent=w;const pts=[];for(let x=0;x<=100;x+=2){const y=Math.exp(-Math.pow((x-opt)/w,2));pts.push(`${50+x*5},${155-y*120}`)}$('#tolSvg').innerHTML=`<line x1="50" y1="155" x2="550" y2="155" stroke="#9aae9f"/><polyline points="${pts.join(' ')}" fill="none" stroke="#1d6849" stroke-width="4"/><line x1="${50+env*5}" y1="25" x2="${50+env*5}" y2="155" stroke="#b7791f" stroke-width="2" stroke-dasharray="5 5"/>`;const perf=Math.round(100*Math.exp(-Math.pow((env-opt)/w,2)));$('#tolResult').innerHTML=`<div><div class="bigResult">${perf} %</div>relative Leistungsfähigkeit im Modell</div>`}
+function drawNiche(){const a=+$('#a').value,b=+$('#b').value,w=+$('#nw').value;$('#aV').textContent=a;$('#bV').textContent=b;$('#nwV').textContent=w;const curve=o=>{const pts=[];for(let x=0;x<=100;x+=2){const y=Math.exp(-Math.pow((x-o)/w,2));pts.push(`${50+x*5},${155-y*120}`)}return pts.join(' ')};$('#nicheSvg').innerHTML=`<line x1="50" y1="155" x2="550" y2="155" stroke="#9aae9f"/><polyline points="${curve(a)}" fill="none" stroke="#1d6849" stroke-width="4"/><polyline points="${curve(b)}" fill="none" stroke="#8b5aa8" stroke-width="4"/>`;const overlap=Math.max(0,Math.round(100*(1-Math.abs(a-b)/(2*w))));$('#nicheResult').innerHTML=`<div><div class="bigResult">${overlap} %</div>grobe Nischenüberlappung im Ein-Faktor-Modell</div>`}
+function drawField(){const xs=$$('.fx').map(x=>+x.value),ys=$$('.fy').map(x=>+x.value),svg=$('#fieldSvg'),xmin=Math.min(...xs),xmax=Math.max(...xs),ymin=Math.min(...ys),ymax=Math.max(...ys);const px=x=>50+(x-xmin)/(xmax-xmin||1)*500,py=y=>180-(y-ymin)/(ymax-ymin||1)*140;svg.innerHTML=`<line x1="50" y1="180" x2="550" y2="180" stroke="#9aae9f"/><line x1="50" y1="40" x2="50" y2="180" stroke="#9aae9f"/>`+xs.map((x,i)=>`<circle cx="${px(x)}" cy="${py(ys[i])}" r="7" fill="#1d6849"/><text x="${px(x)+9}" y="${py(ys[i])+4}" font-size="12">${x};${ys[i]}</text>`).join('')}
+function drawSpectrum(){const w=+$('#wave').value;$('#waveV').textContent=w+' nm';const absorb=x=>Math.min(1,0.95*Math.exp(-Math.pow((x-430)/28,2))+0.8*Math.exp(-Math.pow((x-662)/32,2)));const pts=[];for(let x=400;x<=700;x+=5)pts.push(`${50+(x-400)/300*500},${155-absorb(x)*120}`);$('#specSvg').innerHTML=`<line x1="50" y1="155" x2="550" y2="155" stroke="#9aae9f"/><polyline points="${pts.join(' ')}" fill="none" stroke="#1d6849" stroke-width="4"/><line x1="${50+(w-400)/300*500}" y1="25" x2="${50+(w-400)/300*500}" y2="155" stroke="#b7791f" stroke-width="2"/>`;$('#specResult').innerHTML=`<div><div class="bigResult">${Math.round(absorb(w)*100)} %</div>relative Modellabsorption bei ${w} nm</div>`}
+function notFound(){return `<div class="page"><div class="empty"><h2>Seite nicht gefunden</h2><p><a href="#/">Zur Startseite</a></p></div></div>`}
+function route(){const parts=location.hash.replace(/^#\/?/,'').split('/').filter(Boolean),p=parts[0]||'start';let html;if(p==='start')html=home();else if(p==='modul'&&parts[1])html=modulePage(parts.slice(1).join('/'));else if(p==='module')html=modulesPage();else if(p==='themenplan')html=topicsPage();else if(p==='organisation')html=organisation();else if(p==='leistung')html=leistung();else if(p==='material')html=material();else html=notFound();$('#main').innerHTML=html;$$('nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')===`#/${p==='start'?'':(p==='modul'?'module':p)}`));$('#nav').classList.remove('open');$('#menubtn').setAttribute('aria-expanded','false');window.scrollTo(0,0);if(p==='modul'&&parts[1]){const m=COURSE.modules.find(x=>x.id===parts.slice(1).join('/'));if(m)initModule(m)}if(p==='module'&&!parts[1])initModuleFilters()}
+function initModuleFilters(){let cat='Alle';const apply=()=>{const q=($('#moduleSearch').value||'').toLowerCase();$('#moduleGrid').innerHTML=COURSE.modules.filter(m=>(cat==='Alle'||m.category===cat)&&`${m.title} ${m.detail} ${m.category}`.toLowerCase().includes(q)).map(moduleCard).join('')||'<div class="empty">Keine Module gefunden.</div>'};$('#moduleSearch').addEventListener('input',apply);$$('.filter').forEach(b=>b.addEventListener('click',()=>{$$('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');cat=b.dataset.cat;apply()}))}
+window.addEventListener('hashchange',route);window.addEventListener('DOMContentLoaded',()=>{$('#menubtn').addEventListener('click',()=>{const n=$('#nav'),open=n.classList.toggle('open');$('#menubtn').setAttribute('aria-expanded',String(open))});$('#printBtn').addEventListener('click',()=>window.print());route()});
