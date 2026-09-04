@@ -59,8 +59,8 @@ a { color: var(--brand); }
 }
 .brand { font-weight: 800; text-decoration: none; color: var(--brand-dark); font-size: 1.1rem; }
 .brand-sub { color: var(--muted); font-size: .92rem; }
-.top-nav { margin-left: auto; display: flex; gap: .35rem; }
-.top-nav a { text-decoration: none; color: var(--text); padding: .45rem .7rem; border-radius: 10px; font-size: .92rem; }
+.top-nav { margin-left: auto; display: flex; gap: .2rem; min-width:0; overflow-x:auto; }
+.top-nav a { flex:0 0 auto; text-decoration: none; color: var(--text); padding: .45rem .55rem; border-radius: 10px; font-size: .86rem; white-space:nowrap; }
 .top-nav a:hover, .top-nav a:focus-visible { background: var(--surface-soft); outline: none; }
 
 .page-shell { max-width: 1180px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
@@ -147,16 +147,18 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 .scenario-sim { border:1px solid var(--line); border-radius:16px; overflow:hidden; background:#eef7fb; }
 .environment-label { padding:.5rem .9rem; font-size:.82rem; color:#49636d; background:#e1f1f8; border-bottom:1px solid #cddfe6; }
 .cell-stage { min-height:270px; position:relative; display:grid; place-items:center; overflow:hidden; }
-.cell-boundary { width:min(72%,430px); height:180px; border-radius:50%; position:relative; transition:.25s ease; background:rgba(255,255,255,.45); }
+.cell-boundary { width:min(72%,430px); height:180px; border-radius:50%; position:relative; z-index:1; transition:.25s ease; background:rgba(255,255,255,.45); pointer-events:none; }
+.cell-label { position:absolute; inset:50% auto auto 50%; transform:translate(-50%,-50%); color:#60736b; font-size:.78rem; font-weight:800; opacity:.72; }
 .scenario-sim[data-state="none"] .cell-boundary { border:3px dashed #a9b6b0; }
 .scenario-sim[data-state="wall"] .cell-boundary { border:10px solid #5f6d67; background:#f8f8f8; }
 .scenario-sim[data-state="membrane"] .cell-boundary { border:8px double #24916b; background:#f9fffc; }
-.particle { position:absolute; font-size:1.25rem; transition:all .6s ease; }
-.particle-a { color:#d35b5b; } .particle-b { color:#436fc7; }
-.cell-boundary .p1 { left:20%; top:28%; } .p2 { left:58%; top:20%; } .p3 { left:38%; top:56%; } .p4 { left:68%; top:62%; } .p5 { left:25%; top:70%; }
-.outside-particles .o1 { left:10%; top:25%; } .outside-particles .o2 { right:12%; top:35%; } .outside-particles .o3 { left:18%; bottom:18%; }
-.scenario-sim[data-state="none"] .cell-boundary .p1 { left:-24%; top:8%; } .scenario-sim[data-state="none"] .cell-boundary .p4 { left:112%; top:42%; }
-.scenario-sim[data-state="wall"] .outside-particles .particle { opacity:.7; }
+.particle { position:absolute; z-index:2; width:10px; height:10px; border-radius:50%; box-shadow:0 1px 2px rgba(20,42,34,.25); pointer-events:none; }
+.particle-a { background:#d94f55; }
+.particle-b { background:#3975d5; }
+.particle-legend { display:flex; flex-wrap:wrap; gap:.55rem 1.1rem; align-items:center; padding:.65rem .9rem; background:#f8fbfc; border-top:1px solid #d6e4e8; font-size:.82rem; }
+.legend-dot { display:inline-block; width:10px; height:10px; margin-right:.35rem; border-radius:50%; vertical-align:-1px; }
+.legend-dot.a { background:#d94f55; } .legend-dot.b { background:#3975d5; }
+.particle-counts { margin-left:auto; color:var(--muted); font-variant-numeric:tabular-nums; }
 .scenario-result, .sim-feedback { padding:1rem; background:#fff; border-top:1px solid var(--line); font-weight:650; }
 .mini-task { margin-top:1rem; padding:1rem; background:#f8faf9; border-radius:14px; border:1px solid var(--line); }
 
@@ -221,6 +223,9 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
   .warmup { grid-template-columns:1fr; }
   .site-footer { flex-direction:column; }
 }
+@media (max-width: 1100px) {
+  .brand-sub { display:none; }
+}
 @media (max-width: 560px) {
   .page-shell { padding:1rem .8rem 3rem; }
   .module-card { grid-template-columns:45px 1fr; }
@@ -262,6 +267,11 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
   border-radius:0 12px 12px 0; background:var(--surface-soft);
 }
 .topic-intro p { margin:.25rem 0; }
+.planned-topic {
+  padding:2rem; border:1px dashed #9ebcaf; border-radius:16px;
+  background:var(--surface-soft); color:var(--muted); text-align:center;
+}
+.planned-topic h2 { margin:.1rem 0 .45rem; color:var(--text); }
 .prereq-note {
   margin:0 0 1rem; padding:.8rem 1rem; border:1px solid #d9e6df; border-radius:12px;
   background:#f7fbf8; color:#315244;
@@ -296,15 +306,15 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 <div class="header-inner">
 <a class="brand" href="#/">Bio Basisfach J1</a>
 <span class="brand-sub">Basisfach · J1 · Schuljahr 2026/27</span>
-<nav aria-label="Hauptnavigation" class="top-nav"><a href="#/">Übersicht</a><a href="#/biomolekuele">Biomoleküle</a></nav>
+<nav aria-label="Hauptnavigation" class="top-nav"><a href="#/">Übersicht</a><a href="#/biomolekuele">Biomoleküle</a><a href="#/zellatmung">Zellatmung</a><a href="#/fotosynthese">Fotosynthese</a><a href="#/molekulare-genetik">Molekulare Genetik</a><a href="#/angewandte-biologie">Angewandte Biologie</a><a href="#/oekologie">Ökologie</a></nav>
 </div>
 </header>
 <main class="page-shell" id="main" tabindex="-1">
 <section class="view" id="view-overview">
 <div class="hero">
 <p class="eyebrow">Biologie Basisfach J1 · Schuljahr 2026/27</p>
-<h1>Willkommen im Lernlabor</h1>
-<p class="hero-copy">Die Lernmodule sind für die Nachbereitung und Vertiefung zu Hause gedacht. Wenn du im Unterricht gefehlt hast, kannst du mit ihnen den Stoff auch selbstständig und ohne Lehrbuch nachholen.</p>
+<h1>Willkommen im Biolab</h1>
+<p class="hero-copy">Die Lernmodule sind für die Nachbereitung und Vertiefung zu Hause gedacht. Wenn du im Unterricht gefehlt hast, kannst du mit ihnen den Stoff auch selbstständig und ohne Lehrbuch nachholen. Dabei wird kein Anspruch auf Vollständigkeit erhebt.</p>
 <div class="hero-note"><strong>Aktuell verfügbar:</strong> der erste Themenblock <em>Biomoleküle</em>. Weitere Oberthemen werden später ergänzt.</div>
 </div>
 <section aria-labelledby="topics-title" class="section-block">
@@ -314,6 +324,31 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 <span class="topic-index">01</span>
 <div><p class="topic-meta">9 Module · davon 2 online</p><h3>Biomoleküle</h3><p>Biomembran, Membrantransport, Proteine und Enzyme.</p></div>
 <span class="module-status">öffnen</span>
+</a>
+<a class="topic-card" href="#/zellatmung">
+<span class="topic-index">02</span>
+<div><p class="topic-meta">Module folgen</p><h3>Zellatmung</h3><p>Energiegewinnung, Glykolyse, Citratzyklus und Atmungskette.</p></div>
+<span class="module-status">Vorschau</span>
+</a>
+<a class="topic-card" href="#/fotosynthese">
+<span class="topic-index">03</span>
+<div><p class="topic-meta">Module folgen</p><h3>Fotosynthese</h3><p>Lichtaufnahme, Primärreaktionen und Calvin-Zyklus.</p></div>
+<span class="module-status">Vorschau</span>
+</a>
+<a class="topic-card" href="#/molekulare-genetik">
+<span class="topic-index">04</span>
+<div><p class="topic-meta">Module folgen</p><h3>Molekulare Genetik</h3><p>DNA, Genexpression, Proteinbiosynthese und Genregulation.</p></div>
+<span class="module-status">Vorschau</span>
+</a>
+<a class="topic-card" href="#/angewandte-biologie">
+<span class="topic-index">05</span>
+<div><p class="topic-meta">Module folgen</p><h3>Angewandte Biologie</h3><p>Biologische Methoden, Gentechnik und ihre gesellschaftliche Bewertung.</p></div>
+<span class="module-status">Vorschau</span>
+</a>
+<a class="topic-card" href="#/oekologie">
+<span class="topic-index">06</span>
+<div><p class="topic-meta">Module folgen</p><h3>Ökologie</h3><p>Umweltfaktoren, ökologische Nische, Wechselwirkungen und Ökosysteme.</p></div>
+<span class="module-status">Vorschau</span>
 </a>
 </div>
 </section>
@@ -327,7 +362,7 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 <a class="back-link" href="#/">← Übersicht</a>
 </div>
 <div class="topic-intro">
-<p><strong>So arbeitest du:</strong> Öffne die Module möglichst in der angegebenen Reihenfolge. Jedes Modul beginnt mit einer kurzen Vorwissensfrage, erklärt anschließend den benötigten Stoff vollständig und endet mit Kurzcheck sowie Aufgaben aus AFB I–III.</p>
+<p><strong>So arbeitest du:</strong> Öffne die Module möglichst in der angegebenen Reihenfolge. Jedes Modul beginnt mit einer kurzen Vorwissensfrage, erklärt anschließend den benötigten Stoff und endet mit Kurzcheck sowie Aufgaben aus AFB I–III.</p>
 <p>Für Modul 1 wird kein spezielles Vorwissen aus der Kursstufe vorausgesetzt. Modul 2 baut nur auf Modul 1 auf und erklärt neue Fachbegriffe dort, wo sie erstmals benötigt werden.</p>
 </div>
 <div class="module-grid">
@@ -385,6 +420,26 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 <span class="module-status">folgt</span>
 </article>
 </div></section>
+<section class="view" hidden="" id="view-zellatmung">
+<div class="topic-hero"><div><p class="eyebrow">Oberthema 2</p><h1>Zellatmung</h1><p class="lead">Energiegewinnung in der Zelle.</p></div><a class="back-link" href="#/">← Übersicht</a></div>
+<div class="planned-topic"><h2>Module folgen</h2><p>Die Lernmodule zu diesem Oberthema werden noch ergänzt.</p></div>
+</section>
+<section class="view" hidden="" id="view-fotosynthese">
+<div class="topic-hero"><div><p class="eyebrow">Oberthema 3</p><h1>Fotosynthese</h1><p class="lead">Lichtenergie, Stoffaufbau und ihre Bedeutung für das Leben.</p></div><a class="back-link" href="#/">← Übersicht</a></div>
+<div class="planned-topic"><h2>Module folgen</h2><p>Die Lernmodule zu diesem Oberthema werden noch ergänzt.</p></div>
+</section>
+<section class="view" hidden="" id="view-molekulare-genetik">
+<div class="topic-hero"><div><p class="eyebrow">Oberthema 4</p><h1>Molekulare Genetik</h1><p class="lead">DNA, Genexpression und die Weitergabe genetischer Information.</p></div><a class="back-link" href="#/">← Übersicht</a></div>
+<div class="planned-topic"><h2>Module folgen</h2><p>Die Lernmodule zu diesem Oberthema werden noch ergänzt.</p></div>
+</section>
+<section class="view" hidden="" id="view-angewandte-biologie">
+<div class="topic-hero"><div><p class="eyebrow">Oberthema 5</p><h1>Angewandte Biologie</h1><p class="lead">Biologische Methoden und ihre Anwendung in Forschung und Gesellschaft.</p></div><a class="back-link" href="#/">← Übersicht</a></div>
+<div class="planned-topic"><h2>Module folgen</h2><p>Die Lernmodule zu diesem Oberthema werden noch ergänzt.</p></div>
+</section>
+<section class="view" hidden="" id="view-oekologie">
+<div class="topic-hero"><div><p class="eyebrow">Oberthema 6</p><h1>Ökologie</h1><p class="lead">Umweltfaktoren, Wechselwirkungen und Ökosysteme.</p></div><a class="back-link" href="#/">← Übersicht</a></div>
+<div class="planned-topic"><h2>Module folgen</h2><p>Die Lernmodule zu diesem Oberthema werden noch ergänzt.</p></div>
+</section>
 <section class="view" hidden="" id="view-module-1">
 <article class="learning-module" data-module="1">
 <header class="module-hero">
@@ -462,15 +517,10 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 </div>
 <div class="scenario-sim" data-state="none" id="m1-sim">
 <div class="environment-label">Umgebung</div>
-<div class="cell-stage">
-<div class="cell-boundary">
-<span class="particle particle-a p1">●</span><span class="particle particle-a p2">●</span><span class="particle particle-b p3">◆</span>
-<span class="particle particle-b p4">◆</span><span class="particle particle-a p5">●</span>
+<div aria-label="Animation zur Verteilung roter und blauer Teilchen" class="cell-stage" id="m1-particle-stage">
+<div class="cell-boundary"><span class="cell-label">Zellinneres</span></div>
 </div>
-<div aria-hidden="true" class="outside-particles">
-<span class="particle particle-a o1">●</span><span class="particle particle-b o2">◆</span><span class="particle particle-a o3">●</span>
-</div>
-</div>
+<div class="particle-legend"><span><i class="legend-dot a"></i>rote Teilchen</span><span><i class="legend-dot b"></i>blaue Teilchen</span><span aria-live="polite" class="particle-counts" id="m1-particle-counts"></span></div>
 <div aria-live="polite" class="scenario-result" id="m1-scenario-result"></div>
 </div>
 <div class="mini-task">
@@ -748,6 +798,11 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
   const views = {
     '/': document.getElementById('view-overview'),
     '/biomolekuele': document.getElementById('view-biomolekuele'),
+    '/zellatmung': document.getElementById('view-zellatmung'),
+    '/fotosynthese': document.getElementById('view-fotosynthese'),
+    '/molekulare-genetik': document.getElementById('view-molekulare-genetik'),
+    '/angewandte-biologie': document.getElementById('view-angewandte-biologie'),
+    '/oekologie': document.getElementById('view-oekologie'),
     '/biomolekuele/modul-1': document.getElementById('view-module-1'),
     '/biomolekuele/modul-2': document.getElementById('view-module-2'),
     // Alte Links bleiben funktionsfähig.
@@ -762,9 +817,10 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 
     // Oberthema in der Hauptnavigation markieren.
     document.querySelectorAll('.top-nav a').forEach(a => a.classList.remove('is-active'));
-    const activeSelector = hash.startsWith('/biomolekuele') || hash.startsWith('/modul-')
-      ? '.top-nav a[href="#/biomolekuele"]'
-      : '.top-nav a[href="#/"]';
+    const topicPaths = ['/biomolekuele', '/zellatmung', '/fotosynthese', '/molekulare-genetik', '/angewandte-biologie', '/oekologie'];
+    const activePath = topicPaths.find(path => hash.startsWith(path))
+      || (hash.startsWith('/modul-') ? '/biomolekuele' : '/');
+    const activeSelector = `.top-nav a[href="#${activePath}"]`;
     document.querySelector(activeSelector)?.classList.add('is-active');
 
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -796,13 +852,147 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 
   // Module 1 scenario simulation
   const scenarioText = {
-    none: '<strong>Keine Grenze:</strong> Stoffe können sich unkontrolliert zwischen Innen- und Außenraum verteilen. Stabile Konzentrationsunterschiede sind kaum aufrechtzuerhalten.',
-    wall: '<strong>Undurchlässige Wand:</strong> Konzentrationsunterschiede könnten zwar erhalten bleiben, aber notwendiger Stoff- und Energieaustausch wäre blockiert.',
-    membrane: '<strong>Biomembran:</strong> Sie grenzt den Reaktionsraum ab und ermöglicht zugleich einen kontrollierten, selektiven Austausch.'
+    none: '<strong>Keine Grenze:</strong> Rote und blaue Teilchen bewegen sich ungehindert zwischen Innen- und Außenraum. Der anfängliche Konzentrationsunterschied wird kleiner.',
+    wall: '<strong>Undurchlässige Wand:</strong> Beide Teilchensorten werden zurückgehalten. Der Konzentrationsunterschied bleibt bestehen, aber jeder Stoffaustausch ist blockiert.',
+    membrane: '<strong>Biomembran:</strong> In diesem vereinfachten Modell können nur die blauen Teilchen passieren. Rote Teilchen werden zurückgehalten – die Membran ist selektiv durchlässig.'
   };
   const sim = document.getElementById('m1-sim');
   const result = document.getElementById('m1-scenario-result');
-  if (sim && result) {
+  const particleStage = document.getElementById('m1-particle-stage');
+  const particleCounts = document.getElementById('m1-particle-counts');
+  if (sim && result && particleStage && particleCounts) {
+    const particles = [];
+    let initialized = false;
+    let previousTime = performance.now();
+    let previousCountUpdate = 0;
+
+    function boundaryGeometry() {
+      const stageRect = particleStage.getBoundingClientRect();
+      const boundaryRect = particleStage.querySelector('.cell-boundary').getBoundingClientRect();
+      return {
+        width: stageRect.width,
+        height: stageRect.height,
+        cx: boundaryRect.left - stageRect.left + boundaryRect.width / 2,
+        cy: boundaryRect.top - stageRect.top + boundaryRect.height / 2,
+        rx: Math.max(20, boundaryRect.width / 2 - 9),
+        ry: Math.max(20, boundaryRect.height / 2 - 9)
+      };
+    }
+
+    function isInside(x, y, geometry) {
+      return ((x - geometry.cx) / geometry.rx) ** 2
+        + ((y - geometry.cy) / geometry.ry) ** 2 < 1;
+    }
+
+    function randomPosition(inside, geometry) {
+      if (inside) {
+        const angle = Math.random() * Math.PI * 2;
+        const radius = Math.sqrt(Math.random()) * .82;
+        return {
+          x: geometry.cx + Math.cos(angle) * geometry.rx * radius,
+          y: geometry.cy + Math.sin(angle) * geometry.ry * radius
+        };
+      }
+      let position;
+      do {
+        position = {
+          x: 10 + Math.random() * Math.max(1, geometry.width - 20),
+          y: 10 + Math.random() * Math.max(1, geometry.height - 20)
+        };
+      } while (isInside(position.x, position.y, geometry));
+      return position;
+    }
+
+    function updateCounts(geometry) {
+      const inside = { a: 0, b: 0 };
+      particles.forEach(particle => {
+        if (isInside(particle.x, particle.y, geometry)) inside[particle.type] += 1;
+      });
+      particleCounts.textContent = `Rot: ${inside.a} innen / ${20 - inside.a} außen · Blau: ${inside.b} innen / ${20 - inside.b} außen`;
+    }
+
+    function resetParticles() {
+      const geometry = boundaryGeometry();
+      if (geometry.width < 50 || geometry.height < 50) return;
+      particleStage.querySelectorAll('.particle').forEach(particle => particle.remove());
+      particles.length = 0;
+
+      ['a', 'b'].forEach(type => {
+        for (let index = 0; index < 20; index += 1) {
+          const startsInside = index < 16;
+          const position = randomPosition(startsInside, geometry);
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 32 + Math.random() * 30;
+          const element = document.createElement('span');
+          element.className = `particle particle-${type}`;
+          particleStage.appendChild(element);
+          particles.push({
+            type,
+            element,
+            x: position.x,
+            y: position.y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            inside: startsInside
+          });
+        }
+      });
+      updateCounts(geometry);
+      initialized = true;
+    }
+
+    function animateParticles(time) {
+      const geometry = boundaryGeometry();
+      if (geometry.width < 50 || geometry.height < 50) {
+        initialized = false;
+        previousTime = time;
+        requestAnimationFrame(animateParticles);
+        return;
+      }
+      if (!initialized) resetParticles();
+
+      const elapsed = Math.min((time - previousTime) / 1000, .04);
+      previousTime = time;
+      particles.forEach(particle => {
+        const oldX = particle.x;
+        const oldY = particle.y;
+        particle.vx += (Math.random() - .5) * 8 * elapsed;
+        particle.vy += (Math.random() - .5) * 8 * elapsed;
+        particle.x += particle.vx * elapsed;
+        particle.y += particle.vy * elapsed;
+
+        if (particle.x < 5 || particle.x > geometry.width - 5) {
+          particle.x = Math.max(5, Math.min(geometry.width - 5, particle.x));
+          particle.vx *= -1;
+        }
+        if (particle.y < 5 || particle.y > geometry.height - 5) {
+          particle.y = Math.max(5, Math.min(geometry.height - 5, particle.y));
+          particle.vy *= -1;
+        }
+
+        const nowInside = isInside(particle.x, particle.y, geometry);
+        const mayCross = sim.dataset.state === 'none'
+          || (sim.dataset.state === 'membrane' && particle.type === 'b');
+        if (nowInside !== particle.inside && !mayCross) {
+          particle.x = oldX;
+          particle.y = oldY;
+          particle.vx *= -1;
+          particle.vy *= -1;
+        } else {
+          particle.inside = nowInside;
+        }
+
+        particle.element.style.left = `${particle.x - 5}px`;
+        particle.element.style.top = `${particle.y - 5}px`;
+      });
+
+      if (time - previousCountUpdate > 300) {
+        updateCounts(geometry);
+        previousCountUpdate = time;
+      }
+      requestAnimationFrame(animateParticles);
+    }
+
     result.innerHTML = scenarioText.none;
     document.querySelectorAll('.scenario-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -810,8 +1000,10 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
         btn.classList.add('is-active');
         sim.dataset.state = btn.dataset.scenario;
         result.innerHTML = scenarioText[btn.dataset.scenario];
+        resetParticles();
       });
     });
+    requestAnimationFrame(animateParticles);
   }
 
   // Module 2 bilayer model
