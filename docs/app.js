@@ -1,6 +1,10 @@
 (function () {
   const views = {
     '/': document.getElementById('view-overview'),
+    '/biomolekuele': document.getElementById('view-biomolekuele'),
+    '/biomolekuele/modul-1': document.getElementById('view-module-1'),
+    '/biomolekuele/modul-2': document.getElementById('view-module-2'),
+    // Alte Links bleiben funktionsfähig.
     '/modul-1': document.getElementById('view-module-1'),
     '/modul-2': document.getElementById('view-module-2')
   };
@@ -8,7 +12,15 @@
   function route() {
     const hash = location.hash.replace('#', '') || '/';
     const target = views[hash] || views['/'];
-    Object.values(views).forEach(v => v.hidden = v !== target);
+    [...new Set(Object.values(views))].forEach(v => v.hidden = v !== target);
+
+    // Oberthema in der Hauptnavigation markieren.
+    document.querySelectorAll('.top-nav a').forEach(a => a.classList.remove('is-active'));
+    const activeSelector = hash.startsWith('/biomolekuele') || hash.startsWith('/modul-')
+      ? '.top-nav a[href="#/biomolekuele"]'
+      : '.top-nav a[href="#/"]';
+    document.querySelector(activeSelector)?.classList.add('is-active');
+
     window.scrollTo({ top: 0, behavior: 'instant' });
     document.getElementById('main').focus({ preventScroll: true });
   }

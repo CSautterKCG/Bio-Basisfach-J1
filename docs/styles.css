@@ -221,3 +221,56 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
   .module-footer-nav { flex-direction:column; }
   .next-link { margin-left:0; }
 }
+
+/* v2: navigation by upper topic + written AFB answers */
+.top-nav a.is-active {
+  background: var(--surface-soft);
+  color: var(--accent-dark);
+  border-color: #b8d5c6;
+}
+.topic-grid { display:grid; grid-template-columns:minmax(0, 1fr); gap:1rem; }
+.topic-card {
+  display:grid; grid-template-columns:62px 1fr auto; gap:1rem; align-items:center;
+  padding:1.1rem 1.2rem; border:1px solid var(--line); border-radius:16px;
+  background:#fff; text-decoration:none; color:var(--text); box-shadow:var(--shadow-soft);
+}
+.topic-card:hover { border-color:#9ebcaf; transform:translateY(-1px); }
+.topic-index {
+  width:52px; height:52px; display:grid; place-items:center; border-radius:14px;
+  background:var(--surface-soft); color:var(--accent-dark); font-weight:900;
+}
+.topic-meta { margin:0 0 .15rem; color:var(--muted); font-size:.85rem; font-weight:700; }
+.topic-card h3 { margin:.1rem 0 .25rem; }
+.topic-card p:last-child { margin:.2rem 0 0; }
+.topic-hero {
+  display:flex; justify-content:space-between; gap:1.5rem; align-items:flex-start;
+  margin-bottom:1rem; padding:1.5rem 1.6rem; border:1px solid var(--line);
+  border-radius:18px; background:linear-gradient(145deg,#ffffff,#f2f8f4); box-shadow:var(--shadow-soft);
+}
+.topic-hero h1 { margin:.1rem 0 .35rem; }
+.topic-intro {
+  padding:1rem 1.2rem; margin-bottom:1rem; border-left:4px solid var(--accent);
+  border-radius:0 12px 12px 0; background:var(--surface-soft);
+}
+.topic-intro p { margin:.25rem 0; }
+.prereq-note {
+  margin:0 0 1rem; padding:.8rem 1rem; border:1px solid #d9e6df; border-radius:12px;
+  background:#f7fbf8; color:#315244;
+}
+.exam-intro {
+  grid-column:1 / -1; margin:.1rem 0 .2rem; padding:.75rem .9rem;
+  border-radius:10px; background:#f6f8f7; color:var(--muted);
+}
+.answer-label { display:block; margin:.9rem 0 .35rem; font-weight:850; }
+.exam-answer { min-height:9rem; background:rgba(255,255,255,.84); }
+.exam-card .input-actions { margin-bottom:.7rem; }
+.exam-card details { margin-top:.6rem; }
+
+@media (max-width: 700px) {
+  .topic-card { grid-template-columns:48px 1fr; }
+  .topic-card .module-status { grid-column:2; justify-self:start; }
+  .topic-hero { flex-direction:column; }
+}
+
+/* Programmatic focus after route changes should not draw a large page outline. */
+#main:focus:not(:focus-visible) { outline: none; }
