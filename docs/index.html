@@ -1,22 +1,44 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b4f3c" />
-  <title>Bio-Lernlabor · Basisfach J1 · v5 BW</title>
-  <link rel="stylesheet" href="./styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Kurswebsite Biologie Basisfach J1 – Schuljahr 2026/27">
+  <title>Biologie Basisfach J1 · 2026/27</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app-shell">
-    <nav class="topbar">
-      <button class="brand" id="brand" aria-label="Zur Startseite"><span>bio:</span>lernlab</button>
-      <div class="nav-right"><span>Basisfach · J1 · BW</span><span class="status-dot"></span> Kurs 2026/27</div>
-    </nav>
-    <div id="app"></div>
-    <footer><span>Bio-Lernlabor · Basisfach J1 · v5</span><span>Unterrichtsbegleiter für iPad & Browser</span></footer>
-  </div>
-  <script src="./content.js"></script>
-  <script src="./app.js"></script>
+  <a class="skip-link" href="#main">Zum Inhalt</a>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="#/" aria-label="Startseite">
+        <span class="brand-mark">Bio</span>
+        <span><strong>Basisfach J1</strong><small>Schuljahr 2026/27</small></span>
+      </a>
+      <button class="menu-button" id="menuButton" aria-expanded="false" aria-controls="navLinks">Menü</button>
+      <nav id="navLinks" class="nav-links" aria-label="Hauptnavigation">
+        <a href="#/">Start</a>
+        <a href="#/themenplan">Themenplan</a>
+        <a href="#/organisation">Organisation</a>
+        <a href="#/leistung">Leistung & GFS</a>
+        <a href="#/material">Material</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1"></main>
+
+  <footer class="site-footer">
+    <div>
+      <strong>Biologie Basisfach J1</strong>
+      <span>· Kursstufe 2026/27</span>
+    </div>
+    <div class="footer-links">
+      <a href="#/organisation">Kursregeln</a>
+      <a href="#/material">Lehrwerk</a>
+      <button id="printButton" class="link-button" type="button">Seite drucken</button>
+    </div>
+  </footer>
+  <script src="app.js"></script>
 </body>
 </html>

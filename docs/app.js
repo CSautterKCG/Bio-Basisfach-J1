@@ -1,697 +1,515 @@
-const app = document.getElementById('app');
-const brand = document.getElementById('brand');
-const completed = new Set(JSON.parse(localStorage.getItem('bio-completed-v2') || '[]'));
-
-const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-const save = () => localStorage.setItem('bio-completed-v2', JSON.stringify([...completed]));
-const quizKey = id => `bio-quiz-${id}`;
-const summaryKey = id => `bio-summary-${id}`;
-const taskKey = (id, i) => `bio-task-${id}-${i}`;
-
-// Zeitgesteuerte Freischaltung und Lehrer-Vorschau
-const previewMode = new URLSearchParams(window.location.search).get('preview') === '1';
-
-function todayISO() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
-
-function isLocked(module) {
-  if (previewMode) return false;
-  if (!module.unlockDate) return false;
-  return todayISO() < module.unlockDate;
-}
-
-function formatUnlockDate(date) {
-  if (!date) return '';
-  const [year, month, day] = date.split('-');
-  return `${day}.${month}.${year}`;
-}
-
-function previewBanner() {
-  if (!previewMode) return '';
-  return `<section class="preview-banner" role="status">🔧 <strong>Lehrer-Vorschau</strong><span>Alle Lernmodule sind unabhängig vom Freischaltdatum geöffnet.</span></section>`;
-}
-
-function deleteLearningData() {
-  Object.keys(localStorage)
-    .filter(key =>
-      key === 'bio-completed-v2' ||
-      key.startsWith('bio-quiz-') ||
-      key.startsWith('bio-summary-') ||
-      key.startsWith('bio-task-')
-    )
-    .forEach(key => localStorage.removeItem(key));
-  completed.clear();
-}
-
-function shuffledOptions(options) {
-  const result = options.map((text, index) => ({ text, index }));
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [result[i], result[j]] = [result[j], result[i]];
+const schedule = [
+  {
+    "date": "15.09.2026",
+    "title": "Start in die Kursstufe & Einstieg Biomembran",
+    "detail": "Organisation; Notentransparenz; GFS; Sicherheitsbelehrung; Themenüberblick; Aktivierung von Vorwissen; Zelle als Grundbaustein des Lebens; Kompartimentierung; Biomembran als Abgrenzung von Reaktionsräumen",
+    "category": "Zellbiologie & Enzyme"
+  },
+  {
+    "date": "21.09.2026",
+    "title": "Aufbau und Modell der Biomembran",
+    "detail": "Phospholipide; hydrophil/hydrophob; Lipiddoppelschicht; Membranproteine; Flüssig-Mosaik-Modell; Struktur-Funktions-Bezug und Grenzen von Modellen",
+    "category": "Zellbiologie & Enzyme"
+  },
+  {
+    "date": "28.09.2026",
+    "title": "Passiver Stofftransport",
+    "detail": "einfache und erleichterte Diffusion; Kanal- und Carrierproteine; Konzentrationsgefälle; Osmose als Wiederholung und Anwendung",
+    "category": "Zellbiologie & Enzyme"
+  },
+  {
+    "date": "29.09.2026",
+    "title": "Aktiver Transport und Membranfluss",
+    "detail": "aktiver Transport unter Energieaufwand; Endo- und Exocytose; Transportmechanismen vergleichen und auf Beispiele anwenden",
+    "category": "Zellbiologie & Enzyme"
+  },
+  {
+    "date": "12.10.2026",
+    "title": "Proteine – Struktur und Funktion",
+    "detail": "Aminosäure-Grundbau; Peptidbindung; Polypeptid; Primär-, Sekundär-, Tertiär- und Quartärstruktur; Denaturierung; Struktur-Funktions-Bezug",
+    "category": "Zellbiologie & Enzyme"
+  },
+  {
+    "date": "13.10.2026",
+    "title": "Enzyme als Biokatalysatoren",
+    "detail": "aktives Zentrum; Enzym-Substrat-Komplex; Substrat- und Wirkungsspezifität; Modellvorstellungen; Einfluss von Enzymen auf Reaktionsabläufe",
+    "category": "Zellbiologie & Enzyme"
+  },
+  {
+    "date": "19.10.2026",
+    "title": "Enzymaktivität untersuchen – Planung",
+    "detail": "Temperatur, pH-Wert und Substratkonzentration; Hypothesen formulieren; unabhängige/abhängige Variable; Kontrollansatz; Versuchsplanung",
+    "category": "Zellbiologie & Enzyme"
+  },
+  {
+    "date": "02.11.2026",
+    "title": "Enzymexperiment durchführen",
+    "detail": "z. B. Katalase, Amylase oder Urease; Messwerte systematisch erheben und dokumentieren; Versuchsbedingungen kontrollieren",
+    "category": "Zellbiologie & Enzyme"
+  },
+  {
+    "date": "09.11.2026",
+    "title": "Enzymexperiment auswerten & Enzymhemmung",
+    "detail": "Messwerte grafisch darstellen und interpretieren; Optimum und Sättigung; Fehlerbetrachtung; reversible und irreversible Hemmung an konkreten Beispielen",
+    "category": "Zellbiologie & Enzyme"
+  },
+  {
+    "date": "10.11.2026",
+    "title": "Warum braucht Leben ständig Energie?",
+    "detail": "Lebewesen als offene Systeme; auf- und abbauender Stoffwechsel; ATP/ADP als energetische Kopplung; Redoxprinzip; Gesamtgleichung der Zellatmung",
+    "category": "Stoffwechsel"
+  },
+  {
+    "date": "16.11.2026",
+    "title": "Mitochondrium, Zellatmung und Glykolyse – Überblick",
+    "detail": "Bau des Mitochondriums und Kompartimentierung; Teilprozesse räumlich zuordnen; Glykolyse mit Ausgangs-/Endprodukten, ATP und Reduktionsäquivalenten",
+    "category": "Stoffwechsel"
+  },
+  {
+    "date": "23.11.2026",
+    "title": "Oxidative Decarboxylierung und Citratzyklus",
+    "detail": "Verbindung von Glykolyse und Citratzyklus; C-Körper-Prinzip; CO₂-Abgabe; NADH/FADH₂; Stoff- und Energiebilanz ohne unnötige Zwischenprodukte",
+    "category": "Stoffwechsel"
+  },
+  {
+    "date": "24.11.2026",
+    "title": "Atmungskette und Protonengradient",
+    "detail": "Elektronentransport an der inneren Mitochondrienmembran; Protonentransport; Sauerstoff als Elektronenakzeptor; Aufbau des Gradienten",
+    "category": "Stoffwechsel"
+  },
+  {
+    "date": "30.11.2026",
+    "title": "Chemiosmose und ATP-Bildung",
+    "detail": "Protonengradient; ATP-Synthase; chemiosmotisches Prinzip; Zusammenhang zwischen Atmungskette und oxidativer Phosphorylierung",
+    "category": "Stoffwechsel"
+  },
+  {
+    "date": "07.12.2026",
+    "title": "Zellatmung – Bilanz, Vernetzung und Transfer",
+    "detail": "Teilprozesse zu einem Gesamtmodell verknüpfen; Stoff- und Energiebilanzen vergleichen; ATP, Redoxreaktionen und Kompartimentierung anwenden",
+    "category": "Stoffwechsel"
+  },
+  {
+    "date": "08.12.2026",
+    "title": "Fotosynthese – vom Blatt zum Chloroplasten",
+    "detail": "Gesamtgleichung; Blattbau; Chloroplast und Thylakoidsystem; Angepasstheiten an die Fotosynthese auf verschiedenen Systemebenen",
+    "category": "Stoffwechsel"
+  },
+  {
+    "date": "14.12.2026",
+    "title": "Licht und Blattpigmente",
+    "detail": "Chlorophyll und weitere Pigmente; Absorptionsspektrum und Wirkungsspektrum; Zusammenhang von Lichtabsorption und Fotosyntheseleistung; ggf. Chromatografie",
+    "category": "Stoffwechsel"
+  },
+  {
+    "date": "21.12.2026",
+    "title": "Primärreaktionen I – Lichtaufnahme und Elektronentransport",
+    "detail": "Lichtabsorption; Elektronenanregung; Elektronentransport; Bildung von Reduktionsäquivalenten; Funktion der Thylakoidmembran",
+    "category": "Stoffwechsel"
+  },
+  {
+    "date": "22.12.2026",
+    "title": "Primärreaktionen II – Chemiosmose",
+    "detail": "Protonengradient im Chloroplasten; ATP-Synthase; ATP-Bildung; Vergleich des chemiosmotischen Prinzips mit dem Mitochondrium",
+    "category": "Stoffwechsel"
+  },
+  {
+    "date": "11.01.2027",
+    "title": "Klausur 1:",
+    "detail": "",
+    "category": "Klausur"
+  },
+  {
+    "date": "18.01.2027",
+    "title": "Calvin-Zyklus",
+    "detail": "CO₂-Fixierung; Reduktion und Regeneration im C-Körper-Schema; Verwendung von ATP und Reduktionsäquivalenten; keine unnötige Detailtiefe",
+    "category": "Stoffwechsel"
+  },
+  {
+    "date": "25.01.2027",
+    "title": "Abhängigkeit der Fotosyntheserate",
+    "detail": "Lichtintensität, CO₂-Konzentration und Temperatur; limitierende Faktoren; experimentelle Daten/Diagramme planen, auswerten und interpretieren",
+    "category": "Stoffwechsel"
+  },
+  {
+    "date": "26.01.2027",
+    "title": "Fotosynthese und Zellatmung vernetzen",
+    "detail": "Chloroplast ↔ Mitochondrium; Stoff- und Energiefluss; Aufbau-Funktions-Bezüge; chemiosmotische ATP-Bildung vergleichen; Transferaufgaben",
+    "category": "Stoffwechsel"
+  },
+  {
+    "date": "01.02.2027",
+    "title": "Puffer",
+    "detail": "",
+    "category": "Puffer"
+  },
+  {
+    "date": "02.02.2027",
+    "title": "DNA und RNA – Nukleinsäuren als Informationsträger",
+    "detail": "Nukleotide; Zucker, Phosphat und Base; DNA-Doppelstrang; Komplementarität und Antiparallelität; DNA und RNA funktionell vergleichen; Modellarbeit",
+    "category": "Molekulare Genetik"
+  },
+  {
+    "date": "15.02.2027",
+    "title": "DNA-Replikation",
+    "detail": "semikonservative Replikation; komplementäre Basenpaarung; Bedeutung vor der Zellteilung; kurze Wiederholung Zellzyklus/Mitose",
+    "category": "Molekulare Genetik"
+  },
+  {
+    "date": "16.02.2027",
+    "title": "Was ist ein Gen? – Gen, Allel und Merkmal",
+    "detail": "moderner Genbegriff; Gen → Genprodukt → Merkmal; Genprodukte als RNA oder Protein; Genotyp/Phänotyp und Allele als Rückgriff auf Mendel",
+    "category": "Molekulare Genetik"
+  },
+  {
+    "date": "22.02.2027",
+    "title": "Proteinbiosynthese I – Transkription",
+    "detail": "DNA → mRNA; Matrizenstrang; komplementäre RNA-Basen; Ort und Grundprinzip der Transkription",
+    "category": "Molekulare Genetik"
+  },
+  {
+    "date": "01.03.2027",
+    "title": "Der genetische Code",
+    "detail": "Triplettcode; Codon; Codesonne/-tabelle; DNA-/mRNA-Sequenzen in Aminosäuresequenzen übersetzen",
+    "category": "Molekulare Genetik"
+  },
+  {
+    "date": "02.03.2027",
+    "title": "Proteinbiosynthese II – Translation",
+    "detail": "Ribosom; mRNA; tRNA; Anticodon; Aminosäuren; Aufbau einer Polypeptidkette; Verbindung zu Proteinstruktur und -funktion",
+    "category": "Molekulare Genetik"
+  },
+  {
+    "date": "08.03.2027",
+    "title": "Vom Gen zum Merkmal",
+    "detail": "Gesamtweg DNA → RNA → Protein → Funktion → Merkmal; Material- und Transferaufgaben; Genbegriff mit Proteinbiosynthese vernetzen",
+    "category": "Molekulare Genetik"
+  },
+  {
+    "date": "15.03.2027",
+    "title": "Genmutationen und ihre Folgen",
+    "detail": "Veränderungen der DNA; mögliche Folgen für Codons und Aminosäuresequenz; stumme bzw. folgenlose Veränderungen mitdenken; Beispiel z. B. Sichelzellanämie",
+    "category": "Molekulare Genetik"
+  },
+  {
+    "date": "16.03.2027",
+    "title": "Differenzielle Genaktivität und Transkriptionsfaktoren",
+    "detail": "identisches Genom – unterschiedliche Zelltypen; Genaktivität; Aktivierung/Hemmung der Transkription durch Transkriptionsfaktoren",
+    "category": "Molekulare Genetik"
+  },
+  {
+    "date": "05.04.2027",
+    "title": "DNA-Methylierung und Epigenetik",
+    "detail": "DNA-Methylierung als Mechanismus veränderter Genaktivität; Zusammenhang mit Zelldifferenzierung und stabilen Genexpressionsmustern",
+    "category": "Molekulare Genetik"
+  },
+  {
+    "date": "12.04.2027",
+    "title": "Genregulation, Mutation und Krankheit",
+    "detail": "Mutationen und gestörte Genregulation vernetzen; Krebs als mögliches Anwendungsbeispiel; Ursache-Wirkungs-Ketten analysieren",
+    "category": "Molekulare Genetik"
+  },
+  {
+    "date": "13.04.2027",
+    "title": "Molekulare Genetik – Vernetzung und Kompetenzsicherung",
+    "detail": "Replikation → Genexpression → Protein → Merkmal → Mutation/Regulation; anspruchsvollere Material-, Modell- und Transferaufgaben",
+    "category": "Molekulare Genetik"
+  },
+  {
+    "date": "19.04.2027",
+    "title": "PCR – DNA gezielt vervielfältigen",
+    "detail": "Grundprinzip; Denaturierung, Primeranlagerung und DNA-Synthese; zyklischer Ablauf; typische Anwendungen",
+    "category": "Angewandte Genetik"
+  },
+  {
+    "date": "26.04.2027",
+    "title": "Gelelektrophorese",
+    "detail": "Trennung von DNA-Fragmenten; Bandenmuster lesen und interpretieren; Verbindung zur PCR und zu diagnostischen Anwendungen",
+    "category": "Angewandte Genetik"
+  },
+  {
+    "date": "27.04.2027",
+    "title": "Restriktionsenzyme, Plasmide und Methoden vernetzen",
+    "detail": "spezifisches Schneiden von DNA; Plasmide als Vektoren; PCR, Gelelektrophorese und Restriktionsanalyse in kombinierten Aufgaben anwenden",
+    "category": "Angewandte Genetik"
+  },
+  {
+    "date": "03.05.2027",
+    "title": "Herstellung transgener Organismen",
+    "detail": "Gen isolieren; übertragen und exprimieren; geeignete Organismen selektieren; Verfahren als Ablaufmodell darstellen",
+    "category": "Angewandte Genetik"
+  },
+  {
+    "date": "10.05.2027",
+    "title": "CRISPR-Cas als Genomeditierung",
+    "detail": "Grundprinzip zielgerichteter DNA-Veränderung; Vergleich mit klassischer Herstellung transgener Organismen; Möglichkeiten und Grenzen",
+    "category": "Angewandte Genetik"
+  },
+  {
+    "date": "11.05.2027",
+    "title": "Gentechnisch veränderte Organismen bewerten",
+    "detail": "Chancen, Nutzen und Risiken in Landwirtschaft, Medizin oder Industrie; Kriterien für sachlich begründete Bewertungen entwickeln",
+    "category": "Angewandte Genetik"
+  },
+  {
+    "date": "31.05.2027",
+    "title": "Familienstammbäume, Gentests und genetische Beratung",
+    "detail": "Erbgänge analysieren; Ergebnisse von Gentests mit Stammbäumen verknüpfen; Wahrscheinlichkeiten sowie Möglichkeiten und Grenzen genetischer Aussagen",
+    "category": "Angewandte Genetik"
+  },
+  {
+    "date": "07.06.2027",
+    "title": "Somatische Gentherapie und ethische Bewertung",
+    "detail": "Grundprinzip somatischer Gentherapie; Chancen und Grenzen; Abgrenzung zur Keimbahnveränderung als ethische Vertiefung; Sach- und Werteebene unterscheiden",
+    "category": "Angewandte Genetik"
+  },
+  {
+    "date": "08.06.2027",
+    "title": "Was ist ein Ökosystem?",
+    "detail": "Ökosystem, Biotop und Biozönose; biotische und abiotische Umweltfaktoren; an einem konkreten lokalen Ökosystem vernetzen",
+    "category": "Ökologie"
+  },
+  {
+    "date": "14.06.2027",
+    "title": "Toleranz gegenüber Umweltfaktoren",
+    "detail": "Toleranzkurve; Minimum, Maximum, Optimum und Präferendum; ökologische Potenz; Zeigerarten; Daten und Diagramme auswerten",
+    "category": "Ökologie"
+  },
+  {
+    "date": "21.06.2027",
+    "title": "Freilandpraktikum planen",
+    "detail": "Fragestellung zu einem abiotischen Faktor; Hypothese; Messgröße; Artenverteilung; Stichprobe und Dokumentation planen",
+    "category": "Ökologie"
+  },
+  {
+    "date": "22.06.2027",
+    "title": "Ökologisches Freilandpraktikum",
+    "detail": "z. B. Licht, Temperatur, Bodenfeuchte oder pH messen und mit der Artenverteilung in Beziehung setzen; Daten sauber erfassen",
+    "category": "Ökologie"
+  },
+  {
+    "date": "28.06.2027",
+    "title": "Freilanddaten auswerten und beurteilen",
+    "detail": "Messdaten grafisch darstellen; Zusammenhänge zwischen Umweltfaktor und Artenvorkommen untersuchen; Zeigerarten einordnen; Aussagekraft und Fehlerquellen beurteilen",
+    "category": "Ökologie"
+  },
+  {
+    "date": "05.07.2027",
+    "title": "Die ökologische Nische",
+    "detail": "Nische als Gesamtheit der Ansprüche und Beziehungen; Fundamental- und Realnische; Abgrenzung vom Lebensraum",
+    "category": "Ökologie"
+  },
+  {
+    "date": "06.07.2027",
+    "title": "Konkurrenz und Einnischung",
+    "detail": "inter- und intraspezifische Konkurrenz; Konkurrenzausschluss; Konkurrenzvermeidung; Einnischung; Real- und Fundamentalnische anwenden",
+    "category": "Ökologie"
+  },
+  {
+    "date": "12.07.2027",
+    "title": "Wechselwirkungen zwischen Organismen",
+    "detail": "Konkurrenz, Parasitismus und Symbiose anhand konkreter Beispiele vergleichen; Auswirkungen auf beteiligte Arten begründen",
+    "category": "Ökologie"
   }
-  return result;
-}
+];
 
-function navigate(id) {
-  location.hash = id ? `#/${id}` : '#/';
-  render();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+const categoryStyles = {
+  "Zellbiologie & Enzyme": ["#377f62", "#e4f2e9", "#235d45"],
+  "Stoffwechsel": ["#b47a22", "#fff0d8", "#7a4d0c"],
+  "Molekulare Genetik": ["#5f5ca8", "#ecebfb", "#49468b"],
+  "Angewandte Genetik": ["#9a4d78", "#f7e7f0", "#7c365f"],
+  "Ökologie": ["#4d7d2d", "#e9f3df", "#365b1e"],
+  "Klausur": ["#a23c3c", "#fde8e8", "#842b2b"],
+  "Puffer": ["#6d766f", "#eef0ef", "#59615b"]
+};
+
+const topicOrder = ["Zellbiologie & Enzyme", "Stoffwechsel", "Molekulare Genetik", "Angewandte Genetik", "Ökologie"];
+const topicText = {
+  "Zellbiologie & Enzyme": "Biomembran, Stofftransport, Proteine und Enzyme – mit experimenteller Planung und Auswertung.",
+  "Stoffwechsel": "Zellatmung und Fotosynthese als gekoppelte Stoff- und Energieumwandlungen.",
+  "Molekulare Genetik": "DNA/RNA, Replikation, Proteinbiosynthese, Mutation, Genregulation und Epigenetik.",
+  "Angewandte Genetik": "PCR, Gelelektrophorese, Gentechnik, CRISPR, Gentests und Gentherapie.",
+  "Ökologie": "Ökosysteme, Toleranz, Freilandarbeit, ökologische Nische und Wechselwirkungen."
+};
+
+function parseDE(d) {
+  const [day, month, year] = d.split('.').map(Number);
+  return new Date(year, month - 1, day, 12, 0, 0);
 }
-brand.addEventListener('click', () => navigate(''));
-window.addEventListener('hashchange', render);
+function fmtLong(d) {
+  return parseDE(d).toLocaleDateString('de-DE', {weekday:'long', day:'2-digit', month:'2-digit', year:'numeric'});
+}
+function nextLesson() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  return schedule.find(x => parseDE(x.date) >= today && x.category !== 'Puffer') || schedule[schedule.length-1];
+}
+function tag(cat) {
+  const s = categoryStyles[cat] || categoryStyles["Puffer"];
+  return `<span class="tag" style="--tag-bg:${s[1]};--tag-color:${s[2]}">${cat}</span>`;
+}
+function lessonCard(item) {
+  const cls = item.category === 'Klausur' ? ' klausur' : item.category === 'Puffer' ? ' puffer' : '';
+  return `<article class="lesson${cls}" data-category="${item.category}">
+    <div class="lesson-date">${fmtLong(item.date)}</div>
+    <div>
+      <div class="lesson-title-row"><h3>${item.title}</h3>${tag(item.category)}</div>
+      ${item.detail ? `<p>${item.detail}</p>` : ''}
+    </div>
+  </article>`;
+}
 
 function home() {
-  const done = modules.filter(m => completed.has(m.id)).length;
-  const cards = modules.map((m, idx) => {
-    const locked = isLocked(m);
-    return `${idx === 7 ? '<div class="holiday-break"><span>HERBSTFERIEN</span><strong>Kurze Pause – danach geht es mit Auswertung und Hemmung weiter.</strong></div>' : ''}
-      <button class="module-card ${locked ? 'locked' : 'ready'}" ${locked ? 'disabled aria-disabled="true"' : `data-open="${m.id}"`}>
-        <div class="module-topline"><span>${m.number}</span><span>${esc(m.date)}</span></div>
-        <div class="module-icon">${locked ? '🔒' : m.icon}</div>
-        <h2>${esc(m.title)}</h2>
-        <p>${esc(m.subtitle)}</p>
-        <div class="module-footer">
-          <span>${locked ? `verfügbar ab ${formatUnlockDate(m.unlockDate)}` : 'vollständig'}</span>
-          <span>${locked ? '🔒 gesperrt' : completed.has(m.id) ? '✓ erledigt' : '→ öffnen'}</span>
-        </div>
-      </button>`;
-  }).join('');
-
-  return `<main>
-    ${previewBanner()}
+  const next = nextLesson();
+  const counts = Object.fromEntries(topicOrder.map(c => [c, schedule.filter(x => x.category === c).length]));
+  return `<div class="page">
     <section class="hero">
-      <div class="hero-copy">
-        <div class="eyebrow">BIOLOGIE · BASISFACH · BADEN-WÜRTTEMBERG</div>
-        <h1>Bio-Lernlabor <span>J1 · Kursstart bis Enzymhemmung</span></h1>
-        <p>Dein Unterricht als digitaler Lernpfad: Wissen abrufen, einlesen, verstehen, ausprobieren, selbst formulieren und gezielt nacharbeiten.</p>
-        <div class="hero-badges"><span>Unterrichtsplan 2026/27</span><span>Basisfach</span><span>iPad-optimiert</span><span>Antworten lokal gespeichert</span></div>
-      </div>
-      <div class="hero-card">
-        <div class="dna-mark">J1</div>
-        <strong>${modules.length} Lernmodule</strong>
-        <span>vom Membranaufbau bis zur Enzymhemmung</span>
-        <div class="progress-pill">${done}/${modules.length} erledigt · ${Math.round(done/modules.length*100)}%</div>
-      </div>
-    </section>
-
-    <section class="notice">
-      <strong>So kannst du das Lernlabor nutzen</strong>
-      <div class="notice-copy">
-        <p>Dieses Lernlabor soll dir dabei helfen, biologische Inhalte zu verstehen, auszuprobieren und zu wiederholen. Du kannst einzelne Abschnitte passend zum Unterricht nutzen, Themen selbstständig nacharbeiten oder dich später auf Tests und Klausuren vorbereiten.</p>
-        <p>Die Module enthalten kurze Erklärtexte, Verständnisfragen, interaktive Lernlabore, Aufgaben und Selbsttests. Du musst nicht immer alles auf einmal bearbeiten – nutze die Bereiche, die dir gerade helfen. Wenn du unsicher bist, beginne mit dem Einlesetext und arbeite dich Schritt für Schritt weiter.</p>
-      </div>
-    </section>
-
-    <section class="data-tools">
-      <div>
-        <strong>Deine Daten auf diesem Gerät</strong>
-        <span>Lernfortschritt, Zusammenfassungen und eigene Antworten werden nur in diesem Browser gespeichert. Beim Wechsel des Geräts oder Löschen der Browserdaten werden sie nicht übertragen.</span>
-      </div>
-      <button id="delete-learning-data" type="button">Lernfortschritt löschen</button>
-    </section>
-
-    <section class="timeline-head">
-      <div><div class="eyebrow">DEIN LERNPFAD</div><h2>September bis Anfang November</h2></div>
-      <span>15.09.–03.11.2026</span>
-    </section>
-    <section class="module-grid schedule-grid">${cards}</section>
-
-    <section class="method-strip"><div><b>01</b><span>Abrufen</span></div><div><b>02</b><span>Einlesen</span></div><div><b>03</b><span>Ausprobieren</span></div><div><b>04</b><span>Selbst erklären</span></div><div><b>05</b><span>Gezielt nacharbeiten</span></div></section>
-  </main>`;
-}
-
-function learningPath(m) {
-  return `<section class="learning-path panel compact-panel">
-    <div class="eyebrow">LERNWEG</div>
-    <div class="path-row">
-      ${m.review?.length ? '<button class="path-link" data-scroll="review">↩️ Wiederholen</button><span>→</span>' : ''}
-      <button class="path-link" data-scroll="read">📖 Einlesen</button><span>→</span>
-      <button class="path-link" data-scroll="check">🧠 Kurzcheck</button><span>→</span>
-      <button class="path-link" data-scroll="summary">✍️ Zusammenfassen</button><span>→</span>
-      <button class="path-link" data-scroll="lab-section">🎛️ Lernlabor</button><span>→</span>
-      <button class="path-link" data-scroll="train">✏️ Anwenden</button><span>→</span>
-      <button class="path-link" data-scroll="selftest">✅ Selbsttest</button>
-    </div>
-  </section>`;
-}
-
-function reviewSection(m) {
-  if (!m.review?.length) return '';
-  return `<section class="panel review-panel" id="review">
-    <div class="eyebrow">WIEDERHOLEN · OHNE NACHZUSCHAUEN</div>
-    <h2>Was weißt du noch?</h2>
-    <p class="section-lead">Versuche die drei Fragen zuerst aus dem Gedächtnis. Das Abrufen älterer Inhalte hilft, neues Wissen besser zu verknüpfen.</p>
-    <div class="quick-list">
-      ${m.review.map((q, qi) => `<article class="quick-card" data-review-card="${qi}"><h3>${qi+1}. ${esc(q.q)}</h3><div class="option-list">${shuffledOptions(q.options).map(o=>`<button data-rq="${qi}" data-ro="${o.index}">${esc(o.text)}</button>`).join('')}</div><div class="feedback" id="review-feedback-${qi}" hidden></div></article>`).join('')}
-    </div>
-  </section>`;
-}
-
-function summarySection(m) {
-  const saved = localStorage.getItem(summaryKey(m.id)) || '';
-  return `<section class="panel summary-panel" id="summary">
-    <div class="eyebrow">AKTIVES ABRUFEN</div>
-    <h2>Erkläre das Modul in deinen eigenen Worten</h2>
-    <p class="section-lead">Schließe den Einlesetext kurz aus dem Blick und schreibe 3–5 Sätze: Was sind die wichtigsten Zusammenhänge? Deine Eingabe bleibt nur auf diesem Gerät im Browser gespeichert.</p>
-    <textarea class="learning-note" id="module-summary" rows="6" placeholder="Meine Zusammenfassung …">${esc(saved)}</textarea>
-    <div class="autosave" id="summary-save">lokal gespeichert</div>
-  </section>`;
-}
-
-function experimentOptionsSection(m) {
-  if (!m.experimentOptions?.length) return '';
-  return `<section class="panel experiment-options">
-    <div class="eyebrow">FÜR DIE DURCHFÜHRUNG AM 20.10.</div>
-    <h2>Drei mögliche Enzymversuche</h2>
-    <p class="section-lead">Die konkrete Variante legt die Lehrkraft fest. Diese Karten helfen dir, Messgröße und Versuchslogik schon vor der Durchführung zu verstehen.</p>
-    <div class="experiment-grid">${m.experimentOptions.map(x=>`<article><h3>${esc(x.title)}</h3><p><strong>Materialidee:</strong> ${esc(x.material)}</p><p><strong>Mögliche Messgröße:</strong> ${esc(x.measure)}</p><small>⚠ ${esc(x.note)}</small></article>`).join('')}</div>
-  </section>`;
-}
-
-function bookBox(m) {
-  const search = (m.bookSearch || [m.title]).map(x => `<li>${esc(x)}</li>`).join('');
-  return `<section class="panel book-panel">
-    <div class="eyebrow">LEHRBUCH</div>
-    <h2>Parallel mit Markl oder Natura arbeiten</h2>
-    <p>Das Lernlabor ersetzt euer Lehrbuch nicht. Nutze das Inhaltsverzeichnis bzw. Register und suche zu diesem Modul nach:</p>
-    <ul class="book-search">${search}</ul>
-    <div class="book-grid">
-      <div><span>📘</span><strong>Markl Biologie</strong><small>Genaue Seiten können ergänzt werden, sobald die verwendete Ausgabe feststeht.</small></div>
-      <div><span>📗</span><strong>Natura Biologie</strong><small>Genaue Seiten können ergänzt werden, sobald die verwendete Ausgabe feststeht.</small></div>
-    </div>
-  </section>`;
-}
-
-function readingSection(m) {
-  return `<section class="panel reading-panel" id="read">
-    <div class="eyebrow">EINLESEN · CA. ${esc(m.readTime || '8–10 MIN')}</div>
-    <h2>Grundlagen verstehen</h2>
-    <p class="section-lead">Lies die Abschnitte in Ruhe. Markiere dir Begriffe, die du anschließend ohne Text erklären können solltest.</p>
-    <div class="reading-list">
-      ${m.reading.map(r => `<article class="reading-card">
-        <div class="reading-label">${esc(r.label)}</div>
-        <h3>${esc(r.title)}</h3>
-        ${r.paragraphs.map(p => `<p>${esc(p)}</p>`).join('')}
-        ${r.callout ? `<div class="callout callout-${esc(r.callout.type)}"><strong>${esc(r.callout.title)}</strong><span>${esc(r.callout.text)}</span></div>` : ''}
-      </article>`).join('')}
-    </div>
-  </section>`;
-}
-
-function quickCheckSection(m) {
-  return `<section class="panel" id="check">
-    <div class="eyebrow">KURZCHECK</div>
-    <h2>Hast du das Wesentliche verstanden?</h2>
-    <p class="section-lead">Beantworte die drei Fragen direkt nach dem Lesen. Jede richtige Antwort wurde oben bereits erklärt.</p>
-    <div class="quick-list">
-      ${m.quickCheck.map((q, qi) => `<article class="quick-card" data-quick="${qi}">
-        <h3>${qi + 1}. ${esc(q.q)}</h3>
-        <div class="option-list">${shuffledOptions(q.options).map(o => `<button data-q="${qi}" data-o="${o.index}">${esc(o.text)}</button>`).join('')}</div>
-        <div class="feedback" id="quick-feedback-${qi}" hidden></div>
-      </article>`).join('')}
-    </div>
-  </section>`;
-}
-
-function researchSection(m) {
-  return `<section class="panel research-panel">
-    <div class="eyebrow">FORSCHERAUFTRAG</div>
-    <h2>${esc(m.research.title)}</h2>
-    <ol>${m.research.steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol>
-  </section>`;
-}
-
-function taskSection(m) {
-  return `<section class="panel" id="train">
-    <div class="eyebrow">ANWENDEN · DEINE ANTWORTEN WERDEN LOKAL GESPEICHERT</div>
-    <h2>Aufgaben nach Anforderungsbereichen</h2>
-    <p class="section-lead">Formuliere zuerst selbst. Nutze den Hinweis nur, wenn du festhängst, und vergleiche erst danach mit der Musterlösung.</p>
-    <div class="task-list">${m.tasks.map((t,i)=>`<article class="task"><div class="task-head"><div class="afb afb-${t.afb.toLowerCase()}">AFB ${t.afb}</div><p>${esc(t.prompt)}</p></div><textarea class="task-answer" data-task-answer="${i}" rows="4" placeholder="Meine Antwort …">${esc(localStorage.getItem(taskKey(m.id,i)) || '')}</textarea><div class="task-actions"><button data-hint="${i}">Hinweis</button><button data-solution="${i}" ${(localStorage.getItem(taskKey(m.id,i)) || '').trim() ? '' : 'disabled'}>Musterlösung anzeigen</button><span class="autosave">wird lokal gespeichert</span></div><div class="hint" id="hint-${i}" hidden>💡 ${esc(t.hint)}</div><div class="solution" id="solution-${i}" hidden><strong>Musterlösung</strong><p>${esc(t.solution || t.hint)}</p><small>Vergleiche Fachbegriffe und Begründung – deine Formulierung muss nicht wortgleich sein.</small></div></article>`).join('')}</div>
-  </section>`;
-}
-
-function quizSection(m) {
-  const best = Number(localStorage.getItem(quizKey(m.id)) || 0);
-  return `<section class="panel quiz-panel" id="selftest">
-    <div class="eyebrow">SELBSTTEST</div>
-    <h2>${m.quiz.length} Fragen zum Abschluss</h2>
-    <p class="section-lead">Ziel: mindestens ${Math.max(1, m.quiz.length - 1)} von ${m.quiz.length} richtig. Nach der Auswertung siehst du zu jeder Frage die richtige Antwort, eine Erklärung und den passenden Einleseabschnitt.</p>
-    <div class="quiz-best">Bestwert: <strong id="best-score">${best}/${m.quiz.length}</strong></div>
-    <form id="quiz-form">
-      ${m.quiz.map((q, qi) => `<fieldset class="quiz-question" data-quiz-question="${qi}"><legend>${qi+1}. ${esc(q.q)}</legend>${shuffledOptions(q.options).map(o => `<label><input type="radio" name="q${qi}" value="${o.index}"><span>${esc(o.text)}</span></label>`).join('')}</fieldset>`).join('')}
-      <button type="submit" class="primary-btn">Selbsttest auswerten</button>
-    </form>
-    <div id="quiz-result" class="quiz-result" hidden></div>
-    <div id="quiz-detail" class="quiz-detail" hidden></div>
-  </section>`;
-}
-
-function fullModulePage(m) {
-  return `<main class="module-page">
-    ${previewBanner()}
-    <button class="back" id="back">← Übersicht</button>
-    <header class="module-hero">
-      <div><div class="eyebrow">${esc(m.date)} · ${esc(m.bp)}</div><h1><span class="hero-icon">${m.icon}</span>${esc(m.title)}</h1><p>${esc(m.intro)}</p></div>
-      <button class="complete ${completed.has(m.id) ? 'done' : ''}" id="complete">${completed.has(m.id) ? '✓ Modul erledigt' : 'Als erledigt markieren'}</button>
-    </header>
-    <section class="hook-card"><span>LEITFRAGE</span><strong>${esc(m.hook)}</strong></section>
-    ${learningPath(m)}
-    ${reviewSection(m)}
-    ${bookBox(m)}
-    <section class="panel"><div class="eyebrow">LERNZIELE</div><h2>Das solltest du danach können</h2><div class="goal-grid">${m.goals.map((g,i)=>`<div class="goal"><span>${String(i+1).padStart(2,'0')}</span><p>${esc(g)}</p></div>`).join('')}</div></section>
-    ${readingSection(m)}
-    ${quickCheckSection(m)}
-    ${summarySection(m)}
-    <section class="panel lab-panel" id="lab-section"><div class="eyebrow">INTERAKTIV</div><h2 id="lab-title"></h2><p class="lab-intro">Nutze das Modell nicht nur zum Anschauen: Beschreibe jede Veränderung mit biologischer Fachsprache.</p><div id="lab"></div></section>
-    ${researchSection(m)}
-    ${experimentOptionsSection(m)}
-    ${taskSection(m)}
-    ${quizSection(m)}
-    <section class="finish-panel"><div><span>Modul ${esc(m.number)}</span><strong>${esc(m.title)} abgeschlossen?</strong><p>Markiere das Modul erst, wenn du die Grundideen ohne Hilfe erklären kannst.</p></div><button class="complete ${completed.has(m.id) ? 'done' : ''}" id="complete-bottom">${completed.has(m.id) ? '✓ erledigt' : 'Als erledigt markieren'}</button></section>
-    <section class="source-note"><strong>Hinweis:</strong> Die Erklärtexte sind eigenständig formuliert und an deinem Unterrichtsplan orientiert. Markl und Natura werden ergänzend genutzt; urheberrechtlich geschützte Buchtexte oder Abbildungen werden hier nicht kopiert.</section>
-  </main>`;
-}
-
-function initReview(m) {
-  if (!m.review?.length) return;
-  app.querySelectorAll('[data-rq]').forEach(btn => btn.addEventListener('click', () => {
-    const qi=Number(btn.dataset.rq), oi=Number(btn.dataset.ro), q=m.review[qi];
-    const card=btn.closest('.quick-card'); card.querySelectorAll('[data-ro]').forEach(b=>b.classList.remove('correct-choice','wrong-choice'));
-    const fb=document.getElementById(`review-feedback-${qi}`); fb.hidden=false;
-    if(oi===q.correct){btn.classList.add('correct-choice');fb.className='feedback good';fb.textContent=`✓ ${q.explain}`;}
-    else{btn.classList.add('wrong-choice');card.querySelector(`[data-ro="${q.correct}"]`).classList.add('correct-choice');fb.className='feedback bad';fb.textContent=`Noch nicht. ${q.explain}`;}
-  }));
-}
-
-function initSummary(m) {
-  const ta=document.getElementById('module-summary'); if(!ta) return;
-  const status=document.getElementById('summary-save'); let timer;
-  ta.addEventListener('input',()=>{status.textContent='speichert …';clearTimeout(timer);timer=setTimeout(()=>{localStorage.setItem(summaryKey(m.id),ta.value);status.textContent='lokal gespeichert ✓';},250);});
-}
-
-function initTaskNotes(m) {
-  app.querySelectorAll('[data-task-answer]').forEach(ta => {
-    const index = Number(ta.dataset.taskAnswer);
-    const solutionButton = app.querySelector(`[data-solution="${index}"]`);
-
-    const updateSolutionButton = () => {
-      if (solutionButton) solutionButton.disabled = !ta.value.trim();
-    };
-
-    updateSolutionButton();
-    ta.addEventListener('input', () => {
-      localStorage.setItem(taskKey(m.id, index), ta.value);
-      updateSolutionButton();
-    });
-  });
-
-  app.querySelectorAll('[data-solution]').forEach(btn => btn.addEventListener('click', () => {
-    if (btn.disabled) return;
-    const box = document.getElementById(`solution-${btn.dataset.solution}`);
-    box.hidden = !box.hidden;
-    btn.textContent = box.hidden ? 'Musterlösung anzeigen' : 'Musterlösung schließen';
-  }));
-}
-
-function initQuickCheck(m) {
-  app.querySelectorAll('[data-q]').forEach(btn => btn.addEventListener('click', () => {
-    const qi = Number(btn.dataset.q), oi = Number(btn.dataset.o), q = m.quickCheck[qi];
-    const card = btn.closest('.quick-card');
-    card.querySelectorAll('[data-o]').forEach(b => b.classList.remove('correct-choice','wrong-choice'));
-    const fb = document.getElementById(`quick-feedback-${qi}`);
-    fb.hidden = false;
-    if (oi === q.correct) {
-      btn.classList.add('correct-choice');
-      fb.className = 'feedback good';
-      fb.textContent = `✓ ${q.explain}`;
-    } else {
-      btn.classList.add('wrong-choice');
-      card.querySelector(`[data-o="${q.correct}"]`).classList.add('correct-choice');
-      fb.className = 'feedback bad';
-      fb.textContent = 'Noch nicht. Schau dir den zugehörigen Abschnitt oben noch einmal an.';
-    }
-  }));
-}
-
-function initQuiz(m) {
-  const form = document.getElementById('quiz-form');
-  if (!form) return;
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    let score = 0, answered = 0;
-    const details=[];
-    m.quiz.forEach((q, qi) => {
-      const chosen = form.querySelector(`input[name="q${qi}"]:checked`);
-      if (chosen) answered++;
-      const chosenIndex = chosen ? Number(chosen.value) : -1;
-      const ok = chosenIndex === q.correct;
-      if(ok) score++;
-      details.push({q,chosenIndex,ok});
-    });
-    const result = document.getElementById('quiz-result');
-    const detail = document.getElementById('quiz-detail');
-    result.hidden = false;
-    if (answered < m.quiz.length) {
-      result.className = 'quiz-result warn';
-      result.innerHTML = `<strong>Noch nicht vollständig</strong><span>Du hast ${answered} von ${m.quiz.length} Fragen beantwortet.</span>`;
-      detail.hidden=true;
-      return;
-    }
-    const oldBest = Number(localStorage.getItem(quizKey(m.id)) || 0);
-    const best = Math.max(oldBest, score);
-    localStorage.setItem(quizKey(m.id), best);
-    document.getElementById('best-score').textContent = `${best}/${m.quiz.length}`;
-    const target = Math.max(1, m.quiz.length - 1);
-    result.className = `quiz-result ${score >= target ? 'good' : 'bad'}`;
-    result.innerHTML = score >= target
-      ? `<strong>${score}/${m.quiz.length} – Ziel erreicht ✓</strong><span>Lies trotzdem die Rückmeldung unten: Sie zeigt dir, ob einzelne Stellen noch unsicher sind.</span>`
-      : `<strong>${score}/${m.quiz.length} – gezielt nacharbeiten</strong><span>Unten siehst du genau, welche Abschnitte du noch einmal lesen solltest.</span>`;
-    detail.hidden=false;
-    detail.innerHTML = details.map((d,i)=>`<article class="quiz-feedback-card ${d.ok?'ok':'needs-work'}"><div class="quiz-feedback-head"><strong>${d.ok?'✓':'↻'} Frage ${i+1}</strong><span>${d.ok?'sicher':'noch einmal ansehen'}</span></div><p>${esc(d.q.q)}</p><div class="answer-line"><b>Deine Antwort:</b> ${d.chosenIndex>=0?esc(d.q.options[d.chosenIndex]):'–'}</div><div class="answer-line"><b>Richtig:</b> ${esc(d.q.options[d.q.correct])}</div><p class="why">${esc(d.q.explain || 'Diese Antwort entspricht der Kernaussage aus dem Einlesetext.')}</p>${d.q.review?`<button class="review-link" data-scroll="read">📖 Noch einmal lesen: ${esc(d.q.review)}</button>`:''}</article>`).join('');
-    detail.querySelectorAll('[data-scroll]').forEach(b=>b.addEventListener('click',()=>document.getElementById(b.dataset.scroll)?.scrollIntoView({behavior:'smooth',block:'start'})));
-  });
-}
-
-function initLab(type) {
-  const el = document.getElementById('lab');
-  const title = document.getElementById('lab-title');
-  if (!el || !title) return;
-  const titles = {
-    membraneStructure:'Membranmodell',
-    passiveTransport:'Passiver Transport: Welcher Weg passt?',
-    activeTransport:'Aktiver Transport & Membranfluss',
-    peptideBuilder:'Peptid-Baukasten',
-    proteinStructure:'Proteinfaltung & Denaturierung',
-    enzymeBinding:'Enzym–Substrat-Modell',
-    experimentPlanner:'Experiment-Planer',
-    enzymeActivity:'Enzymaktivität: Kurven lesen',
-    enzymeInhibition:'Enzymhemmung: Kurven vergleichen'
-  };
-  title.textContent = titles[type] || 'Lernlabor';
-
-  if (type === 'membraneStructure') {
-    const lipids = Array.from({length: 13}, () => `<div class="lipid lipid-top"><i></i><b></b><b></b></div>`).join('');
-    const lipidsBottom = Array.from({length: 13}, () => `<div class="lipid lipid-bottom"><i></i><b></b><b></b></div>`).join('');
-    el.innerHTML = `<div class="membrane-lab-grid">
-      <div class="lab-controls">
-        <p>Blende Informationen ein und beschreibe anschließend selbst, was du siehst.</p>
-        <button class="toggle" id="hydro-toggle">Hydrophil / hydrophob markieren</button>
-        <button class="toggle" id="protein-toggle">Membranproteine anzeigen</button>
-        <button class="toggle" id="comp-toggle">Kompartimente benennen</button>
-        <div class="mini-note">Modellhinweis: Die Darstellung ist stark vereinfacht und nicht maßstabsgetreu.</div>
-      </div>
-      <div class="membrane-model" id="membrane-model">
-        <div class="compartment top-comp"><span>Außenraum</span></div>
-        <div class="hydro-label hydro-head top-h" hidden>hydrophile Köpfe</div>
-        <div class="bilayer">
-          <div class="lipid-row top-row">${lipids}</div>
-          <div class="hydrophobic-zone"><span hidden>hydrophober Membrankern</span></div>
-          <div class="lipid-row bottom-row">${lipidsBottom}</div>
-          <div class="protein transmembrane" hidden><span>Kanal-/Transportprotein</span></div>
-          <div class="protein peripheral" hidden><span>peripheres Protein</span></div>
+      <div class="hero-main">
+        <div class="eyebrow">Kursstufe · Schuljahr 2026/27</div>
+        <h1>Biologie<br>Basisfach J1</h1>
+        <p>Alles Wichtige für unseren Kurs: Themen, Termine, Arbeitsweise, Leistungsnachweise und das Lehrwerk MARKL.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#/themenplan">Zum Themenplan</a>
+          <a class="button secondary" href="#/organisation">So arbeiten wir</a>
         </div>
-        <div class="hydro-label hydro-head bottom-h" hidden>hydrophile Köpfe</div>
-        <div class="compartment bottom-comp"><span>Cytoplasma</span></div>
       </div>
-    </div>`;
-    const hydro = el.querySelector('#hydro-toggle'), protein = el.querySelector('#protein-toggle'), comp = el.querySelector('#comp-toggle'), model = el.querySelector('#membrane-model');
-    hydro.onclick = () => {
-      const on = hydro.classList.toggle('active');
-      hydro.textContent = on ? 'Markierung ausblenden' : 'Hydrophil / hydrophob markieren';
-      model.querySelectorAll('.hydro-label, .hydrophobic-zone span').forEach(x => x.hidden = !on);
-      model.classList.toggle('show-hydro', on);
-    };
-    protein.onclick = () => {
-      const on = protein.classList.toggle('active');
-      protein.textContent = on ? 'Membranproteine ausblenden' : 'Membranproteine anzeigen';
-      model.querySelectorAll('.protein').forEach(x => x.hidden = !on);
-    };
-    comp.onclick = () => {
-      const on = comp.classList.toggle('active');
-      comp.textContent = on ? 'Kompartimente ausblenden' : 'Kompartimente benennen';
-      model.classList.toggle('show-comp', on);
-    };
-  }
+      <div class="hero-side">
+        <div class="stat-card next-card">
+          <span class="stat-label">Nächster geplanter Termin</span>
+          <div class="stat-value">${next.title}</div>
+          <div class="stat-meta">${fmtLong(next.date)}</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Lehrwerk</span>
+          <div class="stat-value">MARKL Biologie Oberstufe</div>
+          <div class="stat-meta">Gesamtband · Bundesausgabe ab 2022</div>
+        </div>
+      </div>
+    </section>
 
-  if (type === 'passiveTransport') {
-    el.innerHTML = `<div class="lab-grid">
-      <div>
-        <label>Stofftyp</label>
-        <select id="passive-kind" class="lab-select">
-          <option value="small">kleines unpolares Molekül</option>
-          <option value="ion">Ion</option>
-          <option value="polar">größeres polares Molekül</option>
-        </select>
-        <label>Konzentration außen <b id="po-v">80</b></label><input id="po" type="range" min="0" max="100" value="80">
-        <label>Konzentration innen <b id="pi-v">25</b></label><input id="pi" type="range" min="0" max="100" value="25">
-        <button class="toggle active" id="protein-ready">Transportprotein: funktionsfähig</button>
+    <section class="section">
+      <div class="section-head"><div><div class="kicker">J1 im Überblick</div><h2>Fünf große Lernstrecken</h2><p>Die Reihenfolge folgt dem aktuellen Themenverteilungsplan 2026/27.</p></div></div>
+      <div class="grid-3">
+        ${topicOrder.map((c,i) => { const s=categoryStyles[c]; return `<article class="card topic-card" style="--tag:${s[0]}"><span class="topic-no">0${i+1}</span><h3>${c}</h3><p>${topicText[c]}</p><span class="topic-count">${counts[c]} geplante Termine</span></article>`; }).join('')}
       </div>
-      <div class="lab-result">
-        <div class="membrane-scene"><div><span class="big-number" id="po-n">80</span><small>außen</small></div><div class="membrane-line">⇄</div><div><span class="big-number" id="pi-n">25</span><small>innen</small></div></div>
-        <p><strong>Passender Weg:</strong> <span id="passive-route"></span></p>
-        <p><strong>Nettofluss:</strong> <span id="passive-flow"></span></p>
-        <p><strong>Direkter ATP-Verbrauch:</strong> nein</p>
-      </div>
-    </div>`;
-    const kind=el.querySelector('#passive-kind'), o=el.querySelector('#po'), i=el.querySelector('#pi'), btn=el.querySelector('#protein-ready');
-    let proteinReady = true;
-    const update=()=>{
-      const ov=+o.value, iv=+i.value, d=ov-iv;
-      const route = kind.value==='small' ? 'einfache Diffusion durch die Lipiddoppelschicht' : kind.value==='ion' ? 'erleichterte Diffusion durch ein Kanalprotein' : 'erleichterte Diffusion über ein Carrierprotein';
-      const direction = d===0 ? 'kein Nettofluss (dynamisches Gleichgewicht)' : d>0 ? 'außen → innen, entlang des Konzentrationsgefälles' : 'innen → außen, entlang des Konzentrationsgefälles';
-      const blocked = kind.value!=='small' && !proteinReady;
-      el.querySelector('#po-v').textContent=ov; el.querySelector('#pi-v').textContent=iv; el.querySelector('#po-n').textContent=ov; el.querySelector('#pi-n').textContent=iv;
-      el.querySelector('#passive-route').textContent=route;
-      el.querySelector('#passive-flow').textContent=blocked ? 'im Modell blockiert, weil das benötigte Transportprotein nicht funktioniert' : direction;
-      btn.hidden = kind.value==='small';
-    };
-    kind.onchange=update; o.oninput=update; i.oninput=update;
-    btn.onclick=()=>{proteinReady=!proteinReady;btn.classList.toggle('active',proteinReady);btn.textContent=`Transportprotein: ${proteinReady?'funktionsfähig':'blockiert'}`;update();};
-    update();
-  }
+    </section>
 
-  if (type === 'activeTransport') {
-    el.innerHTML = `<div class="lab-grid">
-      <div>
-        <label>Konzentration außen <b id="ao-v">20</b></label><input id="ao" type="range" min="0" max="100" value="20">
-        <label>Konzentration innen <b id="ai-v">75</b></label><input id="ai" type="range" min="0" max="100" value="75">
-        <label>Richtung der Pumpe</label>
-        <select id="pump-dir" class="lab-select"><option value="in">außen → innen</option><option value="out">innen → außen</option></select>
-        <button class="toggle active" id="atp-toggle">ATP: verfügbar</button>
+    <section class="section grid-2">
+      <div class="card">
+        <div class="kicker">Klausur</div>
+        <h3>1. Klausur: 11.01.2027</h3>
+        <p>Weitere Leistungsnachweise und Termine werden im Kurs rechtzeitig bekanntgegeben.</p>
       </div>
-      <div class="lab-result">
-        <div class="membrane-scene"><div><span class="big-number" id="ao-n">20</span><small>außen</small></div><div class="membrane-line" id="pump-arrow">→</div><div><span class="big-number" id="ai-n">75</span><small>innen</small></div></div>
-        <p><strong>Pumprichtung:</strong> <span id="pump-text"></span></p>
-        <p><strong>Bezug zum Konzentrationsgefälle:</strong> <span id="gradient-text"></span></p>
-        <p><strong>Transport im Modell:</strong> <span id="pump-status"></span></p>
+      <div class="card">
+        <div class="kicker">J2-Ausblick</div>
+        <h3>Was danach kommt</h3>
+        <p>Rest Ökologie, Stammesgeschichte/Verwandtschaft, Neurobiologie sowie weitere angewandte Biologie.</p>
       </div>
-    </div>
-    <div class="vesicle-box">
-      <strong>Membranfluss vergleichen</strong>
-      <div class="vesicle-actions"><button class="mini-action active" data-vesicle="endo">Endocytose</button><button class="mini-action" data-vesicle="exo">Exocytose</button></div>
-      <div id="vesicle-visual" class="vesicle-visual endo"><div class="cell-line"></div><div class="vesicle-dot"></div></div>
-      <p id="vesicle-text">Endocytose: Die Zellmembran stülpt sich ein und schnürt ein Vesikel nach innen ab. So kann Material aufgenommen werden.</p>
-    </div>`;
-    const o=el.querySelector('#ao'), i=el.querySelector('#ai'), dir=el.querySelector('#pump-dir'), atpBtn=el.querySelector('#atp-toggle');
-    let atp=true;
-    const update=()=>{
-      const ov=+o.value, iv=+i.value, moveIn=dir.value==='in';
-      const source = moveIn ? ov : iv, target = moveIn ? iv : ov;
-      const against = target >= source;
-      el.querySelector('#ao-v').textContent=ov;el.querySelector('#ai-v').textContent=iv;el.querySelector('#ao-n').textContent=ov;el.querySelector('#ai-n').textContent=iv;
-      el.querySelector('#pump-arrow').textContent=moveIn?'→':'←';
-      el.querySelector('#pump-text').textContent=moveIn?'außen → innen':'innen → außen';
-      el.querySelector('#gradient-text').textContent=against?'gegen das Konzentrationsgefälle':'in Richtung des Konzentrationsgefälles';
-      el.querySelector('#pump-status').textContent=atp?'Pumpe arbeitet – Energie wird bereitgestellt':'Pumpe steht – ohne Energie kein aktiver Transport';
-    };
-    o.oninput=update;i.oninput=update;dir.onchange=update;atpBtn.onclick=()=>{atp=!atp;atpBtn.classList.toggle('active',atp);atpBtn.textContent=`ATP: ${atp?'verfügbar':'nicht verfügbar'}`;update();};update();
-    el.querySelectorAll('[data-vesicle]').forEach(b=>b.onclick=()=>{
-      el.querySelectorAll('[data-vesicle]').forEach(x=>x.classList.remove('active'));b.classList.add('active');
-      const mode=b.dataset.vesicle, visual=el.querySelector('#vesicle-visual');visual.className=`vesicle-visual ${mode}`;
-      el.querySelector('#vesicle-text').textContent=mode==='endo'?'Endocytose: Die Zellmembran stülpt sich ein und schnürt ein Vesikel nach innen ab. So kann Material aufgenommen werden.':'Exocytose: Ein Vesikel verschmilzt mit der Zellmembran und gibt seinen Inhalt nach außen ab.';
-    });
-  }
-
-  if (type === 'peptideBuilder') {
-    el.innerHTML = `<div class="lab-grid">
-      <div>
-        <p>Baue schrittweise eine Polypeptidkette. Im Modell besitzt jede Aminosäure dieselbe Grundstruktur, aber einen unterschiedlichen Rest R.</p>
-        <button class="primary-btn" id="aa-add">+ Aminosäure anfügen</button>
-        <button class="toggle" id="aa-remove">letzte Aminosäure entfernen</button>
-        <div class="mini-note">Bei jeder neu geknüpften Peptidbindung wird im vereinfachten Modell ein Wassermolekül abgespalten.</div>
-      </div>
-      <div class="lab-result peptide-result">
-        <div class="amino-formula">H₂N—CH(R)—COOH</div>
-        <div id="peptide-chain" class="peptide-chain"></div>
-        <p><strong>Aminosäuren:</strong> <span id="aa-count">2</span></p>
-        <p><strong>Peptidbindungen:</strong> <span id="bond-count">1</span></p>
-        <p><strong>abgespaltene H₂O:</strong> <span id="water-count">1</span></p>
-      </div>
-    </div>`;
-    let count=2;
-    const update=()=>{
-      const chain=Array.from({length:count},(_,idx)=>`<span class="aa-bead">AS${idx+1}</span>${idx<count-1?'<i class="peptide-bond">—CO—NH—</i>':''}`).join('');
-      el.querySelector('#peptide-chain').innerHTML=chain;el.querySelector('#aa-count').textContent=count;el.querySelector('#bond-count').textContent=Math.max(0,count-1);el.querySelector('#water-count').textContent=Math.max(0,count-1);
-    };
-    el.querySelector('#aa-add').onclick=()=>{count=Math.min(8,count+1);update();};el.querySelector('#aa-remove').onclick=()=>{count=Math.max(1,count-1);update();};update();
-  }
-
-  if (type === 'proteinStructure') {
-    el.innerHTML = `<div class="structure-lab">
-      <div class="structure-tabs">
-        <button class="mini-action active" data-level="primary">Primär</button><button class="mini-action" data-level="secondary">Sekundär</button><button class="mini-action" data-level="tertiary">Tertiär</button><button class="mini-action" data-level="quaternary">Quartär</button>
-      </div>
-      <div class="protein-stage"><div id="protein-shape" class="protein-shape primary"><span>A</span><span>G</span><span>S</span><span>L</span><span>K</span><span>V</span></div></div>
-      <div class="structure-caption" id="structure-caption"><strong>Primärstruktur</strong><span>Reihenfolge der Aminosäuren in einer Polypeptidkette.</span></div>
-      <div class="denature-controls"><label>Temperatur im Modell <b id="denat-v">25 °C</b></label><input id="denat" type="range" min="20" max="90" value="25"><p id="denat-text">Die räumliche Struktur bleibt im Modell stabil.</p></div>
-    </div>`;
-    const data={
-      primary:['Primärstruktur','Reihenfolge der Aminosäuren in einer Polypeptidkette.'],
-      secondary:['Sekundärstruktur','Lokale regelmäßige Faltungen wie α-Helix oder β-Faltblatt.'],
-      tertiary:['Tertiärstruktur','Gesamte dreidimensionale Faltung einer Polypeptidkette durch Wechselwirkungen der Seitenketten.'],
-      quaternary:['Quartärstruktur','Zusammenlagerung mehrerer Polypeptidketten zu einem funktionellen Protein.']
-    };
-    let level='primary';const shape=el.querySelector('#protein-shape'),caption=el.querySelector('#structure-caption'),slider=el.querySelector('#denat');
-    const update=()=>{
-      const temp=+slider.value, denatured=temp>=60;
-      el.querySelector('#denat-v').textContent=`${temp} °C`;shape.className=`protein-shape ${level}${denatured && level!=='primary'?' denatured':''}`;
-      caption.innerHTML=`<strong>${data[level][0]}</strong><span>${data[level][1]}</span>`;
-      el.querySelector('#denat-text').textContent=denatured?'Im Modell werden höhere Strukturebenen gestört: Das Protein verliert seine typische räumliche Form. Die Aminosäuresequenz bleibt dabei erhalten.':'Die räumliche Struktur bleibt im Modell stabil.';
-    };
-    el.querySelectorAll('[data-level]').forEach(b=>b.onclick=()=>{el.querySelectorAll('[data-level]').forEach(x=>x.classList.remove('active'));b.classList.add('active');level=b.dataset.level;update();});slider.oninput=update;update();
-  }
-
-  if (type === 'enzymeBinding') {
-    el.innerHTML = `<div class="enzyme-binding-grid">
-      <div class="lab-controls">
-        <label>Modell auswählen</label><select id="enzyme-model" class="lab-select"><option value="lock">Schlüssel-Schloss-Modell</option><option value="induced">Induced-Fit-Modell</option></select>
-        <p>Teste verschiedene Substrate am aktiven Zentrum.</p>
-        <div class="substrate-buttons"><button class="mini-action" data-sub="circle">● Substrat A</button><button class="mini-action" data-sub="triangle">▲ Substrat B</button><button class="mini-action" data-sub="square">■ Substrat C</button></div>
-      </div>
-      <div class="enzyme-stage">
-        <div class="enzyme-shape" id="enzyme-shape"><div class="active-site"></div></div>
-        <div class="substrate-stage" id="substrate-stage">Wähle ein Substrat.</div>
-        <div class="enzyme-feedback" id="enzyme-feedback">Das aktive Zentrum besitzt eine passende räumliche und chemische Struktur für bestimmte Substrate.</div>
-      </div>
-    </div>`;
-    const model=el.querySelector('#enzyme-model'), enzyme=el.querySelector('#enzyme-shape'), stage=el.querySelector('#substrate-stage'), fb=el.querySelector('#enzyme-feedback');
-    el.querySelectorAll('[data-sub]').forEach(b=>b.onclick=()=>{
-      const sub=b.dataset.sub, fits=sub==='triangle';
-      el.querySelectorAll('[data-sub]').forEach(x=>x.classList.remove('active'));b.classList.add('active');
-      stage.innerHTML=`<span class="substrate-icon ${sub}">${sub==='circle'?'●':sub==='triangle'?'▲':'■'}</span>`;
-      enzyme.classList.toggle('induced', model.value==='induced' && fits);
-      if(fits){fb.textContent=model.value==='lock'?'Substrat B passt zum aktiven Zentrum: Es entsteht ein Enzym-Substrat-Komplex. Das Enzym katalysiert anschließend eine bestimmte Reaktion.':'Substrat B bindet. Beim Induced Fit verändert das Enzym seine Form leicht, sodass der Enzym-Substrat-Komplex optimal entsteht.';}
-      else{fb.textContent='Dieses Substrat bindet im Modell nicht passend: Das veranschaulicht die Substratspezifität.';}
-    });
-    model.onchange=()=>{enzyme.classList.remove('induced');stage.textContent='Wähle ein Substrat.';fb.textContent=model.value==='lock'?'Schlüssel-Schloss: aktives Zentrum und passendes Substrat werden als weitgehend komplementär dargestellt.':'Induced Fit: Das aktive Zentrum ist flexibel und passt seine Form bei Bindung des passenden Substrats etwas an.';};
-  }
-
-  if (type === 'experimentPlanner') {
-    el.innerHTML = `<div class="planner-grid">
-      <div class="lab-controls">
-        <label>Unabhängige Variable</label>
-        <select id="exp-factor" class="lab-select"><option value="temp">Temperatur</option><option value="ph">pH-Wert</option><option value="substrate">Substratkonzentration</option></select>
-        <label>Untersuchtes Enzym</label>
-        <select id="exp-enzyme" class="lab-select"><option>Katalase</option><option>Amylase</option><option>Urease</option></select>
-        <button class="primary-btn" id="build-plan">Versuchsplan erzeugen</button>
-      </div>
-      <div class="lab-result planner-result">
-        <p><strong>Fragestellung:</strong> <span id="exp-question"></span></p>
-        <p><strong>Hypothese:</strong> <span id="exp-hypothesis"></span></p>
-        <p><strong>Abhängige Variable:</strong> <span id="exp-dependent"></span></p>
-        <p><strong>Konstant halten:</strong> <span id="exp-controls"></span></p>
-        <p><strong>Kontrollansatz:</strong> <span id="exp-control"></span></p>
-      </div>
-    </div>
-    <div class="data-check"><strong>Dokumentations-Check</strong><div class="check-chips"><span>✓ gleiche Messdauer</span><span>✓ Einheiten notieren</span><span>✓ Wiederholungen planen</span><span>✓ unabhängige Variable auf x-Achse</span><span>✓ abhängige Variable auf y-Achse</span></div></div>`;
-    const factor=el.querySelector('#exp-factor'), enzyme=el.querySelector('#exp-enzyme');
-    const build=()=>{
-      const f=factor.value, name=enzyme.value;
-      const factorName=f==='temp'?'Temperatur':f==='ph'?'pH-Wert':'Substratkonzentration';
-      const controls=f==='temp'?'pH-Wert, Enzymmenge, Substratmenge, Gesamtvolumen und Messdauer':f==='ph'?'Temperatur, Enzymmenge, Substratmenge, Gesamtvolumen und Messdauer':'Temperatur, pH-Wert, Enzymmenge, Gesamtvolumen und Messdauer';
-      const hypothesis=f==='temp'?`Wenn die Temperatur verändert wird, ändert sich die Reaktionsgeschwindigkeit von ${name}; im mittleren Bereich wird ein Aktivitätsmaximum erwartet, bei sehr hoher Temperatur kann die Aktivität durch Strukturveränderungen sinken.`:f==='ph'?`Wenn der pH-Wert verändert wird, ändert sich die Reaktionsgeschwindigkeit von ${name}, weil die räumliche Struktur und Ladungsverteilung am aktiven Zentrum beeinflusst werden können.`:`Wenn die Substratkonzentration erhöht wird, steigt die Reaktionsgeschwindigkeit von ${name} zunächst an, bis viele aktive Zentren häufig besetzt sind.`;
-      el.querySelector('#exp-question').textContent=`Welchen Einfluss hat die ${factorName} auf die Reaktionsgeschwindigkeit von ${name}?`;
-      el.querySelector('#exp-hypothesis').textContent=hypothesis;
-      el.querySelector('#exp-dependent').textContent='Reaktionsgeschwindigkeit, z. B. Produktmenge pro Zeit oder Zeit bis zu einem festgelegten Endpunkt';
-      el.querySelector('#exp-controls').textContent=controls;
-      el.querySelector('#exp-control').textContent='Eine Referenzbedingung, die nicht verändert wird; zusätzlich kann ein Ansatz ohne aktives Enzym zeigen, ob die beobachtete Reaktion tatsächlich enzymabhängig ist.';
-    };
-    el.querySelector('#build-plan').onclick=build;factor.onchange=build;enzyme.onchange=build;build();
-  }
-
-  if (type === 'enzymeActivity') {
-    el.innerHTML = `<div class="activity-lab-grid"><div class="lab-controls"><label>Einflussgröße</label><select id="activity-factor" class="lab-select"><option value="temp">Temperatur</option><option value="ph">pH-Wert</option><option value="substrate">Substratkonzentration</option></select><label id="activity-slider-label">Temperatur <b id="activity-value"></b></label><input id="activity-slider" type="range"><div class="data-check"><strong>Arbeitsauftrag</strong><p id="activity-task">Beschreibe zuerst nur den Kurvenverlauf. Erkläre ihn anschließend biologisch.</p></div></div><div class="activity-panel"><svg id="activity-chart" viewBox="0 0 520 300" role="img" aria-label="Diagramm der relativen Enzymaktivität"></svg><div class="activity-readout"><div><span>aktueller Wert</span><strong id="activity-x"></strong></div><div><span>relative Aktivität</span><strong id="activity-y"></strong></div></div><p id="activity-explain"></p></div></div>`;
-    const factor=el.querySelector('#activity-factor'), slider=el.querySelector('#activity-slider'), chart=el.querySelector('#activity-chart');
-    const configs={
-      temp:{min:5,max:80,step:1,value:37,label:'Temperatur',unit:' °C',calc:x=>{const rise=Math.exp(-Math.pow((x-38)/24,2));const crash=x<=42?1:Math.exp(-(x-42)/11);return Math.min(100,100*rise*crash);},explain:x=>x<30?'Bei niedriger Temperatur sind wirksame Zusammenstöße seltener; die Aktivität ist geringer.':x<=45?'Im mittleren Bereich sind Teilchenbewegung und wirksame Zusammenstöße günstig; hier liegt im Modell das Aktivitätsmaximum.':'Bei hoher Temperatur sinkt die Aktivität im Modell deutlich, weil die räumliche Proteinstruktur und damit das aktive Zentrum gestört werden können.'},
-      ph:{min:2,max:12,step:.1,value:7,label:'pH-Wert',unit:'',calc:x=>100*Math.exp(-Math.pow((x-7)/2.0,2)),explain:x=>Math.abs(x-7)<1?'Dieser Bereich liegt nahe am pH-Optimum des Modell-Enzyms.':'Mit wachsendem Abstand vom pH-Optimum sinkt die Aktivität, weil Ladungen und Wechselwirkungen im Protein verändert werden können.'},
-      substrate:{min:0,max:100,step:1,value:30,label:'Substratkonzentration',unit:' rel.',calc:x=>100*x/(22+x),explain:x=>x<25?'Mehr Substrat erhöht die Häufigkeit von Enzym-Substrat-Kontakten deutlich.':x<65?'Die Aktivität steigt weiter, aber weniger stark, weil aktive Zentren zunehmend häufig besetzt sind.':'Das Modell nähert sich der Sättigung: Zusätzliches Substrat erhöht die Geschwindigkeit nur noch wenig.'}
-    };
-    const draw=()=>{const c=configs[factor.value];slider.min=c.min;slider.max=c.max;slider.step=c.step;if(+slider.value<c.min||+slider.value>c.max||slider.dataset.factor!==factor.value){slider.value=c.value;slider.dataset.factor=factor.value;}const x=+slider.value,y=c.calc(x);el.querySelector('#activity-slider-label').innerHTML=`${c.label} <b id="activity-value">${x}${c.unit}</b>`;el.querySelector('#activity-x').textContent=`${x}${c.unit}`;el.querySelector('#activity-y').textContent=`${Math.round(y)} %`;el.querySelector('#activity-explain').textContent=c.explain(x);const pts=[];for(let i=0;i<=80;i++){const xv=c.min+(c.max-c.min)*i/80;const yy=c.calc(xv);const px=48+420*(xv-c.min)/(c.max-c.min),py=245-190*yy/100;pts.push(`${px.toFixed(1)},${py.toFixed(1)}`);}const cx=48+420*(x-c.min)/(c.max-c.min),cy=245-190*y/100;chart.innerHTML=`<line x1="48" y1="245" x2="480" y2="245" class="axis"/><line x1="48" y1="245" x2="48" y2="38" class="axis"/><text x="260" y="285" class="axis-label">${c.label}</text><text x="15" y="145" class="axis-label vertical">Aktivität</text><polyline points="${pts.join(' ')}" class="curve"/><circle cx="${cx}" cy="${cy}" r="7" class="chart-point"/><text x="52" y="55" class="chart-note">100 %</text><text x="52" y="238" class="chart-note">0 %</text>`;};
-    factor.onchange=draw;slider.oninput=draw;draw();
-  }
-
-  if (type === 'enzymeInhibition') {
-    el.innerHTML = `<div class="inhibition-grid"><div class="lab-controls"><label>Hemmung</label><select id="inh-type" class="lab-select"><option value="none">keine Hemmung</option><option value="competitive">reversibel / kompetitiv</option><option value="irreversible">irreversibel</option></select><label>Substratkonzentration <b id="inh-s-v">25</b></label><input id="inh-s" type="range" min="1" max="100" value="25"><label>Hemmstoffstärke <b id="inh-i-v">45 %</b></label><input id="inh-i" type="range" min="0" max="80" value="45"><div class="mini-note">Vereinfachtes Lernmodell: Es zeigt Grundprinzipien, keine realen Arzneidosierungen.</div></div><div class="activity-panel"><svg id="inh-chart" viewBox="0 0 520 300" role="img" aria-label="Vergleich von Enzymhemmung"></svg><div class="activity-readout"><div><span>relative Aktivität</span><strong id="inh-activity"></strong></div><div><span>Deutung</span><strong id="inh-label"></strong></div></div><p id="inh-explain"></p></div></div>`;
-    const typeSel=el.querySelector('#inh-type'), sld=el.querySelector('#inh-s'), inh=el.querySelector('#inh-i'), chart=el.querySelector('#inh-chart');
-    const calc=(type,S,I)=>{const base=100*S/(20+S);if(type==='none')return base;if(type==='competitive')return 100*S/((20*(1+I/45))+S);return base*(1-I/110);};
-    const draw=()=>{const type=typeSel.value,S=+sld.value,I=+inh.value,A=calc(type,S,I);el.querySelector('#inh-s-v').textContent=S;el.querySelector('#inh-i-v').textContent=`${I} %`;el.querySelector('#inh-activity').textContent=`${Math.round(A)} %`;const labels={none:'ungehemmt',competitive:'Konkurrenz am aktiven Zentrum',irreversible:'weniger funktionsfähige Enzyme'};el.querySelector('#inh-label').textContent=labels[type];el.querySelector('#inh-explain').textContent=type==='none'?'Ohne Hemmstoff steigt die Aktivität mit der Substratkonzentration bis zur Sättigung.':type==='competitive'?'Der reversible kompetitive Hemmstoff konkurriert mit dem Substrat. Mehr Substrat kann die Hemmwirkung im Modell teilweise ausgleichen.':'Ein Anteil der Enzyme bleibt im Modell dauerhaft inaktiv. Mehr Substrat kann diese Enzymmoleküle nicht reaktivieren.';const curves=[['none','ungehemmt'],[type,type==='competitive'?'kompetitiv':'irreversibel']].filter((x,i,a)=>i===0||x[0]!=='none');const paths=curves.map((c,idx)=>{const pts=[];for(let sv=1;sv<=100;sv+=2){const y=calc(c[0],sv,I),px=48+420*(sv-1)/99,py=245-190*y/100;pts.push(`${px.toFixed(1)},${py.toFixed(1)}`);}return `<polyline points="${pts.join(' ')}" class="curve curve-${idx}"/><text x="345" y="${65+idx*22}" class="legend legend-${idx}">${c[1]}</text>`;}).join('');const cx=48+420*(S-1)/99,cy=245-190*A/100;chart.innerHTML=`<line x1="48" y1="245" x2="480" y2="245" class="axis"/><line x1="48" y1="245" x2="48" y2="38" class="axis"/><text x="245" y="285" class="axis-label">Substratkonzentration</text><text x="15" y="145" class="axis-label vertical">Aktivität</text>${paths}<circle cx="${cx}" cy="${cy}" r="7" class="chart-point"/>`;};
-    typeSel.onchange=draw;sld.oninput=draw;inh.oninput=draw;draw();
-  }
-
+    </section>
+  </div>`;
 }
 
+function themenplan() {
+  const cats = ['Alle', ...topicOrder, 'Klausur', 'Puffer'];
+  return `<div class="page">
+    <header class="page-header"><div class="kicker">Aktueller Themenverteilungsplan</div><h1>J1 · Termine & Inhalte</h1><p>Geplant von September 2026 bis Juli 2027. Änderungen im laufenden Schuljahr sind möglich und werden im Unterricht angekündigt.</p></header>
+    <div class="notice"><strong>Hinweis</strong>Ferien- und unterrichtsfreie Termine ohne Inhalt werden nicht angezeigt. Der ausdrücklich eingeplante Puffer am 01.02.2027 bleibt sichtbar.</div>
+    <div class="filters" id="filters">${cats.map((c,i)=>`<button class="filter ${i===0?'active':''}" data-filter="${c}">${c}</button>`).join('')}</div>
+    <div class="search-wrap"><input class="search" id="scheduleSearch" type="search" placeholder="Thema oder Begriff suchen …" aria-label="Themenplan durchsuchen"></div>
+    <div class="timeline" id="timeline">${schedule.map(lessonCard).join('')}</div>
+  </div>`;
+}
+
+function organisation() {
+  const rules = [
+    ["Eigenverantwortung", "Fehlende Inhalte, Materialien und Termine werden selbstständig nachgeholt. Bei Unklarheiten fragst du frühzeitig nach."],
+    ["Pünktlich & arbeitsbereit", "Zu Stundenbeginn liegen die benötigten Materialien bereit. Arbeitsphasen starten ohne unnötige Verzögerung."],
+    ["Materialien organisiert halten", "Heft/Ordner bzw. Tablet, Schreibzeug und benötigte Unterlagen gehören in jede Stunde. Materialien werden sinnvoll abgelegt."],
+    ["Mitarbeit ist mehr als Melden", "Dazu gehören fachliche Beiträge, Nachfragen, konzentrierte Arbeitsphasen, Gruppenarbeit, Versuchsdurchführung und Auswertung."],
+    ["Digitale Geräte sinnvoll nutzen", "Handy, Tablet und Laptop werden dann eingesetzt, wenn sie dem Unterricht dienen – nicht für private Chats oder Social Media."],
+    ["KI & Quellen transparent", "KI darf nur im vereinbarten Rahmen genutzt werden. Übernommene Inhalte, Quellen und verwendete Hilfsmittel werden transparent gemacht."],
+    ["Sicherheit im Praktikum", "Sicherheitsanweisungen, Schutzmaßnahmen und Entsorgungsregeln werden unmittelbar befolgt. Essen und Trinken sind beim Experimentieren tabu."],
+    ["Respektvoll diskutieren", "Biologische und bioethische Fragen dürfen kontrovers sein. Beiträge bleiben sachlich; persönliche oder abwertende Kommentare haben keinen Platz."]
+  ];
+  return `<div class="page"><header class="page-header"><div class="kicker">Arbeitsweise</div><h1>So arbeiten wir in J1</h1><p>Wenige klare Regeln – mit mehr Eigenverantwortung als in der Mittelstufe.</p></header><div class="rule-list">${rules.map(r=>`<article class="rule"><h3>${r[0]}</h3><p>${r[1]}</p></article>`).join('')}</div></div>`;
+}
+
+function leistung() {
+  return `<div class="page"><header class="page-header"><div class="kicker">Transparenz</div><h1>Leistung & GFS</h1><p>Hier stehen die Grundsätze, die für die Planung im Kurs wichtig sind. Schulinterne Details haben Vorrang.</p></header>
+    <div class="grid-2">
+      <article class="card"><h3>Klausuren</h3><p>Im Basisfach gibt es schriftliche Leistungsnachweise. Die erste Klausur ist im aktuellen Plan für <strong>11.01.2027</strong> vorgesehen. Weitere Termine werden rechtzeitig bekanntgegeben.</p></article>
+      <article class="card"><h3>Mündlich & praktisch</h3><p>Bewertet werden nicht nur Wortmeldungen, sondern auch fachliche Qualität, Kontinuität, Arbeitsphasen, Experimentieren, Auswertungen und die verständliche Darstellung biologischer Zusammenhänge.</p></article>
+      <article class="card"><h3>GFS</h3><p>Thema, Form, Termin und Erwartungshorizont werden individuell bzw. nach den schulischen Vorgaben vereinbart. Absprachen sind verbindlich und sollten frühzeitig erfolgen.</p></article>
+      <article class="card"><h3>Gewichtung</h3><p>Die konkrete Gewichtung der schriftlichen, mündlichen und praktischen Leistungen wird zu Kursbeginn transparent bekanntgegeben. Maßgeblich sind die schulischen und landesrechtlichen Vorgaben.</p></article>
+    </div>
+    <section class="section"><div class="card"><h3>Was in Bio besonders zählt</h3><p>Fachbegriffe korrekt verwenden · Materialien und Diagramme auswerten · Experimente planen und beurteilen · Modelle nutzen und ihre Grenzen erkennen · Ursache-Wirkungs-Zusammenhänge erklären · bei Bewertungsaufgaben Sach- und Werteebene unterscheiden.</p></div></section>
+  </div>`;
+}
+
+function material() {
+  return `<div class="page"><header class="page-header"><div class="kicker">Lehrwerk & Ausstattung</div><h1>Material für den Kurs</h1><p>Im Kurs arbeiten wir mit dem Gesamtband MARKL Biologie Oberstufe.</p></header>
+    <section class="card book-card">
+      <div class="book-visual"><small>Klett</small><strong>MARKL<br>Biologie<br>Oberstufe</strong><small>Gesamtband · ab 2022</small></div>
+      <div><h2>MARKL Biologie Oberstufe</h2><p class="muted">Gesamtband · Bundesausgabe ab 2022 · Ernst Klett Verlag</p>
+      <table class="info-table"><tr><th>ISBN</th><td>978-3-12-150070-3</td></tr><tr><th>Im Unterricht</th><td>als zentrales Lehrwerk und Nachschlagewerk</td></tr><tr><th>Seitenangaben</th><td>werden bei Bedarf im Unterricht ergänzt; auf der Website sind bewusst keine ungeprüften Seitenzahlen hinterlegt</td></tr></table>
+      <p style="margin-top:16px"><a class="button primary" style="background:var(--accent);color:white" href="https://www.klett.de/produkt/isbn/978-3-12-150070-3" target="_blank" rel="noopener">Zum Verlag</a></p></div>
+    </section>
+    <section class="section"><div class="grid-3">
+      <article class="card"><h3>Immer dabei</h3><p>Ordner/Heft oder Tablet, Schreibzeug und die für die Stunde angekündigten Materialien.</p></article>
+      <article class="card"><h3>Für Auswertungen</h3><p>Lineal und ggf. Taschenrechner; Diagramme werden sauber beschriftet und mit Einheiten versehen.</p></article>
+      <article class="card"><h3>Für Praktika</h3><p>Die benötigte Schutzausrüstung und weitere Materialien werden je nach Versuch angekündigt.</p></article>
+    </div></section>
+  </div>`;
+}
+
+const routes = {
+  '/': home,
+  '/themenplan': themenplan,
+  '/organisation': organisation,
+  '/leistung': leistung,
+  '/material': material
+};
+
+function currentPath() {
+  const raw = location.hash.replace(/^#/, '') || '/';
+  return routes[raw] ? raw : '/';
+}
 function render() {
-  const id = location.hash.replace('#/','');
-  const requestedModule = modules.find(x => x.id === id);
-
-  if (requestedModule && isLocked(requestedModule)) {
-    app.innerHTML = `<main>
-      <section class="locked-page">
-        <div class="eyebrow">NOCH NICHT FREIGESCHALTET</div>
-        <div class="locked-page-icon">🔒</div>
-        <h1>${esc(requestedModule.title)}</h1>
-        <p>Dieses Lernmodul ist ab dem <strong>${formatUnlockDate(requestedModule.unlockDate)}</strong> verfügbar.</p>
-        <button class="primary-btn" id="locked-back" type="button">← Zurück zum Lernpfad</button>
-      </section>
-    </main>`;
-    document.getElementById('locked-back').onclick = () => navigate('');
-    return;
-  }
-
-  const m = requestedModule;
-  app.innerHTML = m ? fullModulePage(m) : home();
-  app.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => navigate(b.dataset.open)));
-
-  const deleteButton = document.getElementById('delete-learning-data');
-  if (deleteButton) {
-    deleteButton.addEventListener('click', () => {
-      const reallyDelete = confirm('Möchtest du wirklich deinen Lernfortschritt und deine gespeicherten Antworten auf diesem Gerät löschen?');
-      if (!reallyDelete) return;
-      deleteLearningData();
-      render();
+  const path = currentPath();
+  document.getElementById('main').innerHTML = routes[path]();
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + path));
+  document.getElementById('navLinks').classList.remove('open');
+  document.getElementById('menuButton').setAttribute('aria-expanded','false');
+  window.scrollTo(0,0);
+  if (path === '/themenplan') bindPlan();
+}
+function bindPlan() {
+  let active = 'Alle';
+  const search = document.getElementById('scheduleSearch');
+  const apply = () => {
+    const q = search.value.trim().toLowerCase();
+    document.querySelectorAll('.lesson').forEach(el => {
+      const cat = el.dataset.category;
+      const okCat = active === 'Alle' || cat === active;
+      const okText = !q || el.textContent.toLowerCase().includes(q);
+      el.hidden = !(okCat && okText);
     });
-  }
-
-  if (m) {
-    document.getElementById('back').onclick = () => navigate('');
-    const toggleComplete = () => { completed.has(m.id) ? completed.delete(m.id) : completed.add(m.id); save(); render(); };
-    document.getElementById('complete').onclick = toggleComplete;
-    document.getElementById('complete-bottom').onclick = toggleComplete;
-    app.querySelectorAll('[data-hint]').forEach(b => b.addEventListener('click', () => { const h=document.getElementById(`hint-${b.dataset.hint}`); h.hidden=!h.hidden; b.textContent=h.hidden?'Hinweis':'Hinweis schließen'; }));
-    app.querySelectorAll('[data-scroll]').forEach(b=>b.addEventListener('click',()=>document.getElementById(b.dataset.scroll)?.scrollIntoView({behavior:'smooth',block:'start'})));
-    initReview(m);
-    initQuickCheck(m);
-    initSummary(m);
-    initTaskNotes(m);
-    initQuiz(m);
-    initLab(m.lab);
-  }
+    const visible = [...document.querySelectorAll('.lesson')].some(x=>!x.hidden);
+    let empty = document.getElementById('emptyState');
+    if (!visible && !empty) { empty=document.createElement('div'); empty.id='emptyState'; empty.className='empty'; empty.textContent='Keine passenden Termine gefunden.'; document.getElementById('timeline').appendChild(empty); }
+    if (visible && empty) empty.remove();
+  };
+  document.querySelectorAll('.filter').forEach(btn => btn.addEventListener('click', () => {
+    active = btn.dataset.filter;
+    document.querySelectorAll('.filter').forEach(b=>b.classList.toggle('active', b===btn));
+    apply();
+  }));
+  search.addEventListener('input', apply);
 }
 
+document.getElementById('menuButton').addEventListener('click', () => {
+  const nav=document.getElementById('navLinks'); const open=nav.classList.toggle('open');
+  document.getElementById('menuButton').setAttribute('aria-expanded', String(open));
+});
+document.getElementById('printButton').addEventListener('click', () => window.print());
+window.addEventListener('hashchange', render);
 render();
