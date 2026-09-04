@@ -188,9 +188,12 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 .quiz-question > p:first-child { margin-top:0; }
 .quiz-question button { width:100%; text-align:left; margin:.35rem 0; padding:.65rem .75rem; border:1px solid #cbd8d1; border-radius:10px; background:#fff; color:var(--text); cursor:pointer; }
 .quiz-question button:hover { border-color:#9ebcaf; }
+.quiz-question button.selected { background:#dbeafe; border-color:#3b82f6; }
 .quiz-question button.correct { background:#e3f5ea; border-color:#58a777; }
 .quiz-question button.wrong { background:#fff0ee; border-color:#d78276; }
 .quiz-question button:disabled { cursor:default; opacity:.88; }
+.quiz-question .check-answer { margin-top:1rem; font-weight:600; cursor:pointer; }
+.quiz-question .check-answer:disabled { opacity:.6; cursor:default; }
 .feedback { min-height:1.4rem; margin:.6rem 0 0; font-weight:650; }
 .quiz-summary { padding:.9rem 1rem; background:var(--surface-soft); border-radius:12px; font-weight:800; }
 
@@ -303,7 +306,7 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 <section class="view" id="view-overview">
 <div class="hero">
 <p class="eyebrow">Biologie Basisfach J1 · Schuljahr 2026/27</p>
-<h1>Willkommen im Lernlabor</h1>
+<h1>Willkommen im BioLab</h1>
 <p class="hero-copy">Die Lernmodule sind für die Nachbereitung und Vertiefung zu Hause gedacht. Wenn du im Unterricht gefehlt hast, kannst du mit ihnen den Stoff auch selbstständig und ohne Lehrbuch nachholen.</p>
 <div class="hero-note"><strong>Aktuell verfügbar:</strong> der erste Themenblock <em>Biomoleküle</em>. Weitere Oberthemen werden später ergänzt.</div>
 </div>
@@ -327,7 +330,7 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 <a class="back-link" href="#/">← Übersicht</a>
 </div>
 <div class="topic-intro">
-<p><strong>So arbeitest du:</strong> Öffne die Module möglichst in der angegebenen Reihenfolge. Jedes Modul beginnt mit einer kurzen Vorwissensfrage, erklärt anschließend den benötigten Stoff vollständig und endet mit Kurzcheck sowie Aufgaben aus AFB I–III.</p>
+<p><strong>So arbeitest du:</strong> Öffne die Module möglichst in der angegebenen Reihenfolge. Jedes Modul beginnt mit einer kurzen Vorwissensfrage, erklärt anschließend den benötigten Stoff und endet mit Kurzcheck sowie Aufgaben aus AFB I–III.</p>
 <p>Für Modul 1 wird kein spezielles Vorwissen aus der Kursstufe vorausgesetzt. Modul 2 baut nur auf Modul 1 auf und erklärt neue Fachbegriffe dort, wo sie erstmals benötigt werden.</p>
 </div>
 <div class="module-grid">
@@ -665,14 +668,33 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 <button data-answer="d">Nur hydrophobe Molekülbereiche.</button>
 <p aria-live="polite" class="feedback"></p>
 </div>
-<div class="quiz-question" data-correct="d">
-<p><strong>2.</strong> Wie sind Phospholipide in einer typischen Biomembran angeordnet?</p>
-<button data-answer="a">Alle hydrophilen Köpfe zeigen nur zur Zellaußenseite.</button>
-<button data-answer="b">Die hydrophoben Bereiche zeigen zu den wässrigen Räumen.</button>
-<button data-answer="c">Die Phospholipide liegen ungeordnet vor.</button>
-<button data-answer="d">Die hydrophilen Köpfe zeigen zu den wässrigen Räumen, die hydrophoben Bereiche zueinander.</button>
-<p aria-live="polite" class="feedback"></p>
+<div class="quiz-question" data-correct="a">
+
+  <p>
+    <strong>2.</strong>
+    Welche Aussagen über Phospholipide sind richtig?
+  </p>
+
+  <button type="button" data-answer="a">
+    Die hydrophilen Köpfe zeigen zu den wässrigen Räumen.
+  </button>
+
+  <button type="button" data-answer="b">
+    Die hydrophoben Bereiche zeigen zu den wässrigen Räumen.
+  </button>
+
+  <button type="button" data-answer="c">
+    Die Phospholipide liegen ungeordnet vor.
+  </button>
+
+  <button type="button" data-answer="d">
+    Die hydrophoben Bereiche zeigen zueinander.
+  </button>
+
+  <p aria-live="polite" class="feedback"></p>
+
 </div>
+
 <div class="quiz-question" data-correct="b">
 <p><strong>3.</strong> Was bedeutet „flüssig“ im Flüssig-Mosaik-Modell hauptsächlich?</p>
 <button data-answer="a">Die gesamte Membran löst sich ständig im Cytoplasma auf.</button>
@@ -869,30 +891,94 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
     const answered = new Map();
 
     questions.forEach((q, index) => {
-      const correct = q.dataset.correct;
+      const multiple = q.dataset.multiple === 'true';
+      const correctAnswers = q.dataset.correct.split(',').map(answer => answer.trim());
       const feedback = q.querySelector('.feedback');
-      q.querySelectorAll('button[data-answer]').forEach(btn => {
+      const buttons = [...q.querySelectorAll('button[data-answer]')];
+      const selected = new Set();
+
+      if (multiple) {
+        const checkButton = document.createElement('button');
+        checkButton.type = 'button';
+        checkButton.className = 'check-answer';
+        checkButton.textContent = 'Antwort prüfen';
+        q.appendChild(checkButton);
+
+        buttons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            if (answered.has(index)) return;
+
+            const answer = btn.dataset.answer;
+            if (selected.has(answer)) {
+              selected.delete(answer);
+              btn.classList.remove('selected');
+            } else {
+              selected.add(answer);
+              btn.classList.add('selected');
+            }
+
+            feedback.textContent = selected.size
+              ? `${selected.size} Antwort${selected.size === 1 ? '' : 'en'} ausgewählt.`
+              : '';
+          });
+        });
+
+        checkButton.addEventListener('click', () => {
+          if (answered.has(index)) return;
+          if (selected.size === 0) {
+            feedback.textContent = 'Bitte wähle mindestens eine Antwort aus.';
+            return;
+          }
+
+          const isCorrect = selected.size === correctAnswers.length
+            && correctAnswers.every(answer => selected.has(answer));
+          answered.set(index, isCorrect);
+
+          buttons.forEach(btn => {
+            btn.disabled = true;
+            if (correctAnswers.includes(btn.dataset.answer)) btn.classList.add('correct');
+            if (selected.has(btn.dataset.answer) && !correctAnswers.includes(btn.dataset.answer)) {
+              btn.classList.add('wrong');
+            }
+          });
+
+          feedback.textContent = isCorrect
+            ? 'Richtig. Du hast alle richtigen Aussagen ausgewählt.'
+            : 'Noch nicht. Vergleiche deine Auswahl mit den grün markierten Lösungen.';
+          checkButton.disabled = true;
+          updateSummary();
+        });
+        return;
+      }
+
+      buttons.forEach(btn => {
         btn.addEventListener('click', () => {
           if (answered.has(index)) return;
-          answered.set(index, btn.dataset.answer === correct);
-          q.querySelectorAll('button[data-answer]').forEach(b => {
+          const isCorrect = correctAnswers.includes(btn.dataset.answer);
+          answered.set(index, isCorrect);
+          buttons.forEach(b => {
             b.disabled = true;
-            if (b.dataset.answer === correct) b.classList.add('correct');
+            if (correctAnswers.includes(b.dataset.answer)) b.classList.add('correct');
           });
-          if (btn.dataset.answer === correct) {
+          if (isCorrect) {
             feedback.textContent = 'Richtig. Die Aussage trifft den zentralen Zusammenhang.';
           } else {
             btn.classList.add('wrong');
             feedback.textContent = 'Noch nicht. Vergleiche deine Wahl mit der grün markierten Lösung und gehe den entsprechenden Infoblock noch einmal durch.';
           }
-          const totalCorrect = [...answered.values()].filter(Boolean).length;
-          summary.textContent = `${answered.size} von ${questions.length} beantwortet · ${totalCorrect} richtig`;
-          if (answered.size === questions.length) {
-            summary.textContent += totalCorrect >= 4 ? ' · Sehr solide Grundlage.' : ' · Wiederhole die markierten Stellen und versuche die AFB-Aufgaben anschließend erneut.';
-          }
+          updateSummary();
         });
       });
     });
+
+    function updateSummary() {
+      const totalCorrect = [...answered.values()].filter(Boolean).length;
+      summary.textContent = `${answered.size} von ${questions.length} beantwortet · ${totalCorrect} richtig`;
+      if (answered.size === questions.length) {
+        summary.textContent += totalCorrect >= 4 ? ' · Sehr solide Grundlage.' : ' · Wiederhole die markierten Stellen und versuche die AFB-Aufgaben anschließend erneut.';
+      }
+    }
+
     summary.textContent = `0 von ${questions.length} beantwortet`;
   });
 })();
