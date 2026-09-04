@@ -6,7 +6,289 @@
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="Selbstlernmodule Biologie Basisfach J1 – Biomoleküle" name="description"/>
 <title>Bio Basisfach J1 – Biomoleküle</title>
-<link href="styles.css" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #f6f8f7;
+  --surface: #ffffff;
+  --surface-soft: #eef6f2;
+  --text: #18302a;
+  --muted: #62736d;
+  --line: #d9e3de;
+  --brand: #146c4d;
+  --brand-dark: #0d4f38;
+  --brand-soft: #dff1e8;
+  --accent: #f4b942;
+  --warm: #fff7df;
+  --afb1: #e8f2ff;
+  --afb2: #edf7ea;
+  --afb3: #fff0e6;
+  --shadow: 0 12px 34px rgba(18, 54, 43, 0.08);
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.65;
+}
+button, textarea { font: inherit; }
+a { color: var(--brand); }
+.skip-link { position: absolute; left: -9999px; top: auto; }
+.skip-link:focus { left: 1rem; top: 1rem; z-index: 1000; padding: .6rem .8rem; background: #fff; border: 2px solid var(--brand); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255,255,255,.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.header-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: .95rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.brand { font-weight: 800; text-decoration: none; color: var(--brand-dark); font-size: 1.1rem; }
+.brand-sub { color: var(--muted); font-size: .92rem; }
+.top-nav { margin-left: auto; display: flex; gap: .35rem; }
+.top-nav a { text-decoration: none; color: var(--text); padding: .45rem .7rem; border-radius: 10px; font-size: .92rem; }
+.top-nav a:hover, .top-nav a:focus-visible { background: var(--surface-soft); outline: none; }
+
+.page-shell { max-width: 1180px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+.hero, .module-hero {
+  background: linear-gradient(135deg, #ffffff 0%, #eef8f3 100%);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  box-shadow: var(--shadow);
+}
+.hero h1, .module-hero h1 { margin: .25rem 0 .8rem; line-height: 1.15; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -.03em; }
+.hero-copy, .lead { max-width: 820px; color: #42584f; font-size: 1.08rem; }
+.hero-note { margin-top: 1.2rem; padding: .9rem 1rem; background: #fff; border-left: 4px solid var(--accent); border-radius: 10px; }
+.eyebrow, .section-kicker { margin: 0; color: var(--brand); font-weight: 800; text-transform: uppercase; letter-spacing: .08em; font-size: .75rem; }
+
+.section-block { margin-top: 2.5rem; }
+.section-heading { display:flex; align-items:end; justify-content:space-between; margin-bottom:1rem; }
+.section-heading h2 { margin: .25rem 0 0; }
+.module-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.module-card {
+  display:grid;
+  grid-template-columns: 54px 1fr auto;
+  gap: 1rem;
+  align-items:start;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+  text-decoration:none;
+  color:inherit;
+  min-height: 170px;
+}
+.module-card--active { box-shadow: 0 8px 24px rgba(18,54,43,.05); transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease; }
+.module-card--active:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color:#aacbbb; }
+.module-card--planned { opacity:.62; background:#f3f5f4; }
+.module-number { width:54px; height:54px; display:grid; place-items:center; border-radius:14px; background:var(--brand-soft); color:var(--brand-dark); font-weight:900; }
+.module-card h3 { margin:.25rem 0 .35rem; line-height:1.3; }
+.module-card p { margin:.15rem 0; color:var(--muted); }
+.module-date { font-size:.84rem; }
+.module-status { font-size:.76rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:var(--brand); background:var(--brand-soft); padding:.25rem .5rem; border-radius:999px; }
+.module-card--planned .module-status { color:var(--muted); background:#e7ebe9; }
+
+.learning-module { display:flex; flex-direction:column; gap:1.25rem; }
+.module-hero { display:flex; justify-content:space-between; gap:1rem; align-items:flex-start; }
+.module-hero h1 { font-size: clamp(1.9rem, 5vw, 3.2rem); }
+.back-link { white-space:nowrap; text-decoration:none; font-weight:700; }
+.learning-section {
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  box-shadow: 0 6px 20px rgba(18,54,43,.035);
+}
+.learning-section h2 { margin:.2rem 0 1rem; line-height:1.25; }
+.learning-section h3 { margin-top:1.8rem; line-height:1.3; }
+.learning-section p { max-width: 900px; }
+.warmup { display:grid; grid-template-columns:64px 1fr; gap:1rem; background:var(--warm); }
+.section-icon { width:54px; height:54px; display:grid; place-items:center; border-radius:50%; background:var(--accent); color:#3e3010; font-weight:900; font-size:1.4rem; }
+.prompt { font-size:1.08rem; font-weight:600; }
+.reflection-input { width:100%; min-height:110px; resize:vertical; border:1px solid #c9d5cf; border-radius:12px; padding:.85rem; background:#fff; color:var(--text); }
+.reflection-input:focus { outline:3px solid rgba(20,108,77,.15); border-color:var(--brand); }
+.input-actions { display:flex; gap:.75rem; align-items:center; margin-top:.65rem; flex-wrap:wrap; }
+.save-status { color:var(--brand); font-size:.9rem; font-weight:700; }
+.thinking-hint { margin-top:1rem; }
+details { border-top:1px solid var(--line); padding-top:.7rem; margin-top:.7rem; }
+summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
+
+.goal-list { display:grid; gap:.7rem; padding-left:1.3rem; }
+.key-box { margin:1.1rem 0; padding:1rem 1.05rem; background:var(--surface-soft); border-left:4px solid var(--brand); border-radius:12px; }
+.phospholipid-key { display:flex; align-items:center; gap:1rem; margin:1rem 0; padding:1rem; background:#f8fbf9; border:1px solid var(--line); border-radius:14px; }
+.phospholipid-icon { width:72px; height:82px; position:relative; flex:0 0 auto; }
+.phospholipid-icon .head { position:absolute; left:24px; top:5px; width:24px; height:24px; border-radius:50%; background:#4ba3d8; border:2px solid #256d98; }
+.phospholipid-icon .tail { position:absolute; top:31px; width:4px; height:47px; background:#d7a343; transform-origin:top center; border-radius:4px; }
+.phospholipid-icon .t1 { left:31px; transform:rotate(10deg); }
+.phospholipid-icon .t2 { left:40px; transform:rotate(-10deg); }
+
+.btn { border:0; border-radius:10px; padding:.65rem .9rem; cursor:pointer; font-weight:750; }
+.btn-secondary { background:#edf3f0; color:var(--brand-dark); border:1px solid #cbdad3; }
+.btn-secondary:hover { background:#e2eee8; }
+
+.scenario-controls, .bilayer-controls, .fluid-controls { display:flex; flex-wrap:wrap; gap:.6rem; margin:1rem 0; }
+.scenario-btn, .bilayer-btn { border:1px solid #bfd1c8; background:#fff; color:var(--text); border-radius:999px; padding:.55rem .8rem; cursor:pointer; font-weight:700; }
+.scenario-btn.is-active, .bilayer-btn.is-active { background:var(--brand); color:#fff; border-color:var(--brand); }
+.scenario-sim { border:1px solid var(--line); border-radius:16px; overflow:hidden; background:#eef7fb; }
+.environment-label { padding:.5rem .9rem; font-size:.82rem; color:#49636d; background:#e1f1f8; border-bottom:1px solid #cddfe6; }
+.cell-stage { min-height:270px; position:relative; display:grid; place-items:center; overflow:hidden; }
+.cell-boundary { width:min(72%,430px); height:180px; border-radius:50%; position:relative; transition:.25s ease; background:rgba(255,255,255,.45); }
+.scenario-sim[data-state="none"] .cell-boundary { border:3px dashed #a9b6b0; }
+.scenario-sim[data-state="wall"] .cell-boundary { border:10px solid #5f6d67; background:#f8f8f8; }
+.scenario-sim[data-state="membrane"] .cell-boundary { border:8px double #24916b; background:#f9fffc; }
+.particle { position:absolute; font-size:1.25rem; transition:all .6s ease; }
+.particle-a { color:#d35b5b; } .particle-b { color:#436fc7; }
+.cell-boundary .p1 { left:20%; top:28%; } .p2 { left:58%; top:20%; } .p3 { left:38%; top:56%; } .p4 { left:68%; top:62%; } .p5 { left:25%; top:70%; }
+.outside-particles .o1 { left:10%; top:25%; } .outside-particles .o2 { right:12%; top:35%; } .outside-particles .o3 { left:18%; bottom:18%; }
+.scenario-sim[data-state="none"] .cell-boundary .p1 { left:-24%; top:8%; } .scenario-sim[data-state="none"] .cell-boundary .p4 { left:112%; top:42%; }
+.scenario-sim[data-state="wall"] .outside-particles .particle { opacity:.7; }
+.scenario-result, .sim-feedback { padding:1rem; background:#fff; border-top:1px solid var(--line); font-weight:650; }
+.mini-task { margin-top:1rem; padding:1rem; background:#f8faf9; border-radius:14px; border:1px solid var(--line); }
+
+.bilayer-lab { border:1px solid var(--line); border-radius:16px; overflow:hidden; background:#eaf5fb; }
+.water-label { text-align:center; padding:.45rem; color:#42687a; font-size:.82rem; background:#dff0f8; }
+.bilayer-stage { min-height:280px; position:relative; background:linear-gradient(#eaf7fb 0 25%, #fff8e9 25% 75%, #eaf7fb 75% 100%); overflow:hidden; }
+.lipid { position:absolute; width:28px; height:86px; transform-origin:center; transition:transform .35s ease, left .8s ease; }
+.lipid .l-head { position:absolute; left:3px; width:22px; height:22px; border-radius:50%; background:#4ba3d8; border:2px solid #256d98; }
+.lipid .l-tail { position:absolute; left:10px; width:3px; height:47px; background:#d4a147; border-radius:4px; transform-origin:top; }
+.lipid .l-tail.two { left:16px; transform:rotate(8deg); }
+.lipid.top .l-head { top:2px; } .lipid.top .l-tail { top:23px; }
+.lipid.bottom .l-head { bottom:2px; } .lipid.bottom .l-tail { bottom:23px; transform-origin:bottom; }
+.lipid.bottom .l-tail.two { transform:rotate(-8deg); }
+.bilayer-stage[data-arrangement="insideout"] .lipid.top { transform:rotate(180deg); }
+.bilayer-stage[data-arrangement="insideout"] .lipid.bottom { transform:rotate(180deg); }
+.bilayer-stage[data-arrangement="random"] .lipid:nth-child(3n) { transform:rotate(90deg); }
+.bilayer-stage[data-arrangement="random"] .lipid:nth-child(4n) { transform:rotate(-65deg); }
+.membrane-protein { position:absolute; left:50%; top:50%; width:42px; height:138px; transform:translate(-50%,-50%); border-radius:24px; background:#8f67c2; border:3px solid #68479a; opacity:0; transition:opacity .25s ease; z-index:4; }
+.membrane-protein.visible { opacity:1; }
+.bilayer-stage.fluid .lipid { animation: drift 1.8s ease-in-out infinite alternate; }
+.bilayer-stage.fluid .lipid:nth-child(even) { animation-delay:.35s; }
+.bilayer-stage.fluid .membrane-protein { animation: proteinDrift 2.4s ease-in-out infinite alternate; }
+@keyframes drift { from { margin-left:-5px; } to { margin-left:5px; } }
+@keyframes proteinDrift { from { margin-left:-8px; } to { margin-left:8px; } }
+.micro-note { font-size:.85rem; color:var(--muted); }
+
+.quiz { display:grid; gap:1rem; }
+.quiz-question { padding:1rem; border:1px solid var(--line); border-radius:14px; background:#fbfcfb; }
+.quiz-question > p:first-child { margin-top:0; }
+.quiz-question button { width:100%; text-align:left; margin:.35rem 0; padding:.65rem .75rem; border:1px solid #cbd8d1; border-radius:10px; background:#fff; color:var(--text); cursor:pointer; }
+.quiz-question button:hover { border-color:#9ebcaf; }
+.quiz-question button.correct { background:#e3f5ea; border-color:#58a777; }
+.quiz-question button.wrong { background:#fff0ee; border-color:#d78276; }
+.quiz-question button:disabled { cursor:default; opacity:.88; }
+.feedback { min-height:1.4rem; margin:.6rem 0 0; font-weight:650; }
+.quiz-summary { padding:.9rem 1rem; background:var(--surface-soft); border-radius:12px; font-weight:800; }
+
+.exam-section { display:grid; gap:1rem; }
+.exam-section > .section-kicker, .exam-section > h2 { grid-column:1 / -1; }
+.exam-card { padding:1rem 1rem 1.15rem; border-radius:14px; border:1px solid var(--line); }
+.afb1 { background:var(--afb1); } .afb2 { background:var(--afb2); } .afb3 { background:var(--afb3); }
+.afb-label { display:inline-block; padding:.2rem .5rem; border-radius:999px; background:rgba(255,255,255,.8); font-size:.75rem; font-weight:900; letter-spacing:.05em; }
+.exam-card h3 { margin:.5rem 0; }
+
+.selfcheck { display:grid; gap:.7rem; }
+.selfcheck label { display:flex; gap:.7rem; align-items:flex-start; padding:.7rem .8rem; border:1px solid var(--line); border-radius:10px; background:#fbfcfb; }
+.selfcheck input { margin-top:.25rem; width:1.05rem; height:1.05rem; }
+.module-footer-nav { display:flex; justify-content:space-between; gap:1rem; padding:.5rem .2rem 1rem; }
+.module-footer-nav a { text-decoration:none; font-weight:800; }
+.next-link { margin-left:auto; }
+.site-footer { border-top:1px solid var(--line); color:var(--muted); font-size:.85rem; display:flex; justify-content:space-between; gap:1rem; padding:1.2rem max(1.25rem, calc((100vw - 1180px)/2)); background:#fff; }
+
+@media (min-width: 820px) {
+  .exam-section { grid-template-columns:repeat(3,1fr); }
+}
+@media (max-width: 820px) {
+  .module-grid { grid-template-columns:1fr; }
+  .header-inner { flex-wrap:wrap; }
+  .brand-sub { display:none; }
+  .top-nav { width:100%; margin-left:0; overflow:auto; padding-bottom:.1rem; }
+  .module-hero { flex-direction:column; }
+  .warmup { grid-template-columns:1fr; }
+  .site-footer { flex-direction:column; }
+}
+@media (max-width: 560px) {
+  .page-shell { padding:1rem .8rem 3rem; }
+  .module-card { grid-template-columns:45px 1fr; }
+  .module-number { width:45px; height:45px; }
+  .module-status { grid-column:2; justify-self:start; }
+  .hero, .module-hero, .learning-section { border-radius:14px; }
+  .module-footer-nav { flex-direction:column; }
+  .next-link { margin-left:0; }
+}
+
+/* v2: navigation by upper topic + written AFB answers */
+.top-nav a.is-active {
+  background: var(--surface-soft);
+  color: var(--accent-dark);
+  border-color: #b8d5c6;
+}
+.topic-grid { display:grid; grid-template-columns:minmax(0, 1fr); gap:1rem; }
+.topic-card {
+  display:grid; grid-template-columns:62px 1fr auto; gap:1rem; align-items:center;
+  padding:1.1rem 1.2rem; border:1px solid var(--line); border-radius:16px;
+  background:#fff; text-decoration:none; color:var(--text); box-shadow:var(--shadow-soft);
+}
+.topic-card:hover { border-color:#9ebcaf; transform:translateY(-1px); }
+.topic-index {
+  width:52px; height:52px; display:grid; place-items:center; border-radius:14px;
+  background:var(--surface-soft); color:var(--accent-dark); font-weight:900;
+}
+.topic-meta { margin:0 0 .15rem; color:var(--muted); font-size:.85rem; font-weight:700; }
+.topic-card h3 { margin:.1rem 0 .25rem; }
+.topic-card p:last-child { margin:.2rem 0 0; }
+.topic-hero {
+  display:flex; justify-content:space-between; gap:1.5rem; align-items:flex-start;
+  margin-bottom:1rem; padding:1.5rem 1.6rem; border:1px solid var(--line);
+  border-radius:18px; background:linear-gradient(145deg,#ffffff,#f2f8f4); box-shadow:var(--shadow-soft);
+}
+.topic-hero h1 { margin:.1rem 0 .35rem; }
+.topic-intro {
+  padding:1rem 1.2rem; margin-bottom:1rem; border-left:4px solid var(--accent);
+  border-radius:0 12px 12px 0; background:var(--surface-soft);
+}
+.topic-intro p { margin:.25rem 0; }
+.prereq-note {
+  margin:0 0 1rem; padding:.8rem 1rem; border:1px solid #d9e6df; border-radius:12px;
+  background:#f7fbf8; color:#315244;
+}
+.exam-intro {
+  grid-column:1 / -1; margin:.1rem 0 .2rem; padding:.75rem .9rem;
+  border-radius:10px; background:#f6f8f7; color:var(--muted);
+}
+.answer-label { display:block; margin:.9rem 0 .35rem; font-weight:850; }
+.exam-answer { min-height:9rem; background:rgba(255,255,255,.84); }
+.exam-card .input-actions { margin-bottom:.7rem; }
+.exam-card details { margin-top:.6rem; }
+
+@media (max-width: 700px) {
+  .topic-card { grid-template-columns:48px 1fr; }
+  .topic-card .module-status { grid-column:2; justify-self:start; }
+  .topic-hero { flex-direction:column; }
+}
+
+/* Programmatic focus after route changes should not draw a large page outline. */
+#main:focus:not(:focus-visible) { outline: none; }
+
+/* v3 robustness fixes */
+:root { --shadow-soft: 0 8px 24px rgba(18,54,43,.05); }
+#main:focus, #main:focus-visible { outline: none !important; }
+
+</style>
 </head>
 <body>
 <a class="skip-link" href="#main">Zum Inhalt</a>
@@ -461,6 +743,160 @@
 <div>Biologie Basisfach J1 · Digitale Lernmodule</div>
 <div>Bearbeitungsstände und Notizen werden nur lokal im Browser gespeichert.</div>
 </footer>
-<script src="app.js"></script>
+<script>
+(function () {
+  const views = {
+    '/': document.getElementById('view-overview'),
+    '/biomolekuele': document.getElementById('view-biomolekuele'),
+    '/biomolekuele/modul-1': document.getElementById('view-module-1'),
+    '/biomolekuele/modul-2': document.getElementById('view-module-2'),
+    // Alte Links bleiben funktionsfähig.
+    '/modul-1': document.getElementById('view-module-1'),
+    '/modul-2': document.getElementById('view-module-2')
+  };
+
+  function route() {
+    const hash = location.hash.replace('#', '') || '/';
+    const target = views[hash] || views['/'];
+    [...new Set(Object.values(views))].forEach(v => v.hidden = v !== target);
+
+    // Oberthema in der Hauptnavigation markieren.
+    document.querySelectorAll('.top-nav a').forEach(a => a.classList.remove('is-active'));
+    const activeSelector = hash.startsWith('/biomolekuele') || hash.startsWith('/modul-')
+      ? '.top-nav a[href="#/biomolekuele"]'
+      : '.top-nav a[href="#/"]';
+    document.querySelector(activeSelector)?.classList.add('is-active');
+
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    document.getElementById('main').focus({ preventScroll: true });
+  }
+  window.addEventListener('hashchange', route);
+  route();
+
+  // Local notes
+  document.querySelectorAll('.save-note').forEach(btn => {
+    const id = btn.dataset.note;
+    const field = document.getElementById(id);
+    const status = document.getElementById(id + '-status');
+    const saved = localStorage.getItem('bio-' + id);
+    if (saved) field.value = saved;
+    btn.addEventListener('click', () => {
+      localStorage.setItem('bio-' + id, field.value);
+      status.textContent = 'Gespeichert.';
+      setTimeout(() => status.textContent = '', 1800);
+    });
+  });
+
+  // Selfcheck persistence
+  document.querySelectorAll('[data-check]').forEach(cb => {
+    const key = 'bio-check-' + cb.dataset.check;
+    cb.checked = localStorage.getItem(key) === '1';
+    cb.addEventListener('change', () => localStorage.setItem(key, cb.checked ? '1' : '0'));
+  });
+
+  // Module 1 scenario simulation
+  const scenarioText = {
+    none: '<strong>Keine Grenze:</strong> Stoffe können sich unkontrolliert zwischen Innen- und Außenraum verteilen. Stabile Konzentrationsunterschiede sind kaum aufrechtzuerhalten.',
+    wall: '<strong>Undurchlässige Wand:</strong> Konzentrationsunterschiede könnten zwar erhalten bleiben, aber notwendiger Stoff- und Energieaustausch wäre blockiert.',
+    membrane: '<strong>Biomembran:</strong> Sie grenzt den Reaktionsraum ab und ermöglicht zugleich einen kontrollierten, selektiven Austausch.'
+  };
+  const sim = document.getElementById('m1-sim');
+  const result = document.getElementById('m1-scenario-result');
+  if (sim && result) {
+    result.innerHTML = scenarioText.none;
+    document.querySelectorAll('.scenario-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        sim.dataset.state = btn.dataset.scenario;
+        result.innerHTML = scenarioText[btn.dataset.scenario];
+      });
+    });
+  }
+
+  // Module 2 bilayer model
+  const stage = document.getElementById('bilayer-stage');
+  const bilayerFeedback = document.getElementById('bilayer-feedback');
+  if (stage) {
+    const positions = [8, 18, 28, 38, 48, 58, 68, 78, 88];
+    positions.forEach((x, i) => {
+      ['top','bottom'].forEach(side => {
+        const lipid = document.createElement('div');
+        lipid.className = 'lipid ' + side;
+        lipid.style.left = `calc(${x}% - 14px)`;
+        lipid.style.top = side === 'top' ? '68px' : '126px';
+        lipid.style.animationDelay = `${(i % 4) * 0.15}s`;
+        lipid.innerHTML = '<span class="l-head"></span><span class="l-tail one"></span><span class="l-tail two"></span>';
+        stage.appendChild(lipid);
+      });
+    });
+    const protein = document.createElement('div');
+    protein.className = 'membrane-protein';
+    protein.setAttribute('aria-label', 'Membranprotein');
+    stage.appendChild(protein);
+
+    document.querySelectorAll('.bilayer-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.bilayer-btn').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        stage.dataset.arrangement = btn.dataset.arrangement;
+        if (btn.dataset.arrangement === 'correct') {
+          bilayerFeedback.innerHTML = '<strong>Passend:</strong> Die hydrophilen Köpfe zeigen zu den wässrigen Räumen, die hydrophoben Bereiche liegen im Inneren der Doppelschicht.';
+        } else if (btn.dataset.arrangement === 'insideout') {
+          bilayerFeedback.innerHTML = '<strong>Nicht günstig:</strong> So hätten viele hydrophobe Bereiche direkten Kontakt mit Wasser. Prüfe die Begriffe hydrophil und hydrophob.';
+        } else {
+          bilayerFeedback.innerHTML = '<strong>Nicht stabil als Membran:</strong> Eine zufällige Anordnung schirmt die hydrophoben Bereiche nicht zuverlässig vom Wasser ab.';
+        }
+      });
+    });
+
+    const toggleProtein = document.getElementById('toggle-protein');
+    toggleProtein.addEventListener('click', () => {
+      protein.classList.toggle('visible');
+      toggleProtein.textContent = protein.classList.contains('visible') ? 'Membranprotein ausblenden' : 'Membranprotein einblenden';
+    });
+    const toggleFluidity = document.getElementById('toggle-fluidity');
+    toggleFluidity.addEventListener('click', () => {
+      stage.classList.toggle('fluid');
+      toggleFluidity.textContent = stage.classList.contains('fluid') ? 'Seitliche Beweglichkeit stoppen' : 'Seitliche Beweglichkeit starten';
+    });
+  }
+
+  // Quiz engine
+  document.querySelectorAll('.quiz').forEach(quiz => {
+    const questions = [...quiz.querySelectorAll('.quiz-question')];
+    const summary = quiz.querySelector('.quiz-summary');
+    const answered = new Map();
+
+    questions.forEach((q, index) => {
+      const correct = q.dataset.correct;
+      const feedback = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-answer]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (answered.has(index)) return;
+          answered.set(index, btn.dataset.answer === correct);
+          q.querySelectorAll('button[data-answer]').forEach(b => {
+            b.disabled = true;
+            if (b.dataset.answer === correct) b.classList.add('correct');
+          });
+          if (btn.dataset.answer === correct) {
+            feedback.textContent = 'Richtig. Die Aussage trifft den zentralen Zusammenhang.';
+          } else {
+            btn.classList.add('wrong');
+            feedback.textContent = 'Noch nicht. Vergleiche deine Wahl mit der grün markierten Lösung und gehe den entsprechenden Infoblock noch einmal durch.';
+          }
+          const totalCorrect = [...answered.values()].filter(Boolean).length;
+          summary.textContent = `${answered.size} von ${questions.length} beantwortet · ${totalCorrect} richtig`;
+          if (answered.size === questions.length) {
+            summary.textContent += totalCorrect >= 4 ? ' · Sehr solide Grundlage.' : ' · Wiederhole die markierten Stellen und versuche die AFB-Aufgaben anschließend erneut.';
+          }
+        });
+      });
+    });
+    summary.textContent = `0 von ${questions.length} beantwortet`;
+  });
+})();
+
+</script>
 </body>
 </html>
