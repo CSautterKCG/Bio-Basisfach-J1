@@ -185,6 +185,38 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 @keyframes proteinDrift { from { margin-left:-8px; } to { margin-left:8px; } }
 .micro-note { font-size:.85rem; color:var(--muted); }
 
+.transport-controls { display:flex; flex-wrap:wrap; gap:.6rem; margin:1rem 0; }
+.transport-btn { border:1px solid #bfd1c8; background:#fff; color:var(--text); border-radius:999px; padding:.55rem .8rem; cursor:pointer; font-weight:700; }
+.transport-btn.is-active { background:var(--brand); color:#fff; border-color:var(--brand); }
+.transport-lab { border:1px solid var(--line); border-radius:16px; overflow:hidden; background:#eff8fb; }
+.transport-stage { position:relative; min-height:300px; overflow:hidden; background:linear-gradient(90deg,#eaf7fb 0 49%,#f7fbfd 49% 51%,#eaf7fb 51% 100%); }
+.compartment-label { position:absolute; top:.65rem; z-index:5; padding:.25rem .5rem; border-radius:8px; background:rgba(255,255,255,.82); color:#49636d; font-size:.8rem; font-weight:750; }
+.compartment-label.left { left:.7rem; } .compartment-label.right { right:.7rem; }
+.transport-membrane { position:absolute; left:50%; top:0; bottom:0; width:18px; transform:translateX(-50%); z-index:2; border-left:5px solid #d5a348; border-right:5px solid #d5a348; background:rgba(255,248,228,.9); }
+.transport-protein { display:none; position:absolute; left:50%; top:50%; z-index:4; transform:translate(-50%,-50%); }
+.transport-stage[data-mode="channel"] .transport-channel { display:block; width:42px; height:84px; border-radius:20px; background:linear-gradient(90deg,#7954ae 0 34%,#eaf7fb 34% 66%,#7954ae 66%); border:3px solid #654293; }
+.transport-stage[data-mode="carrier"] .transport-carrier { display:block; width:48px; height:78px; border-radius:48% 52% 42% 58%; background:#df8640; border:3px solid #a85e27; animation:carrierSwitch 1.4s ease-in-out infinite alternate; }
+.transport-stage[data-mode="carrier"] .transport-carrier::after { content:""; position:absolute; left:12px; top:20px; width:20px; height:34px; border-radius:50%; background:#eff8fb; }
+.transport-stage[data-mode="osmosis"] .transport-membrane { border-color:#4f9c80; }
+.transport-particle { position:absolute; z-index:3; width:11px; height:11px; border-radius:50%; pointer-events:none; box-shadow:0 1px 2px rgba(20,42,34,.22); }
+.transport-particle.small { background:#e05a4f; }
+.transport-particle.ion { background:#3975d5; border-radius:2px; transform:rotate(45deg); }
+.transport-particle.glucose { width:13px; height:13px; background:#3b9b64; border-radius:4px; }
+.transport-particle.water { width:8px; height:8px; background:#3c9ed8; }
+.transport-particle.solute { width:14px; height:14px; background:#9b5fc0; }
+.transport-status { display:flex; flex-wrap:wrap; justify-content:space-between; gap:.5rem 1rem; padding:.7rem .9rem; border-top:1px solid #d6e4e8; background:#f8fbfc; color:var(--muted); font-size:.84rem; }
+.transport-explanation { padding:1rem; border-top:1px solid var(--line); background:#fff; font-weight:650; }
+@keyframes carrierSwitch { from { transform:translate(-50%,-50%) rotate(-8deg); } to { transform:translate(-50%,-50%) rotate(8deg); } }
+
+.process-figure { margin:1.2rem 0; border:1px solid var(--line); border-radius:16px; overflow:hidden; background:#fbfdfc; }
+.process-figure svg { display:block; width:100%; height:auto; min-width:720px; }
+.process-figure-scroll { overflow-x:auto; }
+.process-figure figcaption { padding:.8rem 1rem; border-top:1px solid var(--line); color:var(--muted); font-size:.88rem; }
+.concept-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.8rem; margin:1rem 0; }
+.concept-card { padding:1rem; border:1px solid var(--line); border-radius:13px; background:#f8fbf9; }
+.concept-card h4 { margin:0 0 .35rem; color:var(--brand-dark); }
+.concept-card p { margin:0; font-size:.94rem; }
+
 .quiz { display:grid; gap:1rem; }
 .quiz-question { padding:1rem; border:1px solid var(--line); border-radius:14px; background:#fbfcfb; }
 .quiz-question > p:first-child { margin-top:0; }
@@ -292,6 +324,7 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
   .topic-card { grid-template-columns:48px 1fr; }
   .topic-card .module-status { grid-column:2; justify-self:start; }
   .topic-hero { flex-direction:column; }
+  .concept-grid { grid-template-columns:1fr; }
 }
 
 /* Programmatic focus after route changes should not draw a large page outline. */
@@ -325,7 +358,7 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 <div class="topic-grid">
 <a class="topic-card topic-card--active" href="#/biomolekuele">
 <span class="topic-index">01</span>
-<div><p class="topic-meta">9 Module · davon 2 online</p><h3>Biomoleküle</h3><p>Biomembran, Membrantransport, Proteine und Enzyme.</p></div>
+<div><p class="topic-meta">9 Module · davon 4 online</p><h3>Biomoleküle</h3><p>Biomembran, Membrantransport, Proteine und Enzyme.</p></div>
 <span class="module-status">öffnen</span>
 </a>
 <a class="topic-card" href="#/zellatmung">
@@ -366,7 +399,7 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 </div>
 <div class="topic-intro">
 <p><strong>So arbeitest du:</strong> Öffne die Module möglichst in der angegebenen Reihenfolge. Jedes Modul beginnt mit einer kurzen Vorwissensfrage, erklärt anschließend den benötigten Stoff und endet mit Kurzcheck sowie Aufgaben aus AFB I–III.</p>
-<p>Für Modul 1 wird kein spezielles Vorwissen aus der Kursstufe vorausgesetzt. Modul 2 baut nur auf Modul 1 auf und erklärt neue Fachbegriffe dort, wo sie erstmals benötigt werden.</p>
+<p>Für Modul 1 wird kein spezielles Vorwissen aus der Kursstufe vorausgesetzt. Die Module 2 bis 4 bauen schrittweise darauf auf und erklären neue Fachbegriffe dort, wo sie erstmals benötigt werden.</p>
 </div>
 <div class="module-grid">
 <a class="module-card module-card--active" href="#/biomolekuele/modul-1">
@@ -387,16 +420,16 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 </div>
 <span class="module-status">bereit</span>
 </a>
-<article aria-disabled="true" class="module-card module-card--planned">
+<a class="module-card module-card--active" href="#/biomolekuele/modul-3">
 <span class="module-number">03</span>
 <div><p class="module-date">28.09.2026</p><h3>Modul 3 · Passiver Stofftransport</h3><p>Diffusion, erleichterte Diffusion und Osmose.</p></div>
-<span class="module-status">folgt</span>
-</article>
-<article aria-disabled="true" class="module-card module-card--planned">
+<span class="module-status">bereit</span>
+</a>
+<a class="module-card module-card--active" href="#/biomolekuele/modul-4">
 <span class="module-number">04</span>
 <div><p class="module-date">29.09.2026</p><h3>Modul 4 · Aktiver Transport und Membranfluss</h3><p>Energieabhängiger Transport, Endo- und Exocytose.</p></div>
-<span class="module-status">folgt</span>
-</article>
+<span class="module-status">bereit</span>
+</a>
 <article aria-disabled="true" class="module-card module-card--planned">
 <span class="module-number">05</span>
 <div><p class="module-date">12.10.2026</p><h3>Modul 5 · Proteine – Struktur und Funktion</h3><p>Aminosäuren, Peptidbindung, Strukturebenen und Denaturierung.</p></div>
@@ -481,7 +514,7 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 </ul>
 </section>
 <section aria-labelledby="m1-info" class="learning-section info-section">
-<p class="section-kicker">In einer lebenden Zelle laufen gleichzeitig sehr viele chemische Reaktionen ab. Damit diese Reaktionen geordnet stattfinden können, braucht die Zelle <strong>definierte Bedingungen</strong>, zum Beispiel bestimmte Stoffkonzentrationen und eine räumliche Trennung verschiedener Vorgänge. Die Zellmembran schafft deshalb einen <strong>abgegrenzten Reaktionsraum</strong>.</p>
+<p class="section-kicker">Wissen &amp; Verstehen</p>
 <h2 id="m1-info">1. Eine Zelle ist kein Beutel voller Stoffe</h2>
 <p>
             In einer lebenden Zelle laufen gleichzeitig sehr viele chemische Reaktionen ab. Damit diese Reaktionen geordnet stattfinden können,
@@ -806,8 +839,213 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
 </section>
 <nav aria-label="Modulnavigation" class="module-footer-nav">
 <a href="#/biomolekuele/modul-1">← Zurück zu Modul 1</a>
-<a class="next-link" href="#/biomolekuele">Zur Modulübersicht →</a>
+<a class="next-link" href="#/biomolekuele/modul-3">Weiter zu Modul 3 →</a>
 </nav>
+</article>
+</section>
+<section class="view" hidden="" id="view-module-3">
+<article class="learning-module" data-module="3">
+<header class="module-hero">
+<div>
+<p class="eyebrow">Modul 3 · 28.09.2026</p>
+<h1>Passiver Stofftransport</h1>
+<p class="lead">Wie sich Teilchen ohne zusätzlichen Energieaufwand verteilen und welche Rolle Membranproteine und Osmose dabei spielen.</p>
+</div>
+<a class="back-link" href="#/biomolekuele">← Biomoleküle</a>
+</header>
+<section aria-labelledby="m3-warmup" class="learning-section warmup">
+<div aria-hidden="true" class="section-icon">?</div>
+<div>
+<p class="section-kicker">Vorwissen aktivieren</p>
+<h2 id="m3-warmup">Warum breitet sich ein Duft im ganzen Raum aus?</h2>
+<p class="prompt">Überlege, wie sich Duftteilchen bewegen und warum sie mit der Zeit auch weit von ihrer Quelle entfernt wahrnehmbar sind.</p>
+<label class="sr-only" for="m3-prior">Deine Antwort</label>
+<textarea class="reflection-input" id="m3-prior" placeholder="Notiere deine Vermutung in 2–4 Sätzen …" rows="4"></textarea>
+<div class="input-actions"><button class="btn btn-secondary save-note" data-note="m3-prior">Antwort auf diesem Gerät merken</button><span class="save-status" id="m3-prior-status" role="status"></span></div>
+<details class="thinking-hint"><summary>Denkanstoß anzeigen</summary><p>Teilchen stehen auch ohne sichtbare Strömung nicht still. Denke an ihre zufällige Eigenbewegung und an Bereiche mit unterschiedlich vielen Teilchen.</p></details>
+</div>
+</section>
+<div class="prereq-note"><strong>Voraussetzungen:</strong> Aus Modul 2 solltest du den Aufbau der Lipiddoppelschicht kennen und wissen, dass Membranproteine bestimmte Aufgaben übernehmen können.</div>
+<section aria-labelledby="m3-goals" class="learning-section goals">
+<p class="section-kicker">Das solltest du nach dem Modul können</p>
+<h2 id="m3-goals">Lernziele</h2>
+<ul class="goal-list">
+<li>Diffusion als Folge der zufälligen Teilchenbewegung erklären,</li>
+<li>einfache und erleichterte Diffusion vergleichen,</li>
+<li>Kanal- und Carrierproteinen ihre Funktion beim passiven Transport zuordnen,</li>
+<li>Osmose mithilfe unterschiedlicher Konzentrationen gelöster Stoffe erklären.</li>
+</ul>
+</section>
+<section aria-labelledby="m3-info" class="learning-section info-section">
+<p class="section-kicker">Wissen &amp; Verstehen</p>
+<h2 id="m3-info">1. Diffusion gleicht Konzentrationsunterschiede aus</h2>
+<p>Teilchen in Flüssigkeiten und Gasen bewegen sich ständig und ungeordnet. Befinden sich in einem Bereich besonders viele Teilchen, verlassen ihn deshalb insgesamt mehr Teilchen, als gleichzeitig zurückkehren. Es entsteht ein <strong>Nettotransport vom Bereich hoher zum Bereich niedriger Konzentration</strong>.</p>
+<p>Der Unterschied zwischen beiden Bereichen heißt <strong>Konzentrationsgefälle</strong> oder Konzentrationsgradient. Mit der Zeit wird dieses Gefälle kleiner. Beim Konzentrationsausgleich bewegen sich die Teilchen weiterhin, aber in beide Richtungen wechseln im Mittel gleich viele Teilchen. Es herrscht ein <strong>dynamisches Gleichgewicht</strong>.</p>
+<div class="key-box"><strong>Merksatz:</strong> Diffusion benötigt keine zusätzliche Energiezufuhr durch die Zelle. Der Nettotransport erfolgt entlang des Konzentrationsgefälles.</div>
+<h3>2. Einfache Diffusion erfolgt direkt durch die Lipiddoppelschicht</h3>
+<p>Kleine, ungeladene und unpolare Moleküle wie Sauerstoff und Kohlenstoffdioxid können den hydrophoben Innenbereich der Lipiddoppelschicht passieren. Sie diffundieren direkt durch die Membran. Ionen sowie viele größere oder polare Moleküle können diesen Weg dagegen kaum nutzen.</p>
+<h3>3. Erleichterte Diffusion benötigt Membranproteine</h3>
+<p>Bei der <strong>erleichterten Diffusion</strong> ermöglichen spezifische Transportproteine den Durchtritt. Ein <strong>Kanalprotein</strong> bildet eine hydrophile Pore, durch die passende Ionen oder Moleküle gelangen. Ein <strong>Carrierprotein</strong> bindet einen bestimmten Stoff, verändert seine Form und gibt ihn auf der anderen Membranseite wieder ab.</p>
+<p>Auch die erleichterte Diffusion verläuft nur entlang des Konzentrations- beziehungsweise bei Ionen des <strong>elektrochemischen Gradienten</strong>. Sie verbraucht kein ATP. Da nur eine begrenzte Zahl passender Proteine vorhanden ist, kann ihre Transportgeschwindigkeit eine Sättigung erreichen.</p>
+<h3>4. Osmose ist die Diffusion von Wasser</h3>
+<p><strong>Osmose</strong> bezeichnet die Diffusion von Wasser durch eine selektiv permeable Membran. Kann der gelöste Stoff die Membran nicht passieren, bewegt sich netto Wasser von der Seite mit der geringeren Konzentration gelöster Stoffe zur Seite mit der höheren Konzentration gelöster Stoffe.</p>
+<p>Eine Lösung mit geringerer Konzentration gelöster Stoffe heißt <strong>hypotonisch</strong>, eine mit höherer Konzentration <strong>hypertonisch</strong>. Bei gleicher Konzentration sind die Lösungen <strong>isotonisch</strong>. Wasser bewegt sich immer in beide Richtungen; entscheidend ist die Richtung des Nettotransports.</p>
+<h3>5. Die drei passiven Transportwege im Vergleich</h3>
+<div class="key-box"><strong>Einfache Diffusion:</strong> direkt durch die Lipiddoppelschicht, ohne Protein.<br/><strong>Erleichterte Diffusion:</strong> über Kanal oder Carrier, spezifisch und ohne ATP.<br/><strong>Osmose:</strong> Nettotransport von Wasser durch eine selektiv permeable Membran.</div>
+</section>
+<section aria-labelledby="m3-interactive" class="learning-section interactive-section">
+<p class="section-kicker">Interaktiv entdecken</p>
+<h2 id="m3-interactive">Vergleiche passive Transportwege</h2>
+<p>Wähle einen Transportweg. Die Animation beginnt jeweils mit einer ungleichen Verteilung und zeigt, welche Teilchen die Membran passieren können.</p>
+<div aria-label="Transportweg wählen" class="transport-controls" role="group">
+<button class="transport-btn is-active" data-transport="simple">Einfache Diffusion</button>
+<button class="transport-btn" data-transport="channel">Kanalprotein</button>
+<button class="transport-btn" data-transport="carrier">Carrierprotein</button>
+<button class="transport-btn" data-transport="osmosis">Osmose</button>
+</div>
+<div class="transport-lab">
+<div aria-label="Animation zum passiven Membrantransport" class="transport-stage" data-mode="simple" id="m3-transport-stage">
+<span class="compartment-label left">Raum A</span><span class="compartment-label right">Raum B</span>
+<div class="transport-membrane" aria-hidden="true"></div>
+<div class="transport-protein transport-channel" aria-label="Kanalprotein" role="img"></div>
+<div class="transport-protein transport-carrier" aria-label="Carrierprotein" role="img"></div>
+</div>
+<div class="transport-status"><span id="m3-transport-legend">Rot: kleine, unpolare Moleküle</span><span aria-live="polite" id="m3-transport-counts"></span></div>
+<div aria-live="polite" class="transport-explanation" id="m3-transport-explanation"></div>
+</div>
+<p class="micro-note">Das Modell ist stark vereinfacht. Die Bewegung einzelner Punkte macht den statistischen Nettotransport vieler realer Teilchen sichtbar.</p>
+</section>
+<section aria-labelledby="m3-quiz-title" class="learning-section quiz-section">
+<p class="section-kicker">Kurzcheck</p>
+<h2 id="m3-quiz-title">Prüfe dein Verständnis</h2>
+<div class="quiz" data-quiz="m3">
+<div class="quiz-question" data-correct="b"><p><strong>1.</strong> Was verursacht bei der Diffusion den Nettotransport?</p><button data-answer="a">Alle Teilchen bewegen sich gezielt zur niedrigeren Konzentration.</button><button data-answer="b">Durch zufällige Bewegung verlassen insgesamt mehr Teilchen den Bereich hoher Konzentration.</button><button data-answer="c">Die Zelle pumpt die Teilchen unter ATP-Verbrauch.</button><button data-answer="d">Die Teilchen hören auf, sich zu bewegen.</button><p aria-live="polite" class="feedback"></p></div>
+<div class="quiz-question" data-correct="a"><p><strong>2.</strong> Welcher Stoff kann typischerweise einfach durch die Lipiddoppelschicht diffundieren?</p><button data-answer="a">Sauerstoff</button><button data-answer="b">Natriumionen</button><button data-answer="c">Ein großes Protein</button><button data-answer="d">Stärke</button><p aria-live="polite" class="feedback"></p></div>
+<div class="quiz-question" data-correct="c"><p><strong>3.</strong> Worin unterscheiden sich Kanal- und Carrierproteine?</p><button data-answer="a">Nur Carrier arbeiten ohne Energie.</button><button data-answer="b">Kanäle transportieren grundsätzlich jeden Stoff.</button><button data-answer="c">Kanäle bilden Poren; Carrier binden Stoffe und ändern ihre Form.</button><button data-answer="d">Carrier liegen nie in Biomembranen.</button><p aria-live="polite" class="feedback"></p></div>
+<div class="quiz-question" data-correct="d"><p><strong>4.</strong> Welche Aussage gilt für einfache und erleichterte Diffusion?</p><button data-answer="a">Beide transportieren Stoffe gegen das Konzentrationsgefälle.</button><button data-answer="b">Beide benötigen immer ein Carrierprotein.</button><button data-answer="c">Beide verbrauchen unmittelbar ATP.</button><button data-answer="d">Beide sind passive Transporte entlang eines Gradienten.</button><p aria-live="polite" class="feedback"></p></div>
+<div class="quiz-question" data-correct="b"><p><strong>5.</strong> Zwei Lösungen sind durch eine nur für Wasser durchlässige Membran getrennt. Wohin erfolgt der Netto-Wassertransport?</p><button data-answer="a">Zur Seite mit weniger Wasser und weniger gelösten Stoffen.</button><button data-answer="b">Zur Seite mit der höheren Konzentration gelöster Stoffe.</button><button data-answer="c">Immer ausschließlich aus der Zelle heraus.</button><button data-answer="d">Es findet keinerlei Wasserbewegung statt.</button><p aria-live="polite" class="feedback"></p></div>
+<div aria-live="polite" class="quiz-summary"></div>
+</div>
+</section>
+<section aria-labelledby="m3-exam" class="learning-section exam-section">
+<p class="section-kicker">Üben wie in einer Klausur</p>
+<h2 id="m3-exam">Aufgaben nach Anforderungsbereichen – mit eigener Antwort</h2>
+<p class="exam-intro">Formuliere zuerst selbst eine Antwort. Nutze den Hinweis nur bei Bedarf und öffne die Musterlösung erst danach zum Vergleichen.</p>
+<article class="exam-card afb1"><div class="afb-label">AFB I</div><h3>Transportwege beschreiben</h3><p><strong>Aufgabe:</strong> Beschreibe einfache und erleichterte Diffusion und nenne jeweils ein geeignetes Beispiel.</p><label class="answer-label" for="m3-afb1-answer">Deine Antwort</label><textarea class="reflection-input exam-answer" id="m3-afb1-answer" placeholder="Formuliere hier deine Antwort …" rows="7" spellcheck="true"></textarea><div class="input-actions"><button class="btn btn-secondary save-note" data-note="m3-afb1-answer" type="button">Antwort auf diesem Gerät merken</button><span class="save-status" id="m3-afb1-answer-status" role="status"></span></div><details><summary>Hinweis anzeigen</summary><p>Achte auf Transportweg, Konzentrationsgefälle und Energiebedarf.</p></details><details><summary>Musterlösung anzeigen</summary><p>Bei der einfachen Diffusion gelangen kleine, ungeladene, unpolare Moleküle wie Sauerstoff direkt durch die Lipiddoppelschicht. Bei der erleichterten Diffusion passieren geeignete Stoffe die Membran über spezifische Kanal- oder Carrierproteine. Beide Vorgänge verlaufen netto entlang eines Gradienten und benötigen kein ATP.</p></details></article>
+<article class="exam-card afb2"><div class="afb-label">AFB II</div><h3>Eine Sättigung erklären</h3><p><strong>Aufgabe:</strong> Bei steigender Glucosekonzentration nimmt die Transportgeschwindigkeit zunächst zu, erreicht dann aber trotz weiterer Konzentrationssteigerung einen Höchstwert. Erkläre diesen Verlauf.</p><label class="answer-label" for="m3-afb2-answer">Deine Antwort</label><textarea class="reflection-input exam-answer" id="m3-afb2-answer" placeholder="Formuliere hier deine Antwort …" rows="7" spellcheck="true"></textarea><div class="input-actions"><button class="btn btn-secondary save-note" data-note="m3-afb2-answer" type="button">Antwort auf diesem Gerät merken</button><span class="save-status" id="m3-afb2-answer-status" role="status"></span></div><details><summary>Hinweis anzeigen</summary><p>Überlege, wie viele Carrier gleichzeitig Glucose binden und transportieren können.</p></details><details><summary>Musterlösung anzeigen</summary><p>Bei niedriger Konzentration stehen freie Carrier zur Verfügung, sodass mit steigender Glucosekonzentration mehr Transporte stattfinden. Bei hoher Konzentration sind praktisch alle Carrier fortlaufend besetzt. Da ihre Anzahl und Arbeitsgeschwindigkeit begrenzt sind, kann die Transportrate nicht weiter steigen. Es tritt eine Sättigung ein.</p></details></article>
+<article class="exam-card afb3"><div class="afb-label">AFB III</div><h3>Osmose anwenden</h3><p><strong>Aufgabe:</strong> Rote Blutkörperchen werden in eine stark konzentrierte Salzlösung gegeben und schrumpfen. Erkläre die Beobachtung und beurteile, warum eine isotonische Infusionslösung wichtig ist.</p><label class="answer-label" for="m3-afb3-answer">Deine Antwort</label><textarea class="reflection-input exam-answer" id="m3-afb3-answer" placeholder="Formuliere hier deine Antwort …" rows="7" spellcheck="true"></textarea><div class="input-actions"><button class="btn btn-secondary save-note" data-note="m3-afb3-answer" type="button">Antwort auf diesem Gerät merken</button><span class="save-status" id="m3-afb3-answer-status" role="status"></span></div><details><summary>Hinweis anzeigen</summary><p>Vergleiche die Konzentration gelöster Stoffe innen und außen und bestimme die Richtung des Netto-Wassertransports.</p></details><details><summary>Musterlösung anzeigen</summary><p>Die konzentrierte Salzlösung ist gegenüber dem Zellinneren hypertonisch. Wasser verlässt die roten Blutkörperchen deshalb netto durch Osmose; ihr Volumen nimmt ab und sie schrumpfen. Eine isotonische Infusionslösung besitzt eine vergleichbare osmotisch wirksame Konzentration wie das Blutplasma. Dadurch entsteht kein starker Netto-Wassertransport, der Blutzellen schädigen würde.</p></details></article>
+</section>
+<section aria-labelledby="m3-selfcheck" class="learning-section selfcheck">
+<p class="section-kicker">Abschluss</p><h2 id="m3-selfcheck">Kannst du das jetzt?</h2>
+<label><input data-check="m3-1" type="checkbox"/> Ich kann Diffusion auf die zufällige Bewegung von Teilchen zurückführen.</label>
+<label><input data-check="m3-2" type="checkbox"/> Ich kann einfache und erleichterte Diffusion vergleichen.</label>
+<label><input data-check="m3-3" type="checkbox"/> Ich kann Kanal- und Carrierproteine unterscheiden.</label>
+<label><input data-check="m3-4" type="checkbox"/> Ich kann die Richtung eines osmotischen Netto-Wassertransports begründen.</label>
+</section>
+<nav aria-label="Modulnavigation" class="module-footer-nav"><a href="#/biomolekuele/modul-2">← Zurück zu Modul 2</a><a class="next-link" href="#/biomolekuele/modul-4">Weiter zu Modul 4 →</a></nav>
+</article>
+</section>
+<section class="view" hidden="" id="view-module-4">
+<article class="learning-module" data-module="4">
+<header class="module-hero">
+<div><p class="eyebrow">Modul 4 · 29.09.2026</p><h1>Aktiver Transport und Membranfluss</h1><p class="lead">Wie Zellen Stoffe unter Energieaufwand gegen Gradienten bewegen und große Stoffmengen mithilfe von Vesikeln transportieren.</p></div>
+<a class="back-link" href="#/biomolekuele">← Biomoleküle</a>
+</header>
+<section aria-labelledby="m4-warmup" class="learning-section warmup">
+<div aria-hidden="true" class="section-icon">?</div>
+<div>
+<p class="section-kicker">Vorwissen aktivieren</p>
+<h2 id="m4-warmup">Wie kann eine Zelle einen Stoff dort anreichern, wo bereits viel davon vorhanden ist?</h2>
+<p class="prompt">Bei passivem Transport werden Konzentrationsunterschiede kleiner. Überlege, was eine Zelle benötigt, wenn sie Teilchen trotzdem in Richtung der höheren Konzentration transportieren will.</p>
+<label class="sr-only" for="m4-prior">Deine Antwort</label><textarea class="reflection-input" id="m4-prior" placeholder="Notiere deine Vermutung in 2–4 Sätzen …" rows="4"></textarea>
+<div class="input-actions"><button class="btn btn-secondary save-note" data-note="m4-prior">Antwort auf diesem Gerät merken</button><span class="save-status" id="m4-prior-status" role="status"></span></div>
+<details class="thinking-hint"><summary>Denkanstoß anzeigen</summary><p>Vergleiche das mit dem Hinaufpumpen von Wasser: Eine Bewegung entgegen der bevorzugten Richtung geschieht nicht von selbst.</p></details>
+</div>
+</section>
+<div class="prereq-note"><strong>Voraussetzungen:</strong> Aus Modul 3 solltest du Konzentrationsgefälle sowie einfache und erleichterte Diffusion erklären können.</div>
+<section aria-labelledby="m4-goals" class="learning-section goals">
+<p class="section-kicker">Das solltest du nach dem Modul können</p><h2 id="m4-goals">Lernziele</h2>
+<ul class="goal-list">
+<li>passiven und aktiven Transport anhand von Richtung und Energiebedarf unterscheiden,</li>
+<li>die Arbeitsweise einer Membranpumpe im Grundprinzip erklären,</li>
+<li>Endocytose und Exocytose beschreiben und vergleichen,</li>
+<li>Vesikeltransport als Membranfluss auf konkrete Beispiele anwenden.</li>
+</ul>
+</section>
+<section aria-labelledby="m4-info" class="learning-section info-section">
+<p class="section-kicker">Wissen &amp; Verstehen</p>
+<h2 id="m4-info">1. Aktiver Transport erhält Konzentrationsunterschiede</h2>
+<p>Diffusion würde Konzentrationsunterschiede mit der Zeit verkleinern. Zellen benötigen jedoch häufig dauerhaft unterschiedliche Ionenkonzentrationen auf beiden Seiten einer Membran. Beim <strong>aktiven Transport</strong> bewegen Transportproteine Stoffe gegen ihr Konzentrationsgefälle oder gegen ihren elektrochemischen Gradienten. Dafür muss Energie bereitgestellt werden.</p>
+<div class="key-box"><strong>Grundregel:</strong> Entlang eines Gradienten kann Transport passiv erfolgen. Transport gegen einen Gradienten ist aktiv und benötigt Energie.</div>
+<h3>2. Pumpen koppeln ATP-Spaltung an Transport</h3>
+<p>Beim <strong>primär aktiven Transport</strong> nutzt eine Membranpumpe die Energie aus der Spaltung von ATP direkt. Der zu transportierende Stoff bindet an das Protein. Die Energieübertragung löst eine Formänderung aus; bei vielen Pumpen geschieht dies durch eine vorübergehende Phosphorylierung. So wird der Stoff auf die andere Membranseite gebracht und dort freigesetzt.</p>
+<p>Ein wichtiges Beispiel ist die Natrium-Kalium-Pumpe tierischer Zellen. Sie transportiert Natriumionen aus der Zelle und Kaliumionen in die Zelle. So trägt sie dazu bei, ungleiche Ionenkonzentrationen aufrechtzuerhalten. Das genaue Zahlenverhältnis ist für das Grundprinzip weniger wichtig als die Kopplung von ATP-Spaltung, Formänderung und gerichtetem Transport.</p>
+<h3>3. Gekoppelter aktiver Transport nutzt gespeicherte Energie</h3>
+<p>Ein zuvor aktiv aufgebauter Ionengradient speichert Energie. Beim <strong>sekundär aktiven Transport</strong> strömt ein Ion entlang seines Gradienten und treibt dabei den Transport eines zweiten Stoffes gegen dessen Gradienten an. Bewegen sich beide Stoffe in dieselbe Richtung, spricht man von einem <strong>Symport</strong>; bei entgegengesetzten Richtungen von einem <strong>Antiport</strong>.</p>
+<p>Das gekoppelte Transportprotein spaltet dabei nicht selbst ATP. Der Vorgang ist dennoch indirekt energieabhängig, weil der antreibende Ionengradient zuvor unter Energieaufwand erzeugt wurde.</p>
+<h3>4. Große Stoffe werden in Vesikeln transportiert</h3>
+<p>Sehr große Moleküle, Flüssigkeitströpfchen oder Partikel passen nicht durch Transportproteine. Die Zelle kann sie in kleinen, membranumhüllten Bläschen transportieren. Diese Bläschen heißen <strong>Vesikel</strong>. Ihre Bildung, Bewegung und Verschmelzung benötigen Energie.</p>
+<div class="concept-grid">
+<article class="concept-card"><h4>Endocytose</h4><p>Die Zellmembran stülpt sich ein, umschließt Material und schnürt ein Vesikel ins Zellinnere ab.</p></article>
+<article class="concept-card"><h4>Exocytose</h4><p>Ein Vesikel verschmilzt mit der Zellmembran und gibt seinen Inhalt nach außen ab.</p></article>
+<article class="concept-card"><h4>Membranfluss</h4><p>Durch Abschnürung und Verschmelzung werden Membranbestandteile zwischen Zellbereichen ausgetauscht.</p></article>
+</div>
+<h3>5. Endocytose kann unterschiedlich gezielt ablaufen</h3>
+<p>Bei der <strong>Phagocytose</strong> werden große Partikel aufgenommen, bei der <strong>Pinocytose</strong> Flüssigkeit und darin gelöste Stoffe. Die <strong>rezeptorvermittelte Endocytose</strong> ist besonders spezifisch: Nur Stoffe, die an passende Rezeptoren binden, werden bevorzugt aufgenommen.</p>
+<h3>6. Membranfluss verbindet Transport und Membranumbau</h3>
+<p>Bei der Exocytose wird die Vesikelmembran Teil der Zellmembran; bei der Endocytose wird Membranfläche nach innen aufgenommen. Beide Prozesse gehören deshalb zum Membranfluss. Zellen stimmen sie aufeinander ab, damit Größe und Zusammensetzung ihrer Membranen kontrolliert bleiben.</p>
+</section>
+<section aria-labelledby="m4-visual" class="learning-section visual-section">
+<p class="section-kicker">Prozesse im Bild</p><h2 id="m4-visual">Drei Wege des energieabhängigen Transports</h2>
+<p>Die Grafik vergleicht eine Membranpumpe mit der Aufnahme und Abgabe größerer Stoffmengen durch Vesikel.</p>
+<figure class="process-figure">
+<div class="process-figure-scroll">
+<svg viewBox="0 0 960 390" role="img" aria-labelledby="m4-diagram-title m4-diagram-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="m4-diagram-title">Aktiver Transport, Endocytose und Exocytose</title>
+<desc id="m4-diagram-desc">Drei schematische Teilbilder zeigen eine ATP-abhängige Membranpumpe, die Einstülpung der Membran bei der Endocytose und die Verschmelzung eines Vesikels bei der Exocytose.</desc>
+<defs><marker id="m4-arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#146c4d"/></marker></defs>
+<rect x="15" y="18" width="295" height="335" rx="18" fill="#eef7f2" stroke="#bfd5c9"/><rect x="333" y="18" width="294" height="335" rx="18" fill="#f1f7fb" stroke="#c4d8e3"/><rect x="650" y="18" width="295" height="335" rx="18" fill="#fff7e8" stroke="#e4cf9e"/>
+<text x="162" y="50" text-anchor="middle" font-size="20" font-weight="800" fill="#18302a">Membranpumpe</text><text x="480" y="50" text-anchor="middle" font-size="20" font-weight="800" fill="#18302a">Endocytose</text><text x="797" y="50" text-anchor="middle" font-size="20" font-weight="800" fill="#18302a">Exocytose</text>
+<text x="35" y="88" font-size="14" fill="#62736d">geringe Konzentration</text><circle cx="85" cy="116" r="8" fill="#3975d5"/><circle cx="130" cy="104" r="8" fill="#3975d5"/>
+<line x1="30" y1="174" x2="295" y2="174" stroke="#d5a348" stroke-width="9"/><line x1="30" y1="197" x2="295" y2="197" stroke="#d5a348" stroke-width="9"/><rect x="137" y="145" width="52" height="82" rx="22" fill="#7954ae" stroke="#654293" stroke-width="4"/>
+<path d="M112 126 C125 140 130 156 150 166" fill="none" stroke="#146c4d" stroke-width="4" marker-end="url(#m4-arrow)"/><path d="M165 218 C180 244 196 252 218 267" fill="none" stroke="#146c4d" stroke-width="4" marker-end="url(#m4-arrow)"/>
+<circle cx="198" cy="285" r="8" fill="#3975d5"/><circle cx="228" cy="270" r="8" fill="#3975d5"/><circle cx="250" cy="301" r="8" fill="#3975d5"/><circle cx="180" cy="312" r="8" fill="#3975d5"/><circle cx="223" cy="320" r="8" fill="#3975d5"/><text x="35" y="333" font-size="14" fill="#62736d">hohe Konzentration</text><rect x="45" y="225" width="70" height="34" rx="9" fill="#f4b942"/><text x="80" y="247" text-anchor="middle" font-size="14" font-weight="800" fill="#3e3010">ATP → ADP</text>
+<text x="350" y="88" font-size="14" fill="#62736d">Außenraum</text><circle cx="445" cy="104" r="10" fill="#d95b5b"/><circle cx="480" cy="92" r="10" fill="#d95b5b"/><circle cx="515" cy="105" r="10" fill="#d95b5b"/>
+<path d="M352 158 H425 C434 158 438 164 438 174 C438 229 522 229 522 174 C522 164 527 158 536 158 H608" fill="none" stroke="#d5a348" stroke-width="10"/><path d="M352 181 H414 C421 181 424 187 426 198 C438 270 522 270 534 198 C536 187 539 181 546 181 H608" fill="none" stroke="#d5a348" stroke-width="10"/>
+<path d="M480 112 V190" stroke="#146c4d" stroke-width="4" marker-end="url(#m4-arrow)"/><circle cx="480" cy="278" r="45" fill="#dff1e8" stroke="#146c4d" stroke-width="5"/><circle cx="461" cy="270" r="8" fill="#d95b5b"/><circle cx="486" cy="256" r="8" fill="#d95b5b"/><circle cx="500" cy="284" r="8" fill="#d95b5b"/><text x="480" y="340" text-anchor="middle" font-size="14" fill="#62736d">Vesikel im Zellinneren</text>
+<text x="668" y="88" font-size="14" fill="#62736d">Außenraum</text><circle cx="760" cy="95" r="8" fill="#3b9b64"/><circle cx="795" cy="112" r="8" fill="#3b9b64"/><circle cx="830" cy="92" r="8" fill="#3b9b64"/>
+<path d="M670 174 H760 C773 174 779 184 797 184 C815 184 821 174 834 174 H925" fill="none" stroke="#d5a348" stroke-width="10"/><path d="M670 197 H752 C770 197 779 185 797 185 C815 185 824 197 842 197 H925" fill="none" stroke="#d5a348" stroke-width="10"/>
+<circle cx="797" cy="276" r="46" fill="#dff1e8" stroke="#146c4d" stroke-width="5"/><circle cx="780" cy="270" r="8" fill="#3b9b64"/><circle cx="806" cy="259" r="8" fill="#3b9b64"/><circle cx="811" cy="286" r="8" fill="#3b9b64"/><path d="M797 235 V154" stroke="#146c4d" stroke-width="4" marker-end="url(#m4-arrow)"/><text x="797" y="340" text-anchor="middle" font-size="14" fill="#62736d">Vesikel verschmilzt</text>
+</svg>
+</div>
+<figcaption>Links: Eine Pumpe transportiert Teilchen mithilfe von ATP gegen das Gefälle. Mitte: Membran umschließt Material und schnürt ein Vesikel ab. Rechts: Ein Vesikel fusioniert mit der Membran und gibt seinen Inhalt ab. Die Darstellung ist schematisch und nicht maßstabsgetreu.</figcaption>
+</figure>
+</section>
+<section aria-labelledby="m4-quiz-title" class="learning-section quiz-section">
+<p class="section-kicker">Kurzcheck</p><h2 id="m4-quiz-title">Prüfe dein Verständnis</h2>
+<div class="quiz" data-quiz="m4">
+<div class="quiz-question" data-correct="c"><p><strong>1.</strong> Woran erkennt man aktiven Transport?</p><button data-answer="a">Er erfolgt immer direkt durch die Lipiddoppelschicht.</button><button data-answer="b">Er gleicht Konzentrationen grundsätzlich aus.</button><button data-answer="c">Er kann Stoffe unter Energieaufwand gegen einen Gradienten bewegen.</button><button data-answer="d">Er betrifft ausschließlich Wasser.</button><p aria-live="polite" class="feedback"></p></div>
+<div class="quiz-question" data-correct="a"><p><strong>2.</strong> Was geschieht beim primär aktiven Transport?</p><button data-answer="a">Eine Pumpe koppelt ATP-Spaltung direkt an den Stofftransport.</button><button data-answer="b">Ein Stoff diffundiert ohne Protein durch die Membran.</button><button data-answer="c">Wasser folgt ausschließlich seinem Konzentrationsgefälle.</button><button data-answer="d">Ein Vesikel löst sich außerhalb der Zelle auf.</button><p aria-live="polite" class="feedback"></p></div>
+<div class="quiz-question" data-correct="b"><p><strong>3.</strong> Warum ist sekundär aktiver Transport indirekt energieabhängig?</p><button data-answer="a">Weil jedes beteiligte Teilchen ATP enthält.</button><button data-answer="b">Weil der antreibende Ionengradient zuvor unter Energieaufwand aufgebaut wurde.</button><button data-answer="c">Weil Diffusion grundsätzlich ATP verbraucht.</button><button data-answer="d">Weil dabei immer ein Vesikel entsteht.</button><p aria-live="polite" class="feedback"></p></div>
+<div class="quiz-question" data-correct="d"><p><strong>4.</strong> Was beschreibt Endocytose?</p><button data-answer="a">Die passive Aufnahme von Sauerstoff.</button><button data-answer="b">Die Abgabe eines Stoffes durch einen offenen Kanal.</button><button data-answer="c">Die Verschmelzung zweier Zellkerne.</button><button data-answer="d">Die Aufnahme von Material durch Einstülpung und Abschnürung der Membran.</button><p aria-live="polite" class="feedback"></p></div>
+<div class="quiz-question" data-correct="b"><p><strong>5.</strong> Welche Aussage zur Exocytose ist richtig?</p><button data-answer="a">Sie entfernt dauerhaft Membran aus der Zelle.</button><button data-answer="b">Ein Vesikel verschmilzt mit der Zellmembran und gibt Inhalt nach außen ab.</button><button data-answer="c">Sie transportiert nur einzelne Ionen durch Carrier.</button><button data-answer="d">Sie ist eine Form der einfachen Diffusion.</button><p aria-live="polite" class="feedback"></p></div>
+<div aria-live="polite" class="quiz-summary"></div>
+</div>
+</section>
+<section aria-labelledby="m4-exam" class="learning-section exam-section">
+<p class="section-kicker">Üben wie in einer Klausur</p><h2 id="m4-exam">Aufgaben nach Anforderungsbereichen – mit eigener Antwort</h2><p class="exam-intro">Formuliere zuerst selbst eine Antwort. Nutze den Hinweis nur bei Bedarf und öffne die Musterlösung erst danach zum Vergleichen.</p>
+<article class="exam-card afb1"><div class="afb-label">AFB I</div><h3>Begriffe darstellen</h3><p><strong>Aufgabe:</strong> Definiere aktiven Transport, Endocytose und Exocytose.</p><label class="answer-label" for="m4-afb1-answer">Deine Antwort</label><textarea class="reflection-input exam-answer" id="m4-afb1-answer" placeholder="Formuliere hier deine Antwort …" rows="7" spellcheck="true"></textarea><div class="input-actions"><button class="btn btn-secondary save-note" data-note="m4-afb1-answer" type="button">Antwort auf diesem Gerät merken</button><span class="save-status" id="m4-afb1-answer-status" role="status"></span></div><details><summary>Hinweis anzeigen</summary><p>Nenne jeweils Transportrichtung, Energiebedarf oder die Bewegung der Membran.</p></details><details><summary>Musterlösung anzeigen</summary><p>Aktiver Transport bewegt Stoffe unter Energieaufwand mithilfe von Transportproteinen gegen einen Gradienten. Bei der Endocytose nimmt die Zelle Material durch Einstülpung und Abschnürung der Zellmembran in einem Vesikel auf. Bei der Exocytose verschmilzt ein Vesikel mit der Zellmembran und gibt seinen Inhalt nach außen ab.</p></details></article>
+<article class="exam-card afb2"><div class="afb-label">AFB II</div><h3>Gekoppelten Transport erklären</h3><p><strong>Aufgabe:</strong> Eine Zelle pumpt Natriumionen unter ATP-Verbrauch nach außen. Anschließend strömen Natriumionen durch einen Symporter zurück und ermöglichen dabei die Aufnahme von Glucose gegen deren Konzentrationsgefälle. Erkläre die Energieumwandlungen.</p><label class="answer-label" for="m4-afb2-answer">Deine Antwort</label><textarea class="reflection-input exam-answer" id="m4-afb2-answer" placeholder="Formuliere hier deine Antwort …" rows="7" spellcheck="true"></textarea><div class="input-actions"><button class="btn btn-secondary save-note" data-note="m4-afb2-answer" type="button">Antwort auf diesem Gerät merken</button><span class="save-status" id="m4-afb2-answer-status" role="status"></span></div><details><summary>Hinweis anzeigen</summary><p>Trenne den Aufbau des Natriumgradienten und seine anschließende Nutzung.</p></details><details><summary>Musterlösung anzeigen</summary><p>Die Pumpe nutzt zunächst chemische Energie aus ATP, um Natriumionen gegen ihren elektrochemischen Gradienten nach außen zu transportieren. Dadurch wird Energie im Natriumgradienten gespeichert. Beim Rückstrom entlang dieses Gradienten wird die gespeicherte Energie genutzt, um Glucose gleichzeitig gegen deren Konzentrationsgefälle aufzunehmen. Der Symporter verbraucht nicht direkt ATP, ist aber vom zuvor energieabhängig aufgebauten Gradienten abhängig.</p></details></article>
+<article class="exam-card afb3"><div class="afb-label">AFB III</div><h3>Eine Störung beurteilen</h3><p><strong>Aufgabe:</strong> Ein Gift verhindert die Bildung von ATP und die Verschmelzung von Vesikeln mit der Zellmembran. Beurteile mögliche Folgen für eine Drüsenzelle, die ein Proteinsekret abgibt.</p><label class="answer-label" for="m4-afb3-answer">Deine Antwort</label><textarea class="reflection-input exam-answer" id="m4-afb3-answer" placeholder="Formuliere hier deine Antwort …" rows="7" spellcheck="true"></textarea><div class="input-actions"><button class="btn btn-secondary save-note" data-note="m4-afb3-answer" type="button">Antwort auf diesem Gerät merken</button><span class="save-status" id="m4-afb3-answer-status" role="status"></span></div><details><summary>Hinweis anzeigen</summary><p>Betrachte getrennt Membranpumpen, Ionengradienten und die Exocytose des Sekrets.</p></details><details><summary>Musterlösung anzeigen</summary><p>Ohne ausreichendes ATP arbeiten primär aktive Pumpen nicht mehr zuverlässig, sodass wichtige Ionengradienten allmählich zusammenbrechen. Wird zusätzlich die Vesikelfusion verhindert, kann die Drüsenzelle ihr Proteinsekret nicht durch Exocytose abgeben; Vesikel können sich im Zellinneren anreichern. Sowohl die gestörten Gradienten als auch der blockierte Membranfluss beeinträchtigen die Zellfunktion stark.</p></details></article>
+</section>
+<section aria-labelledby="m4-selfcheck" class="learning-section selfcheck">
+<p class="section-kicker">Abschluss</p><h2 id="m4-selfcheck">Kannst du das jetzt?</h2>
+<label><input data-check="m4-1" type="checkbox"/> Ich kann passiven und aktiven Transport unterscheiden.</label>
+<label><input data-check="m4-2" type="checkbox"/> Ich kann erklären, wie eine ATP-abhängige Membranpumpe arbeitet.</label>
+<label><input data-check="m4-3" type="checkbox"/> Ich kann Endocytose und Exocytose vergleichen.</label>
+<label><input data-check="m4-4" type="checkbox"/> Ich kann den Begriff Membranfluss auf ein biologisches Beispiel anwenden.</label>
+</section>
+<nav aria-label="Modulnavigation" class="module-footer-nav"><a href="#/biomolekuele/modul-3">← Zurück zu Modul 3</a><a class="next-link" href="#/biomolekuele">Zur Modulübersicht →</a></nav>
 </article>
 </section>
 </main>
@@ -827,9 +1065,13 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
     '/oekologie': document.getElementById('view-oekologie'),
     '/biomolekuele/modul-1': document.getElementById('view-module-1'),
     '/biomolekuele/modul-2': document.getElementById('view-module-2'),
+    '/biomolekuele/modul-3': document.getElementById('view-module-3'),
+    '/biomolekuele/modul-4': document.getElementById('view-module-4'),
     // Alte Links bleiben funktionsfähig.
     '/modul-1': document.getElementById('view-module-1'),
-    '/modul-2': document.getElementById('view-module-2')
+    '/modul-2': document.getElementById('view-module-2'),
+    '/modul-3': document.getElementById('view-module-3'),
+    '/modul-4': document.getElementById('view-module-4')
   };
 
   function route() {
@@ -1074,6 +1316,167 @@ summary { cursor:pointer; color:var(--brand-dark); font-weight:750; }
       stage.classList.toggle('fluid');
       toggleFluidity.textContent = stage.classList.contains('fluid') ? 'Seitliche Beweglichkeit stoppen' : 'Seitliche Beweglichkeit starten';
     });
+  }
+
+  // Module 3 passive transport model
+  const transportStage = document.getElementById('m3-transport-stage');
+  const transportExplanation = document.getElementById('m3-transport-explanation');
+  const transportLegend = document.getElementById('m3-transport-legend');
+  const transportCounts = document.getElementById('m3-transport-counts');
+  if (transportStage && transportExplanation && transportLegend && transportCounts) {
+    const transportModes = {
+      simple: {
+        kind: 'small', total: 24, left: 18,
+        legend: 'Rot: kleine, unpolare Moleküle',
+        explanation: '<strong>Einfache Diffusion:</strong> Die kleinen, unpolaren Moleküle passieren die Lipiddoppelschicht direkt. Netto bewegen sich mehr Teilchen von Raum A nach Raum B, bis der Konzentrationsunterschied weitgehend ausgeglichen ist.'
+      },
+      channel: {
+        kind: 'ion', total: 24, left: 18,
+        legend: 'Blau: passende Ionen',
+        explanation: '<strong>Kanalprotein:</strong> Die Ionen können den hydrophoben Membranbereich nicht direkt durchqueren. Sie gelangen nur durch die hydrophile Pore des passenden Kanals auf die andere Seite.'
+      },
+      carrier: {
+        kind: 'glucose', total: 24, left: 18,
+        legend: 'Grün: passende Moleküle',
+        explanation: '<strong>Carrierprotein:</strong> Passende Moleküle werden gebunden und nach einer Formänderung auf der anderen Seite freigesetzt. Der Transport bleibt passiv und folgt dem Konzentrationsgefälle.'
+      },
+      osmosis: {
+        kind: 'water', total: 22, left: 16,
+        legend: 'Hellblau: Wasser · Violett: nicht permeable gelöste Stoffe',
+        explanation: '<strong>Osmose:</strong> Nur Wasser kann die Membran passieren. Da Raum B mehr gelöste Stoffe enthält, erfolgt der Netto-Wassertransport von Raum A nach Raum B.'
+      }
+    };
+    const transportParticles = [];
+    let transportInitialized = false;
+    let transportPreviousTime = performance.now();
+    let transportPreviousCount = 0;
+
+    function transportGeometry() {
+      return {
+        width: transportStage.clientWidth,
+        height: transportStage.clientHeight,
+        middle: transportStage.clientWidth / 2
+      };
+    }
+
+    function addTransportParticle(kind, startsLeft, geometry, movable = true) {
+      const element = document.createElement('span');
+      element.className = `transport-particle ${kind}`;
+      const margin = 18;
+      const halfWidth = Math.max(20, geometry.middle - 35);
+      const x = startsLeft
+        ? margin + Math.random() * Math.max(1, halfWidth - margin)
+        : geometry.middle + 25 + Math.random() * Math.max(1, halfWidth - margin);
+      const y = 42 + Math.random() * Math.max(1, geometry.height - 58);
+      const speed = movable ? 30 + Math.random() * 28 : 12 + Math.random() * 10;
+      transportStage.appendChild(element);
+      transportParticles.push({
+        kind, element, movable, x, y, left: startsLeft,
+        vx: (startsLeft ? 1 : -1) * speed,
+        vy: (Math.random() - .5) * speed
+      });
+    }
+
+    function updateTransportCounts() {
+      const mode = transportStage.dataset.mode;
+      const config = transportModes[mode];
+      const movable = transportParticles.filter(particle => particle.kind === config.kind);
+      const left = movable.filter(particle => particle.x < transportStage.clientWidth / 2).length;
+      if (mode === 'osmosis') {
+        const soluteLeft = transportParticles.filter(particle => particle.kind === 'solute' && particle.x < transportStage.clientWidth / 2).length;
+        transportCounts.textContent = `Wasser: ${left} in A / ${movable.length - left} in B · gelöste Stoffe: ${soluteLeft} in A / ${12 - soluteLeft} in B`;
+      } else {
+        transportCounts.textContent = `${left} Teilchen in A / ${movable.length - left} in B`;
+      }
+    }
+
+    function resetTransport() {
+      const geometry = transportGeometry();
+      if (geometry.width < 80 || geometry.height < 80) return;
+      transportStage.querySelectorAll('.transport-particle').forEach(particle => particle.remove());
+      transportParticles.length = 0;
+      const mode = transportStage.dataset.mode;
+      const config = transportModes[mode];
+      for (let index = 0; index < config.total; index += 1) {
+        addTransportParticle(config.kind, index < config.left, geometry);
+      }
+      if (mode === 'osmosis') {
+        for (let index = 0; index < 12; index += 1) {
+          addTransportParticle('solute', index < 2, geometry, false);
+        }
+      }
+      transportLegend.textContent = config.legend;
+      transportExplanation.innerHTML = config.explanation;
+      updateTransportCounts();
+      transportInitialized = true;
+    }
+
+    function animateTransport(time) {
+      const geometry = transportGeometry();
+      if (geometry.width < 80 || geometry.height < 80) {
+        transportInitialized = false;
+        transportPreviousTime = time;
+        requestAnimationFrame(animateTransport);
+        return;
+      }
+      if (!transportInitialized) resetTransport();
+      const elapsed = Math.min((time - transportPreviousTime) / 1000, .04);
+      transportPreviousTime = time;
+      const mode = transportStage.dataset.mode;
+
+      transportParticles.forEach(particle => {
+        const oldX = particle.x;
+        particle.vx += (Math.random() - .5) * 9 * elapsed;
+        particle.vy += (Math.random() - .5) * 9 * elapsed;
+        particle.x += particle.vx * elapsed;
+        particle.y += particle.vy * elapsed;
+
+        if (particle.x < 6 || particle.x > geometry.width - 6) {
+          particle.x = Math.max(6, Math.min(geometry.width - 6, particle.x));
+          particle.vx *= -1;
+        }
+        if (particle.y < 34 || particle.y > geometry.height - 6) {
+          particle.y = Math.max(34, Math.min(geometry.height - 6, particle.y));
+          particle.vy *= -1;
+        }
+
+        const nowLeft = particle.x < geometry.middle;
+        if (nowLeft !== particle.left) {
+          const atProtein = Math.abs(particle.y - geometry.height / 2) < 42;
+          const mayCross = mode === 'simple'
+            || (mode === 'channel' && particle.kind === 'ion' && atProtein)
+            || (mode === 'carrier' && particle.kind === 'glucose' && atProtein)
+            || (mode === 'osmosis' && particle.kind === 'water');
+          if (!mayCross) {
+            particle.x = oldX;
+            particle.vx *= -1;
+          } else {
+            particle.left = nowLeft;
+            if (mode === 'carrier') particle.vx *= .72;
+          }
+        }
+
+        particle.element.style.left = `${particle.x - particle.element.offsetWidth / 2}px`;
+        particle.element.style.top = `${particle.y - particle.element.offsetHeight / 2}px`;
+      });
+
+      if (time - transportPreviousCount > 300) {
+        updateTransportCounts();
+        transportPreviousCount = time;
+      }
+      requestAnimationFrame(animateTransport);
+    }
+
+    document.querySelectorAll('.transport-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.transport-btn').forEach(item => item.classList.remove('is-active'));
+        button.classList.add('is-active');
+        transportStage.dataset.mode = button.dataset.transport;
+        resetTransport();
+      });
+    });
+    transportExplanation.innerHTML = transportModes.simple.explanation;
+    requestAnimationFrame(animateTransport);
   }
 
   // Quiz engine
