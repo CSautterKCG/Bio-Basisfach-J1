@@ -1,53 +1,25 @@
-# Bio-Lernlabor · Basisfach J1 BW · v6
+# Biologie Basisfach J1 – Website 2026/27
 
-Diese Version bündelt die bisherigen Änderungen in einer sauberen Fassung.
+Diese Version ist an den neuen Themenverteilungsplan für J1 2026/27 angepasst und auf **MARKL Biologie Oberstufe** umgestellt.
 
-## Neu in v6
+## Inhalt
+- `index.html` – Einstiegspunkt der Website
+- `styles.css` – Layout und responsive Darstellung
+- `app.js` – Navigation und aktueller Themenplan
+- `themenplan.csv` – Plan zusätzlich als editierbare CSV-Datei
 
-- zeitgesteuerte Freischaltung aller 9 Module über `unlockDate`
-- gesperrte Module bleiben sichtbar und zeigen das Freischaltdatum
-- direkte Modul-URLs werden vor dem Freischaltdatum ebenfalls abgefangen
-- Lehrer-Vorschau über `?preview=1`
-- sichtbarer Banner in der Lehrer-Vorschau
-- Musterlösungen werden erst anklickbar, nachdem im Antwortfeld ein eigener Versuch steht
-- Lernfortschritt, Zusammenfassungen und Aufgabenantworten können auf dem Gerät gelöscht werden
-- Antwortmöglichkeiten in Wiederholung, Kurzcheck und Selbsttest werden bei jedem Laden gemischt; die Auswertung bleibt korrekt
-- unverbindlicherer Abschnitt „So kannst du das Lernlabor nutzen“
-- v4-Inhalte bis Enzymhemmung bleiben erhalten
+## Lokal öffnen
+`index.html` doppelklicken. Die Seite benötigt keine Installation und keine externen JavaScript-Bibliotheken.
 
-## Lehrer-Vorschau
+## Auf GitHub Pages veröffentlichen
+1. Dateien im Repository `Bio-Basisfach-J1` durch diese Version ersetzen bzw. übernehmen.
+2. Commit & Push.
+3. GitHub Pages liefert danach die neue Version unter der vorhandenen URL aus.
 
-Normale URL:  
-`https://DEINNAME.github.io/DEIN-REPOSITORY/`
+Die Hash-Navigation (`#/themenplan`, `#/organisation` usw.) ist absichtlich beibehalten, damit die Struktur zur bisherigen GitHub-Pages-URL passt.
 
-Lehrer-Vorschau:  
-`https://DEINNAME.github.io/DEIN-REPOSITORY/?preview=1`
+## Lehrwerk
+MARKL Biologie Oberstufe, Gesamtband, Bundesausgabe ab 2022, Ernst Klett Verlag, ISBN 978-3-12-150070-3.
 
-Die Vorschau ist nur eine Komfortfunktion, kein echter Passwortschutz.
-
-## Auf GitHub aktualisieren
-
-1. ZIP entpacken.
-2. Den Ordner `docs` öffnen.
-3. Die vier Dateien `index.html`, `styles.css`, `content.js`, `app.js` in den bestehenden GitHub-Ordner `docs` hochladen und ersetzen.
-4. `Commit changes` bestätigen.
-5. GitHub Pages muss nicht neu eingerichtet werden.
-6. Nach dem Deployment ggf. mit `Strg + F5` neu laden.
-
-## Freischaltdaten
-
-- Biomembran: 15.09.2026
-- Passiver Stofftransport: 21.09.2026
-- Aktiver Transport & Membranfluss: 22.09.2026
-- Proteine I: 29.09.2026
-- Proteine II: 06.10.2026
-- Enzyme als Biokatalysatoren: 13.10.2026
-- Enzymexperiment: 19.10.2026
-- Enzymaktivität auswerten: 02.11.2026
-- Enzymhemmung: 03.11.2026
-
-
-## Änderungen in v6
-- Der Abschnitt „So kannst du das Lernlabor nutzen“ ist auf Desktop und iPad sauber zweispaltig bzw. mobil einspaltig gesetzt.
-- Modul 01 „Biomembran“ ist ab sofort ohne Datumssperre zugänglich.
-- Die zeitgesteuerte Freischaltung der weiteren Module bleibt erhalten.
+## Wichtig
+Es wurden keine MARKL-Seitenzahlen erfunden. Wenn du konkrete Seitenzahlen verwendest, kannst du sie später gezielt ergänzen.
